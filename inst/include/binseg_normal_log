@@ -1,0 +1,74 @@
+==4922== Memcheck, a memory error detector
+==4922== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==4922== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==4922== Command: ./binseg_normal_DeepState_TestHarness --fuzz
+==4922== 
+INFO: Starting fuzzing
+WARNING: No seed provided; using 1591664247
+WARNING: No test specified, defaulting to first test defined (binseg_normal_randomdatatypes_rcpp_binseg_normal_test)
+EXTERNAL: Error: negative length vectors are not allowed
+
+EXTERNAL: Execution halted
+
+==4923== 
+==4923== HEAP SUMMARY:
+==4923==     in use at exit: 50,293,011 bytes in 9,715 blocks
+==4923==   total heap usage: 27,837 allocs, 18,122 frees, 86,009,159 bytes allocated
+==4923== 
+==4923== LEAK SUMMARY:
+==4923==    definitely lost: 0 bytes in 0 blocks
+==4923==    indirectly lost: 0 bytes in 0 blocks
+==4923==      possibly lost: 0 bytes in 0 blocks
+==4923==    still reachable: 50,293,011 bytes in 9,715 blocks
+==4923==                       of which reachable via heuristic:
+==4923==                         newarray           : 4,264 bytes in 1 blocks
+==4923==         suppressed: 0 bytes in 0 blocks
+==4923== Reachable blocks (those to which a pointer was found) are not shown.
+==4923== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==4923== 
+==4923== For counts of detected and suppressed errors, rerun with: -v
+==4923== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==4929== Warning: set address range perms: large range [0x10970040, 0x3131f490) (undefined)
+==4929== Warning: set address range perms: large range [0x59e43040, 0x9b1a18a8) (undefined)
+==4929== Warning: set address range perms: large range [0x9b1a2040, 0xdc5008a8) (undefined)
+==4929== Warning: set address range perms: large range [0xdc501040, 0x11d85f8a8) (undefined)
+==4929== Warning: set address range perms: large range [0x31320040, 0x51ccf490) (undefined)
+==4929== Warning: set address range perms: large range [0x11d860040, 0x13e20f490) (undefined)
+==4929== Warning: set address range perms: large range [0x13e210040, 0x15ebbf490) (undefined)
+==4929== Warning: set address range perms: large range [0x15ebc0040, 0x17f56f490) (undefined)
+Exception Handled
+==4929== 
+==4929== HEAP SUMMARY:
+==4929==     in use at exit: 6,063,891,747 bytes in 9,198 blocks
+==4929==   total heap usage: 27,763 allocs, 18,565 frees, 6,103,296,038 bytes allocated
+==4929== 
+==4929== LEAK SUMMARY:
+==4929==    definitely lost: 0 bytes in 0 blocks
+==4929==    indirectly lost: 0 bytes in 0 blocks
+==4929==      possibly lost: 0 bytes in 0 blocks
+==4929==    still reachable: 6,063,891,747 bytes in 9,198 blocks
+==4929==                       of which reachable via heuristic:
+==4929==                         newarray           : 4,264 bytes in 1 blocks
+==4929==         suppressed: 0 bytes in 0 blocks
+==4929== Reachable blocks (those to which a pointer was found) are not shown.
+==4929== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==4929== 
+==4929== For counts of detected and suppressed errors, rerun with: -v
+==4929== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+INFO: Done fuzzing! Ran 2 tests (0 tests/second) with 1 failed/1 passed/0 abandoned tests
+==4922== 
+==4922== HEAP SUMMARY:
+==4922==     in use at exit: 8 bytes in 1 blocks
+==4922==   total heap usage: 4 allocs, 3 frees, 106,568 bytes allocated
+==4922== 
+==4922== LEAK SUMMARY:
+==4922==    definitely lost: 0 bytes in 0 blocks
+==4922==    indirectly lost: 0 bytes in 0 blocks
+==4922==      possibly lost: 0 bytes in 0 blocks
+==4922==    still reachable: 8 bytes in 1 blocks
+==4922==         suppressed: 0 bytes in 0 blocks
+==4922== Reachable blocks (those to which a pointer was found) are not shown.
+==4922== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==4922== 
+==4922== For counts of detected and suppressed errors, rerun with: -v
+==4922== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

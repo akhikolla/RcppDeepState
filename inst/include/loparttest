@@ -1,0 +1,401 @@
+==12969== Memcheck, a memory error detector
+==12969== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==12969== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==12969== Command: ./LOPART_interface_DeepState_TestHarness --fuzz
+==12969== 
+INFO: Starting fuzzing
+WARNING: No seed provided; using 1591310648
+WARNING: No test specified, defaulting to first test defined (LOPART_interface_random_datatypes_LOPART_interface_test)
+terminate called after throwing an instance of 'Rcpp::exception'
+  what():  input_label_start and input_label_changes sizes must match
+ERROR: Failed: LOPART_interface_random_datatypes_LOPART_interface_test
+input_data values: -2.45679e-145 4.12329e+131 -5.57343e-263 1.12467e-164 -3.66907e-170 1.14173e+253 -6.95575e+162 2.82622e-169 -3.20072e+81 5.10825e-154 0
+input_label_start values: 1980971192 728009980 1971132503 1062573499 1399819354 -243728291 -568623822 -1496151780 -440216304 643894427 -568004067 2038946252 -161143065 -567851844 1120005864 -1820916360 970623072 999619353 -1175570894 1963982700 1948603218 1285033615 1509717997 1954309549 1458441617 -2113295813 -136221076 -261236635 -1842563105 -993628643 -1025177034 1651565752 1592871648 -84665103 -712352058 -147444855 1659004966 -1462352789 -1135697634 -1098525156 1998650737 353985514 -1547587430 -136633510 -1098088346 1657065758 326319313 -132911505 871096648 71578535 98779644 -1083943299 -254287021 -1682607698 682524704 -1049718540 1500593501 -1250949958 1397077522 -1458729062 -462164609 677260880 212758733 469811829 1912590886 1876353218 462935492 -1536926072 -682948609 -1439346762 -473922305
+input_label_end values: 1162238132 473527863 -800326540 -1336214393 -1509718192 970327580 -1769333673 -795834091 -673068557 440413162 -1960354245 -2124758233 1581938583 545174455 147787481 1620569655 2025335443 -128615037 2094841854 914498964 -862114836 467641123 -1364067314 1223378369 -1552919397 -976150974 -1378008860 1600485419 44308509 -2084880079 1832730805 679835339 -171284805 -1668940471 1648176578 -1566118491 1241891533 -1056702930 1094640489 -1000720967 614167744 544279171 -1372109487 -583862745 951645433 -1124915203 822765301 1687924617 925059415 -1789666749 -1960864664 1384812682 1132758015 2007694505 -1268605415 -28466635 1911262214 1063733706 -2032258344 1757569707 1206233790 -1884919996 151411975 1409236164 -355939799 789902262 -232354214
+input_label_changes values: -693047706 1465231968 1527211951 111375344 1799232155 1376604484 870293020 -794539097 1429802412 -1883829014 -1099720252 369996929 1271798941 -596778737 1300179741 611828857 -1328470721 -2010043834 -1530721606 -792773861 -1923565463 -979797742 430190653 469022412 -958723250 204838320 -106992951 1587930604 -40020541 936301904 1929743758 -96249152 510004778 -1683760492 1128554145 -381448729 -521950697 -1317050588 -2047560833 923615061 1934458639 -245783756 -1660824185 1147366949 1175993591 -1750852580 -1731224624 -589683376 681926425 -33403492 69346120 -2054066741 -1448426688 1323261414
+penalty values: -2.14748e+09
+==12980== 
+==12980== HEAP SUMMARY:
+==12980==     in use at exit: 50,294,651 bytes in 9,730 blocks
+==12980==   total heap usage: 27,764 allocs, 18,034 frees, 86,037,032 bytes allocated
+==12980== 
+==12980== 59 bytes in 1 blocks are possibly lost in loss record 30 of 1,312
+==12980==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12980==    by 0x411B9C: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) [clone .isra.76] (basic_string.tcc:219)
+==12980==    by 0x413D75: _M_construct_aux<char const*> (basic_string.h:236)
+==12980==    by 0x413D75: _M_construct<char const*> (basic_string.h:255)
+==12980==    by 0x413D75: basic_string (basic_string.h:511)
+==12980==    by 0x413D75: Rcpp::exception::exception(char const*, bool) (exceptions.h:39)
+==12980==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==12980==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==12980==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980== 
+==12980== 200 bytes in 1 blocks are possibly lost in loss record 69 of 1,312
+==12980==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12980==    by 0x577A8FF: __cxa_allocate_exception (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==12980==    by 0x415F57: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==12980==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==12980==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980== 
+==12980== 512 bytes in 1 blocks are possibly lost in loss record 124 of 1,312
+==12980==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12980==    by 0x413675: allocate (new_allocator.h:111)
+==12980==    by 0x413675: allocate (alloc_traits.h:436)
+==12980==    by 0x413675: _M_allocate (stl_vector.h:172)
+==12980==    by 0x413675: void std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_realloc_insert<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(__gnu_cxx::__normal_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (vector.tcc:406)
+==12980==    by 0x413BD3: emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > (vector.tcc:105)
+==12980==    by 0x413BD3: push_back (stl_vector.h:954)
+==12980==    by 0x413BD3: operator= (stl_iterator.h:499)
+==12980==    by 0x413BD3: transform<char**, std::back_insert_iterator<std::vector<std::__cxx11::basic_string<char> > >, std::__cxx11::basic_string<char> (*)(char const*)> (stl_algo.h:4306)
+==12980==    by 0x413BD3: Rcpp::exception::record_stack_trace() (exceptions_impl.h:85)
+==12980==    by 0x413D99: Rcpp::exception::exception(char const*, bool) (exceptions.h:40)
+==12980==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==12980==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==12980==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980== 
+==12980== 693 bytes in 11 blocks are possibly lost in loss record 134 of 1,312
+==12980==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==12980==    by 0x411B9C: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) [clone .isra.76] (basic_string.tcc:219)
+==12980==    by 0x413A87: _M_construct_aux<char*> (basic_string.h:236)
+==12980==    by 0x413A87: _M_construct<char*> (basic_string.h:255)
+==12980==    by 0x413A87: basic_string (basic_string.h:440)
+==12980==    by 0x413A87: demangler_one (exceptions_impl.h:68)
+==12980==    by 0x413A87: transform<char**, std::back_insert_iterator<std::vector<std::__cxx11::basic_string<char> > >, std::__cxx11::basic_string<char> (*)(char const*)> (stl_algo.h:4306)
+==12980==    by 0x413A87: Rcpp::exception::record_stack_trace() (exceptions_impl.h:85)
+==12980==    by 0x413D99: Rcpp::exception::exception(char const*, bool) (exceptions.h:40)
+==12980==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==12980==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==12980==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==12980== 
+==12980== LEAK SUMMARY:
+==12980==    definitely lost: 0 bytes in 0 blocks
+==12980==    indirectly lost: 0 bytes in 0 blocks
+==12980==      possibly lost: 1,464 bytes in 14 blocks
+==12980==    still reachable: 50,293,187 bytes in 9,716 blocks
+==12980==                       of which reachable via heuristic:
+==12980==                         newarray           : 4,264 bytes in 1 blocks
+==12980==         suppressed: 0 bytes in 0 blocks
+==12980== Reachable blocks (those to which a pointer was found) are not shown.
+==12980== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==12980== 
+==12980== For counts of detected and suppressed errors, rerun with: -v
+==12980== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+terminate called after throwing an instance of 'Rcpp::exception'
+  what():  input_label_start and input_label_changes sizes must match
+ERROR: Failed: LOPART_interface_random_datatypes_LOPART_interface_test
+input_data values: 1.90854e+176 -2.17903e-90 1.17683e-168 1.13402e+222 9.59347e+254 8.45838 1.01215e+243 6.85169e+101 7.34173e+199 1.33333e+80 3.46336e-201 6.44718e-119 -3.64645e-273 -4.23406e+23 5.98064e+122 -8.54108e-95 -1.94357e-99 -8.37115e-197 -1.72726e-158 4.85062e+193 9.44529e-287 4.61011e-42 3.96682e-140 -3.98187e+205 -3.49416e+11 2.71579e-231 5.0075e-102 -1.11103e+50 -4.00194e-268 -3.32923e+230 -1.92281e+246 5.63217e+193 -2.75697e+206 2.98286e-91 -2.57344e-254 1.13104e-142 1.13121e+207 -2.48911e-86 -1.26577e+292 -1.0829e+166 1.24929e+118 3.88989e+212 4.55934e+82 -3.01499e-87 2.54573e-250 -2.50691e-123 3.6858e+295 -1.67896e-114 2.05863e+198 -2.5129e-113 1.39251e-109 -3.013e+93 1.0098e+52 5.24668e-293 -5.68473e-143 1.40729e+233 -4.4787e-05 4.82658e-242 -4.32774e+245 1.29291e+114 -8.69293e-256 1.24036e+185 3.24352e-21 -2.72793e+251 -1.95383e-126 0.213482 1.53642e-291 2.23131e+249 -3.47888e-279 9.08313e+165 -3.98209e+117 2.67065e+13 -4.79761e+61 -5.0493e-204 0
+input_label_start values: -1270573326 1814902662 2012203171 1703205486 1603746383 1059825311 2136945714 -819990397 1669756367 -1280551638 -1692545792 -1566085631 1051283581 -722068397 1448117541 1869981906 -81944146 -889792411 346384054 1289009034 2097678417 -31153068 1965717988 -1625180261 1062750473 1327656547 -942401260 -1445945818 -660178729 -887346368 1185228006 -958693115 885657219 -327293260 1375717626 -815390296 228163544 -1247143684 1329390102 409148236 757780250 -1481257224 -1265175677 -65787127 -1381310110 1442406052 910211662 -1546216751 6941607 515481554 1334990155 -1501473453 725005952 806626662 1440724216 -1253127755 -1212916523 1845274556 -1896085451
+input_label_end values: -1824642621 1397631400 786276579 728406498 519419788 -245479296 1532016088 -1388478143 2091582671 -114395353 186059575 -2119951968 -1714344821 796134282 -977247374 -35343495 -1883748215 -423644943 -675600296 1598224633 321160258 -1718629026 1328599116 344245924 1007562018 -824372315 -1724056072 2130112913 443929523 77599059 -790454043 1717995938 1958134850 -1814567124 333784465 -619306251 -1929991792 -1766136729 -1669051390 -355097506 -1956077282 1082674003 1836115272 -2046345710 -35150956 -1584923842 189219061 484791207 1307886989 2098258410 -2134494457 -848225845 1488740345 1129985870 -1585953859 1570202794 -1960232952 974779322 -551108180 -1747224593 -1747523365
+input_label_changes values: -1737650443 83009423 483891286 -259321649 -1311605688 -1376569532 -903929862 1061801175 -1235563334 1298942313 1138868020 1825506077 -1585486514 1939641149 -1129170949 -83635279 1587506091 196416591 -1764523261 -1568268220 109482617 572896990 -655500589 -240286385 1290861144
+penalty values: 0
+==13028== 
+==13028== HEAP SUMMARY:
+==13028==     in use at exit: 50,294,963 bytes in 9,730 blocks
+==13028==   total heap usage: 27,764 allocs, 18,034 frees, 86,037,344 bytes allocated
+==13028== 
+==13028== 59 bytes in 1 blocks are possibly lost in loss record 30 of 1,312
+==13028==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13028==    by 0x411B9C: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) [clone .isra.76] (basic_string.tcc:219)
+==13028==    by 0x413D75: _M_construct_aux<char const*> (basic_string.h:236)
+==13028==    by 0x413D75: _M_construct<char const*> (basic_string.h:255)
+==13028==    by 0x413D75: basic_string (basic_string.h:511)
+==13028==    by 0x413D75: Rcpp::exception::exception(char const*, bool) (exceptions.h:39)
+==13028==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13028==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13028==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028== 
+==13028== 200 bytes in 1 blocks are possibly lost in loss record 69 of 1,312
+==13028==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13028==    by 0x577A8FF: __cxa_allocate_exception (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==13028==    by 0x415F57: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13028==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13028==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028== 
+==13028== 512 bytes in 1 blocks are possibly lost in loss record 123 of 1,312
+==13028==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13028==    by 0x413675: allocate (new_allocator.h:111)
+==13028==    by 0x413675: allocate (alloc_traits.h:436)
+==13028==    by 0x413675: _M_allocate (stl_vector.h:172)
+==13028==    by 0x413675: void std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_realloc_insert<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(__gnu_cxx::__normal_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (vector.tcc:406)
+==13028==    by 0x413BD3: emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > (vector.tcc:105)
+==13028==    by 0x413BD3: push_back (stl_vector.h:954)
+==13028==    by 0x413BD3: operator= (stl_iterator.h:499)
+==13028==    by 0x413BD3: transform<char**, std::back_insert_iterator<std::vector<std::__cxx11::basic_string<char> > >, std::__cxx11::basic_string<char> (*)(char const*)> (stl_algo.h:4306)
+==13028==    by 0x413BD3: Rcpp::exception::record_stack_trace() (exceptions_impl.h:85)
+==13028==    by 0x413D99: Rcpp::exception::exception(char const*, bool) (exceptions.h:40)
+==13028==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13028==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13028==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028== 
+==13028== 693 bytes in 11 blocks are possibly lost in loss record 134 of 1,312
+==13028==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13028==    by 0x411B9C: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) [clone .isra.76] (basic_string.tcc:219)
+==13028==    by 0x413A87: _M_construct_aux<char*> (basic_string.h:236)
+==13028==    by 0x413A87: _M_construct<char*> (basic_string.h:255)
+==13028==    by 0x413A87: basic_string (basic_string.h:440)
+==13028==    by 0x413A87: demangler_one (exceptions_impl.h:68)
+==13028==    by 0x413A87: transform<char**, std::back_insert_iterator<std::vector<std::__cxx11::basic_string<char> > >, std::__cxx11::basic_string<char> (*)(char const*)> (stl_algo.h:4306)
+==13028==    by 0x413A87: Rcpp::exception::record_stack_trace() (exceptions_impl.h:85)
+==13028==    by 0x413D99: Rcpp::exception::exception(char const*, bool) (exceptions.h:40)
+==13028==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13028==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13028==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13028== 
+==13028== LEAK SUMMARY:
+==13028==    definitely lost: 0 bytes in 0 blocks
+==13028==    indirectly lost: 0 bytes in 0 blocks
+==13028==      possibly lost: 1,464 bytes in 14 blocks
+==13028==    still reachable: 50,293,499 bytes in 9,716 blocks
+==13028==                       of which reachable via heuristic:
+==13028==                         newarray           : 4,264 bytes in 1 blocks
+==13028==         suppressed: 0 bytes in 0 blocks
+==13028== Reachable blocks (those to which a pointer was found) are not shown.
+==13028== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==13028== 
+==13028== For counts of detected and suppressed errors, rerun with: -v
+==13028== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+terminate called after throwing an instance of 'Rcpp::exception'
+  what():  input_label_start and input_label_changes sizes must match
+ERROR: Failed: LOPART_interface_random_datatypes_LOPART_interface_test
+input_data values: -2.90881e-46 1.06534e-111 7.57832e+61 -1.04284e-269 -4.64411e-44 4.66437e+66 -8.86221e-86 5.45792e-267 -1.77554e+144 -4.97028e+50 6.35079e+150 1.17341e+32 -9.26449e+279 -7.43131e+214 1.16276e-147 -5.05967e+240 3.32594e-115 2.48674e-70 1.63046e-148 1.14754e+138 -7.89346e-59 8.50806e-294 -8.24881e-181 2.83117e-304 1.97041e-100 -7.47026e+224 4.61244e+265 -7.24912e+34 -7.72077e+104 6.06769e+169 -7.61372e-167 -1.79965e+11 5.02403e-125 4.7743e+289 2.14349e-57 -5.01882e-22 -7.88018e-199 -1.21016e+226 -7.64822e-172 -8.31544e-197 6.20921e-135 -1.91306e+289 -7.34182e-41 3.42029e+300 -9.45352e+169 -2.69365e+188 -2.39101e-307 -1.72415e-213 2.36626e-98 2.60644e-305 -1.30085e-275 -8.76124e+85 -4.2314e+232 1.38653e+89 1.41015e-151 7.48817e-24 -3.11057e+124 -7.05557e+236 -2.25124e+273 -1.02293e-119 3.47111e-246 -3.54482e-26 8.57615e+144 -7.29124e+138 8.61724e+63 -1.0002e-53 2.35057e-77 9.87441e-195 -2.39192e+44 4.6322e-144 -5.52884e+31 9.34721e-62 1.10084e+247 8.1499e+20 4.57934e-234 3.52439e-135 -1.01271e-200 7.51912e+223 3.13168e-217 -1.34688e-57 -4.29926e-271 -1.58668e-201 -8.32648e-28 6.00221e-207 1222.71 3.5031e+249 4.33183e+262 -1.0651e-253 5.14171e+235 -2.87196e+261 9.08937e-146 6.1244e+259 4.20841e-242 1.53615e+150 0
+input_label_start values: -124847028 1081123056 1300260319 -142983015 1863493206 2104983361 2141036656 1851542374 -347622869 -1219290363 -746527542 -98213014 923386036 -2126514944 -577408949 -222580259 40110266 -1222328438 -1532799841 -927528449 -1060523199 162022118 1051865392 1860308336 1175792381 971605982 -1914995371 -1836690093 1325962328 -1311359249 -1989206025 1378641816 1100125819 2065520904 -103391605 1555291819 -1150090132 1229085650 -1300575996 -1506698008 -1020107970 1354516297 -1834625810 1488165139 647856239 -522501486 1443600124 1009968383 1699167925 59113109 718439298 -2061658709 -1173021798 -245552057 1757561765 -181885862 1877086067 1728907409 -544468123 -1448538013 -1104413009 -2010450191 -314927390 1647983825 491472004 1481446967 -651584382 -760355439 -656195487 238506747 1911086547 572105791 1693041852 920318735 59806166 1031169813 1520924264 -557292721 -1337974061 1506218685 -1328121370 -1335036492 -58291655 -51294378 -1731871113 -1910389186 1642664378 -1339787424 -84916565
+input_label_end values: -1041656899 -622717838 -1479349963 -189762475 -1719332791 -1450727004 2028949461 716058347 -1748916111 -1547902133 -1882357629 2113198102 2062049059 1879623656 -149504735 -991228837 -1380660144 1907399424 2099020794 274403466 1148169908 2004196462 -1940287664 1151053041 1333281472 685621413 -113008886 -1615883037 507680661 -1204616380 -1936550704 759218813 -1190904351 -503412773 1093068256 -696663052 -1134917004 -1920092135 541911629 -1918055866 -1341642863 112094279 -716101461 -873750649 1177156563 -1212944937 -2677620 -2081435085 -134560515 -1473166211 -2106841011 1489556638 -238063192 -2107736190 899944120 -1813910646 -609187965 -506789533 942256528 -242929949 1436519383 -32810701 -1352078270 1238879268 -2024560792 514378838 -763500861 34907735 -1271779406
+input_label_changes values: -254726599 -1443209936 1292212587 -1385840001 -492289052 -1108788111 460006232 -217561884 -630055549 1820046265 -2142493395 -1310216813 -1880065972 -642466315 534793490 -376244541 68437617 -1879496177 1179598071 921275334 -654110029 -1211062058 -1326061415 -2015404916 -207422078 -1675128350 2009979309 -1218153584 1736852254
+penalty values: -2.14748e+09
+==13073== 
+==13073== HEAP SUMMARY:
+==13073==     in use at exit: 50,295,275 bytes in 9,730 blocks
+==13073==   total heap usage: 27,764 allocs, 18,034 frees, 86,037,656 bytes allocated
+==13073== 
+==13073== 59 bytes in 1 blocks are possibly lost in loss record 30 of 1,312
+==13073==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13073==    by 0x411B9C: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) [clone .isra.76] (basic_string.tcc:219)
+==13073==    by 0x413D75: _M_construct_aux<char const*> (basic_string.h:236)
+==13073==    by 0x413D75: _M_construct<char const*> (basic_string.h:255)
+==13073==    by 0x413D75: basic_string (basic_string.h:511)
+==13073==    by 0x413D75: Rcpp::exception::exception(char const*, bool) (exceptions.h:39)
+==13073==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13073==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13073==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073== 
+==13073== 200 bytes in 1 blocks are possibly lost in loss record 69 of 1,312
+==13073==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13073==    by 0x577A8FF: __cxa_allocate_exception (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==13073==    by 0x415F57: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13073==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13073==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073== 
+==13073== 512 bytes in 1 blocks are possibly lost in loss record 123 of 1,312
+==13073==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13073==    by 0x413675: allocate (new_allocator.h:111)
+==13073==    by 0x413675: allocate (alloc_traits.h:436)
+==13073==    by 0x413675: _M_allocate (stl_vector.h:172)
+==13073==    by 0x413675: void std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_realloc_insert<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(__gnu_cxx::__normal_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (vector.tcc:406)
+==13073==    by 0x413BD3: emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > (vector.tcc:105)
+==13073==    by 0x413BD3: push_back (stl_vector.h:954)
+==13073==    by 0x413BD3: operator= (stl_iterator.h:499)
+==13073==    by 0x413BD3: transform<char**, std::back_insert_iterator<std::vector<std::__cxx11::basic_string<char> > >, std::__cxx11::basic_string<char> (*)(char const*)> (stl_algo.h:4306)
+==13073==    by 0x413BD3: Rcpp::exception::record_stack_trace() (exceptions_impl.h:85)
+==13073==    by 0x413D99: Rcpp::exception::exception(char const*, bool) (exceptions.h:40)
+==13073==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13073==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13073==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073== 
+==13073== 693 bytes in 11 blocks are possibly lost in loss record 133 of 1,312
+==13073==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13073==    by 0x411B9C: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) [clone .isra.76] (basic_string.tcc:219)
+==13073==    by 0x413A87: _M_construct_aux<char*> (basic_string.h:236)
+==13073==    by 0x413A87: _M_construct<char*> (basic_string.h:255)
+==13073==    by 0x413A87: basic_string (basic_string.h:440)
+==13073==    by 0x413A87: demangler_one (exceptions_impl.h:68)
+==13073==    by 0x413A87: transform<char**, std::back_insert_iterator<std::vector<std::__cxx11::basic_string<char> > >, std::__cxx11::basic_string<char> (*)(char const*)> (stl_algo.h:4306)
+==13073==    by 0x413A87: Rcpp::exception::record_stack_trace() (exceptions_impl.h:85)
+==13073==    by 0x413D99: Rcpp::exception::exception(char const*, bool) (exceptions.h:40)
+==13073==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13073==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13073==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13073== 
+==13073== LEAK SUMMARY:
+==13073==    definitely lost: 0 bytes in 0 blocks
+==13073==    indirectly lost: 0 bytes in 0 blocks
+==13073==      possibly lost: 1,464 bytes in 14 blocks
+==13073==    still reachable: 50,293,811 bytes in 9,716 blocks
+==13073==                       of which reachable via heuristic:
+==13073==                         newarray           : 4,264 bytes in 1 blocks
+==13073==         suppressed: 0 bytes in 0 blocks
+==13073== Reachable blocks (those to which a pointer was found) are not shown.
+==13073== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==13073== 
+==13073== For counts of detected and suppressed errors, rerun with: -v
+==13073== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+terminate called after throwing an instance of 'Rcpp::exception'
+  what():  input_label_start and input_label_changes sizes must match
+ERROR: Failed: LOPART_interface_random_datatypes_LOPART_interface_test
+input_data values: -8.17039e-165 -3.06167e-138 3.4233e-275 -3.6672e+219 -3.33411e+66 -8.85342e+25 -1.33761e-124 7.08589e-80 -238110 -1.20451e+51 1.13315e+257 -3.00417e+135 0.00984659 8.51117e+222 -3.59714e-284 3.50062e+261 -2.00926e-113 -3.51734e+129 9.32015e+59 1.51523e-208 3.83751e+233 5.48521e+64 8.95536e-202 5.13423e-267 1.19173e+108 3.80861e+264 -4.50718e+200 3.36828e+155 1.30083e-287 -7.19712e-245 -1.34543e-207 -8.96583e-43 9.76556e-163 -9.15171e+83 -5.32404e-51 1.17846e+37 -3.44763e+123 1.54812e+173 -3.837e+285 -6.03205e-12 -1.00078e+16 7.6929e+179 2.74049e+251 2.71656e+275 9.81889e+131 1.14301e+190 4.60535e+115 -2.03055e-107 -7.70978e+118 2.17403e+294 6.48015e-259 3.61422e-239 -4.88917e+281 9.85851e-272 1.55315e-21 -5.93973e+136 1.37891e+151 -9.21195e+142 8.94358e+123 3.18285e-63 8.46786e+108 8.75908e-91 -1.12817e-07 -3.46516e-105 8.26304e+186 1.66012e+183 -3.91739e+92 -4.56567e+264 -1.92562e-193 1.57196e+161 1.43606e-146 -1.4514e-247 -5.765e+258 1.85084e+129 3.72767e+257 -3.89854e+248 7.3635e+72 -3.24309e-75 -1.64831e+82 2.69229e-308 3.82533e+269 1.53959e-172 -3.58944e-10 6.74469e-155 1.1934e+170 -7.04774e-249 -7.75251e-199 -4.85583e-151 4.8691e+48 -3.36067e-73 0
+input_label_start values: 1099785398 937840593 1426616778 2044359306 -2122525445 2104251064 1815439486 -886551539 -1246706708 -1777156629 456111764 153624202 -1527544286 1608047307 239291097 1805051425 1185484252 -1127495465 -92378365 -1500869302 2098425052 -330848262 -1963863051 -2017847603 1663347231 -277678359 -261952362
+input_label_end values: -1924315783 -1796443362 -565832859 2765668 1323139901 1333405247 -602745400 -1951059688 41324950 1644475456 1271440971 -220614848 -1238139643 -1381809015 -1256632000 -830318127 -118855846 -283337926 -465467946 439686864 1754518805 907648747 854534912 1904529769 1866056542 1432262713 -1625485383 1378191802 -1201745938 2003687849 1543809741 -1988413704 -1258662391 1492009720 189903198 1983584302 -1712841711 1442167474 -94077053 -524911724 -1328439800 -1075838774 850536616 -314452090 703829886 -380489501 -1229953386 1726032662 -1295442319 -1457570853 -781941570 -1520745266 1323060279 779950820 763394963 1638312211 1875346456 -423562057 611874249 -742746335 -1763485244 1618192525 -199024555 -909547208 -1846718089 -1387974703 -1113286000 1580315124 353024117 2120287090 -2078030002 -315586946 517469643 472161753 -919115481 1763384446 634712995
+input_label_changes values: 450693127 227444011 1719334786
+penalty values: 0
+==13124== 
+==13124== HEAP SUMMARY:
+==13124==     in use at exit: 50,294,867 bytes in 9,729 blocks
+==13124==   total heap usage: 27,763 allocs, 18,034 frees, 86,037,248 bytes allocated
+==13124== 
+==13124== 59 bytes in 1 blocks are possibly lost in loss record 30 of 1,311
+==13124==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13124==    by 0x411B9C: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) [clone .isra.76] (basic_string.tcc:219)
+==13124==    by 0x413D75: _M_construct_aux<char const*> (basic_string.h:236)
+==13124==    by 0x413D75: _M_construct<char const*> (basic_string.h:255)
+==13124==    by 0x413D75: basic_string (basic_string.h:511)
+==13124==    by 0x413D75: Rcpp::exception::exception(char const*, bool) (exceptions.h:39)
+==13124==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13124==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13124==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124== 
+==13124== 200 bytes in 1 blocks are possibly lost in loss record 69 of 1,311
+==13124==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13124==    by 0x577A8FF: __cxa_allocate_exception (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==13124==    by 0x415F57: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13124==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13124==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124== 
+==13124== 512 bytes in 1 blocks are possibly lost in loss record 122 of 1,311
+==13124==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13124==    by 0x413675: allocate (new_allocator.h:111)
+==13124==    by 0x413675: allocate (alloc_traits.h:436)
+==13124==    by 0x413675: _M_allocate (stl_vector.h:172)
+==13124==    by 0x413675: void std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >::_M_realloc_insert<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >(__gnu_cxx::__normal_iterator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&) (vector.tcc:406)
+==13124==    by 0x413BD3: emplace_back<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > (vector.tcc:105)
+==13124==    by 0x413BD3: push_back (stl_vector.h:954)
+==13124==    by 0x413BD3: operator= (stl_iterator.h:499)
+==13124==    by 0x413BD3: transform<char**, std::back_insert_iterator<std::vector<std::__cxx11::basic_string<char> > >, std::__cxx11::basic_string<char> (*)(char const*)> (stl_algo.h:4306)
+==13124==    by 0x413BD3: Rcpp::exception::record_stack_trace() (exceptions_impl.h:85)
+==13124==    by 0x413D99: Rcpp::exception::exception(char const*, bool) (exceptions.h:40)
+==13124==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13124==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13124==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124== 
+==13124== 693 bytes in 11 blocks are possibly lost in loss record 132 of 1,311
+==13124==    at 0x4C3017F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13124==    by 0x411B9C: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) [clone .isra.76] (basic_string.tcc:219)
+==13124==    by 0x413A87: _M_construct_aux<char*> (basic_string.h:236)
+==13124==    by 0x413A87: _M_construct<char*> (basic_string.h:255)
+==13124==    by 0x413A87: basic_string (basic_string.h:440)
+==13124==    by 0x413A87: demangler_one (exceptions_impl.h:68)
+==13124==    by 0x413A87: transform<char**, std::back_insert_iterator<std::vector<std::__cxx11::basic_string<char> > >, std::__cxx11::basic_string<char> (*)(char const*)> (stl_algo.h:4306)
+==13124==    by 0x413A87: Rcpp::exception::record_stack_trace() (exceptions_impl.h:85)
+==13124==    by 0x413D99: Rcpp::exception::exception(char const*, bool) (exceptions.h:40)
+==13124==    by 0x415F76: void Rcpp::stop<>(char const*) (exceptions.h:52)
+==13124==    by 0x419193: LOPART_interface(Rcpp::Vector<14, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, Rcpp::Vector<13, Rcpp::PreserveStorage>, double) (interface.cpp:36)
+==13124==    by 0x407CEE: DeepState_Test_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x407738: DeepState_Run_LOPART_interface_random_datatypes_LOPART_interface_test() (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x406153: DeepState_RunTest.isra.6 (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40E40A: DeepState_FuzzOneTestCase (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40E51F: DeepState_Fuzz (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124==    by 0x40672D: main (in /home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness)
+==13124== 
+==13124== LEAK SUMMARY:
+==13124==    definitely lost: 0 bytes in 0 blocks
+==13124==    indirectly lost: 0 bytes in 0 blocks
+==13124==      possibly lost: 1,464 bytes in 14 blocks
+==13124==    still reachable: 50,293,403 bytes in 9,715 blocks
+==13124==                       of which reachable via heuristic:
+==13124==                         newarray           : 4,264 bytes in 1 blocks
+==13124==         suppressed: 0 bytes in 0 blocks
+==13124== Reachable blocks (those to which a pointer was found) are not shown.
+==13124== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==13124== 
+==13124== For counts of detected and suppressed errors, rerun with: -v
+==13124== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+INFO: Done fuzzing! Ran 4 tests (0 tests/second) with 4 failed/0 passed/0 abandoned tests
+==12969== 
+==12969== HEAP SUMMARY:
+==12969==     in use at exit: 8 bytes in 1 blocks
+==12969==   total heap usage: 4 allocs, 3 frees, 106,568 bytes allocated
+==12969== 
+==12969== LEAK SUMMARY:
+==12969==    definitely lost: 0 bytes in 0 blocks
+==12969==    indirectly lost: 0 bytes in 0 blocks
+==12969==      possibly lost: 0 bytes in 0 blocks
+==12969==    still reachable: 8 bytes in 1 blocks
+==12969==         suppressed: 0 bytes in 0 blocks
+==12969== Reachable blocks (those to which a pointer was found) are not shown.
+==12969== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==12969== 
+==12969== For counts of detected and suppressed errors, rerun with: -v
+==12969== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

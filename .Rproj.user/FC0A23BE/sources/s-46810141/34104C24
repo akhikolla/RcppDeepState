@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1591724221506.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "175369135",
+    "id" : "34104C24",
+    "lastKnownWriteTime" : 1591728151,
+    "last_content_update" : 1591728151711,
+    "path" : "~/R/RcppDeepState/tests/testthat/test-read-out-of-bound.R",
+    "project_path" : "tests/testthat/test-read-out-of-bound.R",
+    "properties" : {
+        "cursorPosition" : "1,19",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
