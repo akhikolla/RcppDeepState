@@ -2,7 +2,7 @@ library(testthat)
 context("rcpp_zero_sized_array")
 library(RcppDeepState)
 library(data.table)
-
+library(testUBSAN)
 user.display <- user_error_display("zero_sized_array_log")
 test_that("valgrind writing index out of bound", {
   expect_match(user.display$arg.name,"vectorvalue")

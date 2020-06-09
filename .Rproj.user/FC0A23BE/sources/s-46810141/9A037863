@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1591731024366.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "9A037863",
+    "lastKnownWriteTime" : 1591731028,
+    "last_content_update" : 1591731028939,
+    "path" : "~/R/RcppDeepState/tests/testthat/test-write-index-outofbound.R",
+    "project_path" : "tests/testthat/test-write-index-outofbound.R",
+    "properties" : {
+        "cursorPosition" : "16,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

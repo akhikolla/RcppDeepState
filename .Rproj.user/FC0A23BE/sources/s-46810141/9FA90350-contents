@@ -143,7 +143,9 @@ deep_harness_compile_run <- function(package_name){
 ##' @return returns a list of all the param values of the arguments of function
 
 deep_harness_analyze_one <- function(packagename,function_name,binary_file){
-  fun_name <-gsub("rcpp_","",f)
+  current.dir<-getwd()
+  setwd("~/R/RcppDeepState/inst/include/")
+  fun_name <-gsub("rcpp_","",function_name)
   analyze_one <- paste0("./",fun_name,"_DeepState_TestHarness"," --input_test_file ",binary_file)
   print(analyze_one)
   system(analyze_one)

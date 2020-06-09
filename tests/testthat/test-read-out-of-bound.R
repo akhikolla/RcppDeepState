@@ -2,6 +2,7 @@ library(testthat)
 library(data.table)
 context("rcpp_read_out_of_bound")
 library(RcppDeepState)
+library(testUBSAN)
 
 
 user.display <- user_error_display("read_out_of_bound_log")

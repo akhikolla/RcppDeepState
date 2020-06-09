@@ -1,4 +1,5 @@
 ~%2FDesktop%2Ferrorrcode.R="8D93A2BB"
+~%2FR%2FRcppDeepState%2F.Rbuildignore="74C9C127"
 ~%2FR%2FRcppDeepState%2FDESCRIPTION="81586F64"
 ~%2FR%2FRcppDeepState%2FNAMESPACE="97D2BB76"
 ~%2FR%2FRcppDeepState%2FR%2FCreateRcppTestharness.R="252F30B5"
@@ -8,6 +9,7 @@
 ~%2FR%2FRcppDeepState%2Finst%2Ftestpkgs%2FtestUBSAN%2FR%2Ferrorrcode.R="C091E783"
 ~%2FR%2FRcppDeepState%2Fsrc%2FRcppExports.cpp="CE64EFC0"
 ~%2FR%2FRcppDeepState%2Fsrc%2Frcpp_hello_world.cpp="7306EE6D"
+~%2FR%2FRcppDeepState%2Ftests%2Ftestthat%2Fread_out_of_bound_log="DE828B9B"
 ~%2FR%2FRcppDeepState%2Ftests%2Ftestthat%2Ftest-read-out-of-bound.R="AEA73C17"
 ~%2FR%2FRcppDeepState%2Ftests%2Ftestthat%2Ftest-use-after-deallocate.R="A2916E3F"
 ~%2FR%2FRcppDeepState%2Ftests%2Ftestthat%2Ftest-use-after-free.R="CA39FC98"
