@@ -1,3 +1,0 @@
-
-library(binsegRcpp)
-rcpp_binseg_normal(1,0)

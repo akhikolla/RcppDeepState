@@ -1,7 +1,7 @@
 ##' @title gets package details
 ##' @return function list with function names and arguments
 ##' @param path to the RcppExports file
-
+##' @export
 get_package_details <- function(path){
   package_path <- Sys.glob(file.path(
     path,"src", "RcppExports.cpp"))
@@ -25,7 +25,7 @@ get_package_details <- function(path){
 ##' @title gets function body
 ##' @return function.list list with function names and arguments
 ##' @param package_name to the RcppExports file
-
+##' @export
 get_function_body<-function(package_name){
   funs <- get_package_details(package_name) 
   function.list <- funs[,{
@@ -42,6 +42,7 @@ get_function_body<-function(package_name){
 ##' @title gets prototype calls
 ##' @return prototypes list with function prototype
 ##' @param package_name to the RcppExports file
+##' @export
 get_prototype_calls <-function(package_name){
   funs <- get_package_details(package_name) 
   codes <- funs[,{nc::capture_all_str(code,"::wrap",calls ="(?:.*)")},by=funName]
@@ -51,6 +52,7 @@ get_prototype_calls <-function(package_name){
 
 ##' @title  creates testharness for given functions in package
 ##' @param package_name to the RcppExports file
+##' @export
 deepstate_pkg_create<-function(package_name){  
   functions.list <- get_function_body(package_name)
   prototypes_calls <-get_prototype_calls(package_name)
@@ -63,7 +65,7 @@ deepstate_pkg_create<-function(package_name){
   fun_names <- unique(functions.list$funName)
   for(function_name.i in fun_names){
     write_to_file <- ""
-    functions.rows  <- functions.list [  functions.list $funName == function_name.i,]
+    functions.rows  <- functions.list [functions.list $funName == function_name.i,]
     pt <- prototypes_calls[prototypes_calls$funName == function_name.i,]
     fun_name <-gsub("rcpp_","",function_name.i)
     filename <-gsub(" ","",paste(fun_name,"_DeepState_TestHarness",".cpp"))
@@ -78,12 +80,14 @@ deepstate_pkg_create<-function(package_name){
     for(filestream.j in 1:nrow( functions.rows )){
       write_to_file<-paste0(write_to_file,"std::ofstream ", functions.rows[filestream.j,argument.name],"_stream",";\n")
     }
-    write_to_file<-paste(write_to_file,"int argc;","\n","char **argv;","\n","RInside R(argc,argv);\n")   
+    write_to_file<-paste(write_to_file,"RInside());\n")   
     for(argument.i in 1:nrow(functions.rows)){
       create_makefile(package_name,functions.rows[argument.i,funName]) 
-      variable <- gsub( "\\s+", " " ,paste( functions.rows [argument.i,argument.type], functions.rows [argument.i,argument.name]))
-      name <- (gsub("Rcpp::","", functions.rows [argument.i,argument.type]))
-      st_val <- gsub(" ","",paste("=","RcppDeepState_",(name),"()",";\n"))
+      variable <- gsub( "\\s+", " " ,paste( functions.rows [argument.i,argument.type],
+                                            functions.rows [argument.i,argument.name]))
+      variable <- gsub("const","",variable)
+      name <- (gsub("const Rcpp::","", functions.rows[argument.i,argument.type]))
+      st_val <- paste0("= ","RcppDeepState_",(name),"()",";\n")
       file_open <- gsub("# ","\"",paste0( functions.rows [argument.i,argument.name],"_stream.open(#", functions.rows [argument.i,argument.name],"# );","\n",
                                           functions.rows [argument.i,argument.name],"_stream<<", functions.rows [argument.i,argument.name],";","\n",
                                           functions.rows [argument.i,argument.name],"_stream.close();","\n"))
@@ -101,6 +105,7 @@ deepstate_pkg_create<-function(package_name){
 ##' @title  creates makefiles for above created testharness in package
 ##' @param package to the RcppExports file
 ##' @param fun_name name of function to get makefile
+##' @export
 create_makefile <-function(package,fun_name){
   package_name <- package
   makefile.name <- gsub("rcpp_","",paste0(fun_name,".Makefile"))
@@ -124,15 +129,22 @@ create_makefile <-function(package,fun_name){
 
 ##' @title compiles the code for created testharness in package
 ##' @param package_name to the RcppExports file
+##' @export
 deep_harness_compile_run <- function(package_name){
   functions.list  <- get_function_body(package_name)
   fun_names <- unique(functions.list$funName)
   for(f in fun_names){
-    functions.rows  <- functions.list [functions.list $funName == f,]
-    compile_line <-paste0("rm -f *.o && make -f ",fun_name,".Makefile ",fun_name,"_DeepState_TestHarness")
+    functions.rows  <- functions.list[functions.list$funName == f,]
+    makefilepath <- here::here("inst/RcppDeepState/") 
+    #Sys.glob(file.path(package_name,"inst","include"))
+    fun <-gsub("rcpp_","",f)
+    compile_line <-paste0("rm -f *.o && make -f ",here::here("inst/RcppDeepState/"),fun,
+                          ".Makefile "
+    )
+    print(compile_line)  
     system(compile_line)
   }   
-  
+  return("code compiled")
 } 
 
 
@@ -141,11 +153,9 @@ deep_harness_compile_run <- function(package_name){
 ##' @param function_name to the RcppExports file
 ##' @param binary_file binary file containing the output
 ##' @return returns a list of all the param values of the arguments of function
-
+##' @export
 deep_harness_analyze_one <- function(packagename,function_name,binary_file){
-  current.dir<-getwd()
-  setwd("~/R/RcppDeepState/inst/include/")
-  fun_name <-gsub("rcpp_","",function_name)
+  fun_name <-gsub("rcpp_","",f)
   analyze_one <- paste0("./",fun_name,"_DeepState_TestHarness"," --input_test_file ",binary_file)
   print(analyze_one)
   system(analyze_one)
@@ -183,6 +193,7 @@ deep_harness_analyze_one <- function(packagename,function_name,binary_file){
 
 ##' @title  compile the code and save passing tests 
 ##' @param package_name for the RcppExports file
+##' @export
 deep_harness_save_passing_tests<-function(package_name){
   functions.list  <- get_function_body(package_name)
   fun_names <- unique(functions.list $funName)
@@ -198,6 +209,7 @@ deep_harness_save_passing_tests<-function(package_name){
 }
 ##' @title  compile the code and save crashu=ing tests 
 ##' @param package_name for the RcppExports file
+##' @export
 deep_harness_save_crash_tests<-function(package_name){
   functions.list  <- get_function_body(package_name)
   fun_names <- unique(functions.list $funName)
@@ -218,6 +230,4 @@ deep_harness_save_crash_tests<-function(package_name){
 globalVariables(c("argument.name","funName","argument.type","calls"
                   ,"code","funName",".","error.i","src.file.lines",
                   "heapsum","file.line","arg.name","value",":=",".N","f","fun_name","read.table"))
-
-
 
