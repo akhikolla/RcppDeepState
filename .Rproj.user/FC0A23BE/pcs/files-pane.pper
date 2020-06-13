@@ -1,5 +1,5 @@
 {
-    "path" : "~/R/RcppDeepState",
+    "path" : "~/R/RcppDeepState/inst/testpkgs/testUBSAN/tests/testthat",
     "sortOrder" : [
         {
             "ascending" : true,

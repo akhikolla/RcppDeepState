@@ -18,7 +18,4 @@ test_that("negative size array", {
   #expect_match(user.display$error.message[3],"function has a fishy value")
 })
 
-test_that("use after deallocate return value",{
-  return_value = testUBSAN::rcpp_use_after_deallocate(100)
-  expect_gte(return_value,85)
-})
+
