@@ -5,6 +5,7 @@
 /home/akhila/R/RcppDeepState/R/errorrcode.R="B32134E1"
 /home/akhila/R/RcppDeepState/inst/include/RcppDeepState.h="98679268"
 /home/akhila/R/RcppDeepState/inst/testpkgs/testUBSAN/R/errorrcode.R="396A586F"
+/home/akhila/R/RcppDeepState/inst/testpkgs/testUBSAN/tests/testthat/read_out_of_bound_log="2302B23B"
 /home/akhila/R/RcppDeepState/tests/testthat.R="FDAFD23"
 /home/akhila/R/RcppDeepState/tests/testthat/test-read-out-of-bound.R="429E464E"
 /home/akhila/R/RcppDeepState/tests/testthat/test-use-after-deallocate.R="E4DCAAB8"

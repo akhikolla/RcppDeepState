@@ -7,12 +7,12 @@
     "folds" : "",
     "hash" : "0",
     "id" : "BDA185C4",
-    "lastKnownWriteTime" : 1592001666,
-    "last_content_update" : 1592001666513,
+    "lastKnownWriteTime" : 1592081699,
+    "last_content_update" : 1592081699,
     "path" : "~/R/RcppDeepState/tests/testthat/test-use-after-deallocate.R",
     "project_path" : "tests/testthat/test-use-after-deallocate.R",
     "properties" : {
-        "cursorPosition" : "19,2",
+        "cursorPosition" : "19,0",
         "scrollLine" : "0"
     },
     "read_only" : false,

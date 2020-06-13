@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592082058952.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2537991056",
+    "id" : "1ADC85F3",
+    "lastKnownWriteTime" : 1592082062,
+    "last_content_update" : 1592082062829,
+    "path" : "~/R/RcppDeepState/inst/testpkgs/testUBSAN/tests/testthat/test-zero-sized-array.R",
+    "project_path" : "inst/testpkgs/testUBSAN/tests/testthat/test-zero-sized-array.R",
+    "properties" : {
+        "cursorPosition" : "3,0",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 16,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

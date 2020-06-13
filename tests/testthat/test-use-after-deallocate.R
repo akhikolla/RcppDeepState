@@ -1,5 +1,4 @@
 library(testthat)
-library(testUBSAN)
 context("rcpp_use_after_deallocate")
 library(RcppDeepState)
 

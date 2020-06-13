@@ -7,12 +7,12 @@
     "folds" : "",
     "hash" : "0",
     "id" : "ECC5FF80",
-    "lastKnownWriteTime" : 1592001680,
-    "last_content_update" : 1592001680769,
+    "lastKnownWriteTime" : 1592081952,
+    "last_content_update" : 1592081952,
     "path" : "~/R/RcppDeepState/tests/testthat/test-use-after-free.R",
     "project_path" : "tests/testthat/test-use-after-free.R",
     "properties" : {
-        "cursorPosition" : "9,64",
+        "cursorPosition" : "3,0",
         "scrollLine" : "0"
     },
     "read_only" : false,

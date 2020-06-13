@@ -1,5 +1,4 @@
 library(testthat)
-
 context("rcpp_use_after_free")
 library(RcppDeepState)
 

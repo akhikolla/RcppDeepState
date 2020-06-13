@@ -1,8 +1,6 @@
 library(testthat)
-
 context("rcpp_write_index_outofbound")
 library(RcppDeepState)
-
 
 user.display <- user_error_display("write_index_outofbound_log")
 test_that("valgrind writing index out of bound", {
