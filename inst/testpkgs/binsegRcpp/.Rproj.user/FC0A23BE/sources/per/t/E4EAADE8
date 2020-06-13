@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1588278476411.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1696956265",
+    "id" : "E4EAADE8",
+    "lastKnownWriteTime" : 1588278261,
+    "last_content_update" : 1588278261,
+    "path" : "~/Desktop/main_script.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "70,6",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,6 @@
+^codecov\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+.travis.yml
+.gitignore
+README.md

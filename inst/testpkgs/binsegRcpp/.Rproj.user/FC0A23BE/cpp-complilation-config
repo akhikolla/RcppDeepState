@@ -9,13 +9,14 @@
         "-I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed",
         "-I/usr/include/x86_64-linux-gnu",
         "-I/usr/include",
+        "-I/home/akhila/R/x86_64-pc-linux-gnu-library/3.6/Rcpp/include",
         "-std=gnu++11",
         "-I/home/akhila/lib/R/include",
         "-DNDEBUG",
         "-I/usr/local/include",
         "-fpic"
     ],
-    "hash" : "1592081047",
-    "is_cpp" : false,
-    "pch" : ""
+    "hash" : "1585947526",
+    "is_cpp" : true,
+    "pch" : "Rcpp"
 }

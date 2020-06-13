@@ -1,0 +1,16 @@
+Package: binsegRcpp
+Type: Package
+Title: Efficient Implementation of Binary Segmentation
+Version: 2019.9.20
+Author: Akhila Kolla
+Maintainer: Akhila Kolla <akhilakollasrinu424jf@gmail.com>
+Description: Standard template library multimap and vector
+ containers are used to implement an efficient binary segmentation
+ algorithm, which is log-linear on average and quadratic in the
+ worst case.
+License: GPL-3
+LinkingTo: Rcpp
+URL: https://github.com/tdhock/binseg
+BugReports: https://github.com/tdhock/binseg/issues
+Imports: data.table, Rcpp
+Suggests: ggplot2

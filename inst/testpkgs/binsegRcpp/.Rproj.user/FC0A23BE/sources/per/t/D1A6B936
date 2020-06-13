@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1588189802076.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "345252497",
+    "id" : "D1A6B936",
+    "lastKnownWriteTime" : 1588278369,
+    "last_content_update" : 1588278369124,
+    "path" : "~/R/binsegRcpp/src/rcpp_interface.cpp",
+    "project_path" : "src/rcpp_interface.cpp",
+    "properties" : {
+        "cursorPosition" : "8,42",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "cpp"
+}

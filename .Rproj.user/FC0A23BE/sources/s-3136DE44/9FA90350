@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1591727617354.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "9FA90350",
+    "lastKnownWriteTime" : 1592032466,
+    "last_content_update" : 1592032466388,
+    "path" : "~/R/RcppDeepState/R/CreateRcppTestharness.R",
+    "project_path" : "R/CreateRcppTestharness.R",
+    "properties" : {
+        "cursorPosition" : "6,35",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

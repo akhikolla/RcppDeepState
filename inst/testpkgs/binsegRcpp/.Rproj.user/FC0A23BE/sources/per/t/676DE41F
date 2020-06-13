@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1590440587916.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3851329123",
+    "id" : "676DE41F",
+    "lastKnownWriteTime" : 1590440623,
+    "last_content_update" : 1590440623150,
+    "path" : "~/R/binsegRcpp/DESCRIPTION",
+    "project_path" : "DESCRIPTION",
+    "properties" : {
+        "cursorPosition" : "15,17",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "dcf"
+}

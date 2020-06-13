@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592001653244.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "BDA185C4",
+    "lastKnownWriteTime" : 1592001666,
+    "last_content_update" : 1592001666513,
+    "path" : "~/R/RcppDeepState/tests/testthat/test-use-after-deallocate.R",
+    "project_path" : "tests/testthat/test-use-after-deallocate.R",
+    "properties" : {
+        "cursorPosition" : "19,2",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
