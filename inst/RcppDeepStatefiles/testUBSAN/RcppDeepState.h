@@ -1,6 +1,6 @@
 #ifndef RCPPDEEPSTATE_RCPPDEEPSTATE_H
 #define RCPPDEEPSTATE_RCPPDEEPSTATE_H
-#include <deepstate/DeepState.hpp>
+#include "DeepState.hpp"
 #include <vector>
 #include <iostream>
 #include <Rcpp.h>
