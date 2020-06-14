@@ -1,7 +1,7 @@
-#include <deepstate/DeepState.hpp>
+#include "deepstate/DeepState.hpp"
 #include <RInside.h>
 #include <iostream>
-#include <RcppDeepState.h>
+#include "RcppDeepState.h"
 #include <fstream>
  int rcpp_read_out_of_bound(int sizeofarray);
 TEST(read_out_of_bound_random_datatypes,rcpp_read_out_of_bound_test){
