@@ -602,12 +602,6 @@
     {
         "definitions" : [
         ],
-        "file" : "/home/akhila/R/RcppDeepState/inst/include/LOPART_interface_DeepState_TestHarness.cpp",
-        "file_last_write" : 1592081047.000000
-    },
-    {
-        "definitions" : [
-        ],
         "file" : "/home/akhila/R/RcppDeepState/inst/include/Log.h",
         "file_last_write" : 1591134809.000000
     },
@@ -697,18 +691,6 @@
         ],
         "file" : "/home/akhila/R/RcppDeepState/inst/include/Stream.hpp",
         "file_last_write" : 1591134892.000000
-    },
-    {
-        "definitions" : [
-        ],
-        "file" : "/home/akhila/R/RcppDeepState/inst/include/binseg_normal_DeepState_TestHarness.cpp",
-        "file_last_write" : 1592081047.000000
-    },
-    {
-        "definitions" : [
-        ],
-        "file" : "/home/akhila/R/RcppDeepState/inst/include/binseg_normal_cost_DeepState_TestHarness.cpp",
-        "file_last_write" : 1592081047.000000
     },
     {
         "definitions" : [

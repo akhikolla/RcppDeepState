@@ -31,7 +31,7 @@ get_function_body<-function(package_name){
   function.list <- funs[,{
     dt <- nc::capture_all_str(
       code,
-      "input_parameter< const ",
+      "input_parameter< ",
       argument.type=".*?",
       ">::type",
       argument.name="[^(]+")
@@ -133,18 +133,26 @@ create_makefile <-function(package,fun_name){
 deep_harness_compile_run <- function(package_name){
   functions.list  <- get_function_body(package_name)
   fun_names <- unique(functions.list$funName)
+  val = 0
   for(f in fun_names){
     functions.rows  <- functions.list[functions.list$funName == f,]
-    makefilepath <- here::here("inst/RcppDeepState/") 
-    #Sys.glob(file.path(package_name,"inst","include"))
+    makefilepath <- system.file("RcppDeepStatefiles/testUBSAN/", package = "RcppDeepState")
+    #("R/RcppDeepState/inst/RcppDeepState/testUBSAN/") 
+    
+    #Sys.glob(file.path(package_name,"inst","include"))here::here("R/RcppDeepState/inst/RcppDeepState/testUBSAN/")
     fun <-gsub("rcpp_","",f)
-    compile_line <-paste0("rm -f *.o && make -f ",here::here("inst/RcppDeepState/"),fun,
+    compile_line <-paste0("rm -f *.o && make -f ",
+                          system.file("RcppDeepStatefiles/testUBSAN/", package = "RcppDeepState"),"/",fun,
                           ".Makefile "
     )
-    print(compile_line)  
-    system(compile_line)
+    print(compile_line) 
+    #system(compile_line)
+    if(system(compile_line) == 0)val=val+1
   }   
+  if(val == 5) 
   return("code compiled")
+  else
+  return("code did not compile")
 } 
 
 
