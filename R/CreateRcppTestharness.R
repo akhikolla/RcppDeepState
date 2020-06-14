@@ -136,13 +136,13 @@ deep_harness_compile_run <- function(package_name){
   val = 0
   for(f in fun_names){
     functions.rows  <- functions.list[functions.list$funName == f,]
-    makefilepath <- system.file("RcppDeepStatefiles/testSAN/", package = "RcppDeepState")
+    makefilepath <- system.file("RcppDeepStatefiles/testUBSAN/", package = "RcppDeepState")
     #("R/RcppDeepState/inst/RcppDeepState/testUBSAN/") 
     
     #Sys.glob(file.path(package_name,"inst","include"))here::here("R/RcppDeepState/inst/RcppDeepState/testUBSAN/")
     fun <-gsub("rcpp_","",f)
     compile_line <-paste0("rm -f *.o && make -f ",
-                          system.file("RcppDeepStatefiles/testSAN/", package = "RcppDeepState"),"/",fun,
+                          system.file("RcppDeepStatefiles/testUBSAN/", package = "RcppDeepState"),"/",fun,
                           ".Makefile "
     )
     print(compile_line) 
