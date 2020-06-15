@@ -1,7 +1,7 @@
-#include <deepstate/DeepState.hpp>
+#include "DeepState.hpp"
 #include <RInside.h>
 #include <iostream>
-#include <RcppDeepState.h>
+#include "RcppDeepState.h"
 #include <fstream>
  int rcpp_write_index_outofbound(int boundvalue);
 TEST(write_index_outofbound_random_datatypes,rcpp_write_index_outofbound_test){

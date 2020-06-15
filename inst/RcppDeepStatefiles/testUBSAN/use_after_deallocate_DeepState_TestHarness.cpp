@@ -1,7 +1,7 @@
-#include <deepstate/DeepState.hpp>
+#include "DeepState.hpp"
 #include <RInside.h>
 #include <iostream>
-#include <RcppDeepState.h>
+#include "RcppDeepState.h"
 #include <fstream>
  int rcpp_use_after_deallocate(int size);
 TEST(use_after_deallocate_random_datatypes,rcpp_use_after_deallocate_test){
