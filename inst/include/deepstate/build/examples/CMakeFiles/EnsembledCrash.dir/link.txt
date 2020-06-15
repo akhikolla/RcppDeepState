@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3  -rdynamic CMakeFiles/EnsembledCrash.dir/EnsembledCrash.cpp.o  -o EnsembledCrash ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 

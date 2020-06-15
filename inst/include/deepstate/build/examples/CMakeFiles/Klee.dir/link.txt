@@ -1,0 +1,1 @@
+/usr/bin/cc -O3  -rdynamic CMakeFiles/Klee.dir/Klee.c.o  -o Klee ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 

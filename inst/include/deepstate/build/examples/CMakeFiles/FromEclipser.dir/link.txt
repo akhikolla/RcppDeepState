@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3  -rdynamic CMakeFiles/FromEclipser.dir/FromEclipser.cpp.o  -o FromEclipser ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 

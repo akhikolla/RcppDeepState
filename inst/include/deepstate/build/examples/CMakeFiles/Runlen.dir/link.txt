@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3  -rdynamic CMakeFiles/Runlen.dir/Runlen.cpp.o  -o Runlen ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 

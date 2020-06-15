@@ -1,0 +1,10 @@
+/usr/local/include/deepstate/Log.h
+/usr/local/include/deepstate/Stream.h
+/usr/local/include/deepstate/DeepState.h
+/usr/local/include/deepstate/Option.h
+/usr/local/include/deepstate/Stream.hpp
+/usr/local/include/deepstate/DeepState.hpp
+/usr/local/include/deepstate/Klee.h
+/usr/local/include/deepstate/Compiler.h
+/usr/local/lib/libdeepstate.a
+/usr/local/lib/libdeepstate32.a

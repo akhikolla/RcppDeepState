@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3  -rdynamic CMakeFiles/Fixture.dir/Fixture.cpp.o  -o Fixture ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 
