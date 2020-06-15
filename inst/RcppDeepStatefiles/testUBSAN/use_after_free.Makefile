@@ -1,4 +1,4 @@
-R_HOME=/home/akhila/lib/R
+R_HOME=/home/travis/R-bin/lib/R/lib
 R_INSIDE_LIB=${shell locate "/usr/local/*RInside/libs"}
 R_INSIDE=${shell locate "/usr/local/*RInside/include"}
 RCPP_PATH=${shell locate "/usr/local/*Rcpp/include"}
@@ -10,4 +10,4 @@ use_after_free_DeepState_TestHarness : use_after_free_DeepState_TestHarness.o
 	
 use_after_free_DeepState_TestHarness.o : /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/use_after_free_DeepState_TestHarness.cpp
 	 clang++ -I${R_HOME}/include -I/home/usr/R/RcppDeepState/inst/deepstate -I${RCPP_PATH} -I${R_INSIDE} -I/home/usr/R/RcppDeepState/inst/include/ /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/use_after_free_DeepState_TestHarness.cpp -o use_after_free_DeepState_TestHarness.o -c
-
+/home/travis/R-bin/lib/R/lib
