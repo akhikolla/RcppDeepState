@@ -113,7 +113,7 @@ create_makefile <-function(package,fun_name){
   makefile.name.o <-paste0(test_harness,".o")
   makefile.name.cpp <-paste0(test_harness,".cpp")
   file.create((makefile.name), recursive=TRUE)
-  path <-paste("R_HOME=/home/akhila/lib/R")
+  path <-paste("R_HOME=",R.home())
   write(path,makefile.name,append = TRUE) 
   flags <- paste("COMMON_FLAGS=",makefile.name.o," -I/home/akhila/R/RcppDeepState/inst/include/ -L/usr/lib/R/site-library/RInside/include/lib -Wl,-rpath=/usr/lib/R/site-library/RInside/include/lib -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib -L/home/akhila/deepstate/src/lib -Wl,-rpath=/home/akhila/deepstate/src/lib -lR -lRInside -ldeepstate")
   write(flags,makefile.name,append = TRUE)

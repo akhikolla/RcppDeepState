@@ -3,6 +3,7 @@
 #include "DeepState.hpp"
 #include <vector>
 #include <iostream>
+#include <Rcpp.h>
 #include <fstream>
 
 using namespace Rcpp;

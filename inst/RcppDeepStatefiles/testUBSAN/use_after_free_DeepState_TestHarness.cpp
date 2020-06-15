@@ -1,3 +1,5 @@
+#include "DeepState.hpp"
+#include <RInside.h>
 #include <iostream>
 #include "RcppDeepState.h"
 #include <fstream>
