@@ -7,6 +7,6 @@ COMMON_FLAGS= use_after_free_DeepState_TestHarness.o -I/home/usr/R/RcppDeepState
 use_after_free_DeepState_TestHarness : use_after_free_DeepState_TestHarness.o
 	 clang++ -o use_after_free_DeepState_TestHarness ${COMMON_FLAGS} ~/R/testUBSAN/src/*.o
 	
-use_after_free_DeepState_TestHarness.o : ~/R/RcppDeepState/inst/RcppDeepStatefiles/testUBSAN/use_after_free_DeepState_TestHarness.cpp
-	 clang++ -I${R_HOME}/include -I/home/usr/R/RcppDeepState/inst/deepstate -I${RCPP_PATH} -I${R_INSIDE} -I/home/usr/R/RcppDeepState/inst/include/ ~/R/RcppDeepState/inst/RcppDeepStatefiles/testUBSAN/use_after_free_DeepState_TestHarness.cpp -o use_after_free_DeepState_TestHarness.o -c
+use_after_free_DeepState_TestHarness.o : /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/use_after_free_DeepState_TestHarness.cpp
+	 clang++ -I${R_HOME}/include -I/home/usr/R/RcppDeepState/inst/deepstate -I${RCPP_PATH} -I${R_INSIDE} -I/home/usr/R/RcppDeepState/inst/include/ /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/use_after_free_DeepState_TestHarness.cpp -o use_after_free_DeepState_TestHarness.o -c
 
