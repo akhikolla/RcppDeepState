@@ -1,4 +1,4 @@
-R_HOME=/home/travis/R-bin/lib/R/lib
+R_HOME=/home/travis/R-bin/lib/R
 R_INSIDE_LIB=${shell locate "/usr/local/*RInside/libs"}
 R_INSIDE=${shell locate "/usr/local/*RInside/include"}
 RCPP_PATH=${shell locate "/usr/local/*Rcpp/include"}

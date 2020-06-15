@@ -149,7 +149,7 @@ deep_harness_compile_run <- function(package_name){
     #system(compile_line)
     if(system(compile_line) == 0)val=val+1
   }   
-  if(val == 5) 
+  if(val == length(fun_names)) 
   return("code compiled")
   else
   return("code did not compile")

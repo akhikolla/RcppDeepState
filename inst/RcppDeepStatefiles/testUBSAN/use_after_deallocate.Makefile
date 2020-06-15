@@ -1,4 +1,4 @@
-R_HOME=/home/travis/R-bin/lib/R/lib
+R_HOME=/home/travis/R-bin/lib/R
 
 COMMON_FLAGS= use_after_deallocate_DeepState_TestHarness.o  -I/home/akhila/R/RcppDeepState/inst/include/ -L/usr/local/lib/R/site-library/RInside/include -Wl,-rpath=/usr/local/lib/R/site-library/RInside/include/lib -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib -L/home/akhila/deepstate/src/lib -Wl,-rpath=/home/akhila/deepstate/src/lib -lR -lRInside -ldeepstate
 use_after_deallocate_DeepState_TestHarness : use_after_deallocate_DeepState_TestHarness.o
