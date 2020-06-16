@@ -1,4 +1,4 @@
-#include "deepstate/DeepState.hpp"
+#include "DeepState.hpp"
 #include <RInside.h>
 #include <iostream>
 #include "RcppDeepState.h"

@@ -4,6 +4,5 @@ COMMON_FLAGS= write_index_outofbound_DeepState_TestHarness.o -I/home/akhila/R/Rc
 write_index_outofbound_DeepState_TestHarness : write_index_outofbound_DeepState_TestHarness.o
 	clang++ -o write_index_outofbound_DeepState_TestHarness ${COMMON_FLAGS} /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/testpkgs/testSAN/src/*.o
 write_index_outofbound_DeepState_TestHarness.o : /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/write_index_outofbound_DeepState_TestHarness.cpp
-	 clang++ -I${R_HOME}/include -I/home/akhila/deepstate/src/include -I/usr/local/lib/R/site-library/Rcpp/include -I/usr/local/lib/R/site-library/RInside/include -I/home/akhila/R/RcppDeepState/inst/include/ /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/write_index_outofbound_DeepState_TestHarness.cpp -o write_index_outofbound_DeepState_TestHarness.o -c
-
+	 clang++ -I${R_HOME}/include -I/usr/local/lib/R/site-library/Rcpp/include -I/usr/local/lib/R/site-library/RInside/include -I/home/akhila/R/RcppDeepState/inst/include/ /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/write_index_outofbound_DeepState_TestHarness.cpp -o write_index_outofbound_DeepState_TestHarness.o -c
 
