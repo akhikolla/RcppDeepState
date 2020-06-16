@@ -1,13 +1,8 @@
 R_HOME=/home/travis/R-bin/lib/R
-R_INSIDE_LIB=${shell locate "/usr/local/*RInside/libs"}
-R_INSIDE=${shell locate "/usr/local/*RInside/include"}
-RCPP_PATH=${shell locate "/usr/local/*Rcpp/include"}
 
-COMMON_FLAGS= use_after_free_DeepState_TestHarness.o -I/home/usr/R/RcppDeepState/inst/include/ -L${R_INSIDE} -Wl,-rpath=${R_INSIDE_LIB} -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib -L/home/usr/R/RcppDeepState/inst/deepstate -Wl,-rpath=/home/usr/R/RcppDeepState/inst/deepstate -lR -lRInside -ldeepstate
-
+COMMON_FLAGS= use_after_free_DeepState_TestHarness.o -I/home/akhila/R/RcppDeepState/inst/include/ -L/usr/local/lib/R/site-library/RInside/lib -Wl,-rpath=/usr/local/lib/R/site-library/RInside/lib -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib -L/home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/include/deepstate -Wl,-rpath=home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/include/deepstate -lR -lRInside -ldeepstate
 use_after_free_DeepState_TestHarness : use_after_free_DeepState_TestHarness.o
-	 clang++ -o use_after_free_DeepState_TestHarness ${COMMON_FLAGS} 
-	
+	clang++ -o use_after_free_DeepState_TestHarness ${COMMON_FLAGS} /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/testpkgs/testSAN/src/*.o
+	valgrind --tool=memcheck --leak-check=yes ./use_after_free_DeepState_TestHarness --fuzz --min_log_level 0 > /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/use_after_free_log 2>&1		
 use_after_free_DeepState_TestHarness.o : /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/use_after_free_DeepState_TestHarness.cpp
-	 clang++ -I${R_HOME}/include -I/home/usr/R/RcppDeepState/inst/deepstate -I${RCPP_PATH} -I${R_INSIDE} -I/home/usr/R/RcppDeepState/inst/include/ /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/use_after_free_DeepState_TestHarness.cpp -o use_after_free_DeepState_TestHarness.o -c
-/home/travis/R-bin/lib/R/lib
+	 clang++ -I${R_HOME}/include -I/home/akhila/deepstate/src/include -I/usr/local/lib/R/site-library/Rcpp/include -I/usr/local/lib/R/site-library/RInside/include -I/home/akhila/R/RcppDeepState/inst/include/ /home/travis/build/akhikolla/RcppDeepState/RcppDeepState.Rcheck/RcppDeepState/RcppDeepStatefiles/testUBSAN/use_after_free_DeepState_TestHarness.cpp -o use_after_free_DeepState_TestHarness.o -c

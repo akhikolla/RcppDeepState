@@ -1,0 +1,128 @@
+==3524== Memcheck, a memory error detector
+==3524== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==3524== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==3524== Command: ./use_after_free_DeepState_TestHarness --fuzz
+==3524== 
+INFO: Starting fuzzing
+WARNING: No seed provided; using 1592332952
+WARNING: No test specified, defaulting to first test defined (use_after_free_random_datatypes_rcpp_use_after_free_test)
+size_free values: 1582918130
+==3529== Warning: set address range perms: large range [0x59e43040, 0x1d349d808) (undefined)
+==3529== Warning: set address range perms: large range [0x59e43028, 0x1d349d820) (noaccess)
+==3529== Invalid read of size 4
+==3529==    at 0x418238: rcpp_use_after_free(int) (use_after_free.cpp:12)
+==3529==    by 0x407F3D: DeepState_Test_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:16)
+==3529==    by 0x407E18: DeepState_Run_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:7)
+==3529==    by 0x405CB3: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==    by 0x40DF0A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==    by 0x40E01F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==    by 0x40628D: main (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==  Address 0x59e43068 is 40 bytes inside a block of size 6,331,672,520 free'd
+==3529==    at 0x4C30D3B: free (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3529==    by 0x418237: rcpp_use_after_free(int) (use_after_free.cpp:11)
+==3529==    by 0x407F3D: DeepState_Test_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:16)
+==3529==    by 0x407E18: DeepState_Run_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:7)
+==3529==    by 0x405CB3: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==    by 0x40DF0A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==    by 0x40E01F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==    by 0x40628D: main (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==  Block was alloc'd at
+==3529==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3529==    by 0x41822C: rcpp_use_after_free(int) (use_after_free.cpp:10)
+==3529==    by 0x407F3D: DeepState_Test_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:16)
+==3529==    by 0x407E18: DeepState_Run_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:7)
+==3529==    by 0x405CB3: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==    by 0x40DF0A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==    by 0x40E01F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529==    by 0x40628D: main (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3529== 
+==3529== 
+==3529== HEAP SUMMARY:
+==3529==     in use at exit: 50,292,266 bytes in 9,713 blocks
+==3529==   total heap usage: 27,722 allocs, 18,009 frees, 6,417,672,373 bytes allocated
+==3529== 
+==3529== LEAK SUMMARY:
+==3529==    definitely lost: 0 bytes in 0 blocks
+==3529==    indirectly lost: 0 bytes in 0 blocks
+==3529==      possibly lost: 0 bytes in 0 blocks
+==3529==    still reachable: 50,292,266 bytes in 9,713 blocks
+==3529==                       of which reachable via heuristic:
+==3529==                         newarray           : 4,264 bytes in 1 blocks
+==3529==         suppressed: 0 bytes in 0 blocks
+==3529== Reachable blocks (those to which a pointer was found) are not shown.
+==3529== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3529== 
+==3529== For counts of detected and suppressed errors, rerun with: -v
+==3529== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+size_free values: -982935989
+==3573== Argument 'size' of function malloc has a fishy (possibly negative) value: -3931743956
+==3573==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3573==    by 0x41822C: rcpp_use_after_free(int) (use_after_free.cpp:10)
+==3573==    by 0x407F3D: DeepState_Test_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:16)
+==3573==    by 0x407E18: DeepState_Run_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:7)
+==3573==    by 0x405CB3: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==    by 0x40DF0A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==    by 0x40E01F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==    by 0x40628D: main (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573== 
+==3573== Invalid read of size 4
+==3573==    at 0x418238: rcpp_use_after_free(int) (use_after_free.cpp:12)
+==3573==    by 0x407F3D: DeepState_Test_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:16)
+==3573==    by 0x407E18: DeepState_Run_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:7)
+==3573==    by 0x405CB3: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==    by 0x40DF0A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==    by 0x40E01F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==    by 0x40628D: main (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==  Address 0x28 is not stack'd, malloc'd or (recently) free'd
+==3573== 
+==3573== 
+==3573== Process terminating with default action of signal 11 (SIGSEGV)
+==3573==  Access not within mapped region at address 0x28
+==3573==    at 0x418238: rcpp_use_after_free(int) (use_after_free.cpp:12)
+==3573==    by 0x407F3D: DeepState_Test_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:16)
+==3573==    by 0x407E18: DeepState_Run_use_after_free_random_datatypes_rcpp_use_after_free_test() (use_after_free_DeepState_TestHarness.cpp:7)
+==3573==    by 0x405CB3: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==    by 0x40DF0A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==    by 0x40E01F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==    by 0x40628D: main (in /home/akhila/R/testUBSAN/inst/include/use_after_free_DeepState_TestHarness)
+==3573==  If you believe this happened as a result of a stack
+==3573==  overflow in your program's main thread (unlikely but
+==3573==  possible), you can try to increase the size of the
+==3573==  main thread stack using the --main-stacksize= flag.
+==3573==  The main thread stack size used in this run was 8388608.
+==3573== 
+==3573== HEAP SUMMARY:
+==3573==     in use at exit: 50,316,086 bytes in 9,734 blocks
+==3573==   total heap usage: 27,721 allocs, 17,987 frees, 85,999,853 bytes allocated
+==3573== 
+==3573== LEAK SUMMARY:
+==3573==    definitely lost: 0 bytes in 0 blocks
+==3573==    indirectly lost: 0 bytes in 0 blocks
+==3573==      possibly lost: 0 bytes in 0 blocks
+==3573==    still reachable: 50,316,086 bytes in 9,734 blocks
+==3573==                       of which reachable via heuristic:
+==3573==                         newarray           : 4,264 bytes in 1 blocks
+==3573==         suppressed: 0 bytes in 0 blocks
+==3573== Reachable blocks (those to which a pointer was found) are not shown.
+==3573== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3573== 
+==3573== For counts of detected and suppressed errors, rerun with: -v
+==3573== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+ERROR: Crashed: use_after_free_random_datatypes_rcpp_use_after_free_test
+INFO: Done fuzzing! Ran 2 tests (0 tests/second) with 1 failed/1 passed/0 abandoned tests
+==3524== 
+==3524== HEAP SUMMARY:
+==3524==     in use at exit: 8 bytes in 1 blocks
+==3524==   total heap usage: 4 allocs, 3 frees, 106,568 bytes allocated
+==3524== 
+==3524== LEAK SUMMARY:
+==3524==    definitely lost: 0 bytes in 0 blocks
+==3524==    indirectly lost: 0 bytes in 0 blocks
+==3524==      possibly lost: 0 bytes in 0 blocks
+==3524==    still reachable: 8 bytes in 1 blocks
+==3524==         suppressed: 0 bytes in 0 blocks
+==3524== Reachable blocks (those to which a pointer was found) are not shown.
+==3524== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3524== 
+==3524== For counts of detected and suppressed errors, rerun with: -v
+==3524== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

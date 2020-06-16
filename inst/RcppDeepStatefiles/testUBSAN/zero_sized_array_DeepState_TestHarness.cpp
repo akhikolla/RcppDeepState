@@ -1,7 +1,7 @@
-#include <deepstate/DeepState.hpp>
+#include "DeepState.hpp"
 #include <RInside.h>
 #include <iostream>
-#include <RcppDeepState.h>
+#include "RcppDeepState.h"
 #include <fstream>
  int rcpp_zero_sized_array(int vectorvalue);
 TEST(zero_sized_array_random_datatypes,rcpp_zero_sized_array_test){
