@@ -1,0 +1,173 @@
+==6717== Memcheck, a memory error detector
+==6717== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==6717== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==6717== Command: ./read_out_of_bound_DeepState_TestHarness --fuzz
+==6717== 
+INFO: Starting fuzzing
+WARNING: No seed provided; using 1591571071
+WARNING: No test specified, defaulting to first test defined (read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test)
+sizeofarray values: 1454661619
+==6735== Warning: set address range perms: large range [0x59e43040, 0x1b4b5b00c) (undefined)
+==6735== Invalid read of size 4
+==6735==    at 0x4185D3: rcpp_read_out_of_bound(int) (read_out_of_bound.cpp:9)
+==6735==    by 0x4082AD: DeepState_Test_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:16)
+==6735==    by 0x408188: DeepState_Run_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:7)
+==6735==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6735==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6735==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6735==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6735==  Address 0x1b4b5b19c is 5,818,646,876 bytes inside a block of size 5,818,650,528 in arena "client"
+==6735== 
+==6735== 
+==6735== HEAP SUMMARY:
+==6735==     in use at exit: 5,868,938,743 bytes in 9,714 blocks
+==6735==   total heap usage: 27,722 allocs, 18,008 frees, 5,904,644,330 bytes allocated
+==6735== 
+==6735== 5,818,646,476 bytes in 1 blocks are possibly lost in loss record 1,306 of 1,306
+==6735==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6735==    by 0x4185D2: rcpp_read_out_of_bound(int) (read_out_of_bound.cpp:8)
+==6735==    by 0x4082AD: DeepState_Test_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:16)
+==6735==    by 0x408188: DeepState_Run_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:7)
+==6735==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6735==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6735==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6735==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6735== 
+==6735== LEAK SUMMARY:
+==6735==    definitely lost: 0 bytes in 0 blocks
+==6735==    indirectly lost: 0 bytes in 0 blocks
+==6735==      possibly lost: 5,818,646,476 bytes in 1 blocks
+==6735==    still reachable: 50,292,267 bytes in 9,713 blocks
+==6735==                       of which reachable via heuristic:
+==6735==                         newarray           : 4,264 bytes in 1 blocks
+==6735==         suppressed: 0 bytes in 0 blocks
+==6735== Reachable blocks (those to which a pointer was found) are not shown.
+==6735== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6735== 
+==6735== For counts of detected and suppressed errors, rerun with: -v
+==6735== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+sizeofarray values: -1354567582
+terminate called after throwing an instance of 'std::bad_array_new_length'
+  what():  std::bad_array_new_length
+ERROR: Failed: read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test
+==6775== 
+==6775== HEAP SUMMARY:
+==6775==     in use at exit: 50,292,403 bytes in 9,714 blocks
+==6775==   total heap usage: 27,723 allocs, 18,009 frees, 85,998,022 bytes allocated
+==6775== 
+==6775== 136 bytes in 1 blocks are possibly lost in loss record 49 of 1,306
+==6775==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6775==    by 0x577A8FF: __cxa_allocate_exception (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==6775==    by 0x577AADD: __cxa_throw_bad_array_new_length (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==6775==    by 0x4185E0: rcpp_read_out_of_bound(int) (read_out_of_bound.cpp:8)
+==6775==    by 0x4082AD: DeepState_Test_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:16)
+==6775==    by 0x408188: DeepState_Run_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:7)
+==6775==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6775==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6775==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6775==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6775== 
+==6775== LEAK SUMMARY:
+==6775==    definitely lost: 0 bytes in 0 blocks
+==6775==    indirectly lost: 0 bytes in 0 blocks
+==6775==      possibly lost: 136 bytes in 1 blocks
+==6775==    still reachable: 50,292,267 bytes in 9,713 blocks
+==6775==                       of which reachable via heuristic:
+==6775==                         newarray           : 4,264 bytes in 1 blocks
+==6775==         suppressed: 0 bytes in 0 blocks
+==6775== Reachable blocks (those to which a pointer was found) are not shown.
+==6775== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6775== 
+==6775== For counts of detected and suppressed errors, rerun with: -v
+==6775== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+sizeofarray values: 898723217
+==6823== Warning: set address range perms: large range [0x59e43040, 0x13029e684) (undefined)
+==6823== Invalid read of size 4
+==6823==    at 0x4185D3: rcpp_read_out_of_bound(int) (read_out_of_bound.cpp:9)
+==6823==    by 0x4082AD: DeepState_Test_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:16)
+==6823==    by 0x408188: DeepState_Run_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:7)
+==6823==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6823==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6823==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6823==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6823==  Address 0x13029e814 is 3,594,893,268 bytes inside a block of size 3,594,895,264 in arena "client"
+==6823== 
+==6823== 
+==6823== HEAP SUMMARY:
+==6823==     in use at exit: 3,645,185,135 bytes in 9,714 blocks
+==6823==   total heap usage: 27,722 allocs, 18,008 frees, 3,680,890,722 bytes allocated
+==6823== 
+==6823== 3,594,892,868 bytes in 1 blocks are possibly lost in loss record 1,306 of 1,306
+==6823==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6823==    by 0x4185D2: rcpp_read_out_of_bound(int) (read_out_of_bound.cpp:8)
+==6823==    by 0x4082AD: DeepState_Test_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:16)
+==6823==    by 0x408188: DeepState_Run_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:7)
+==6823==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6823==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6823==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6823==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6823== 
+==6823== LEAK SUMMARY:
+==6823==    definitely lost: 0 bytes in 0 blocks
+==6823==    indirectly lost: 0 bytes in 0 blocks
+==6823==      possibly lost: 3,594,892,868 bytes in 1 blocks
+==6823==    still reachable: 50,292,267 bytes in 9,713 blocks
+==6823==                       of which reachable via heuristic:
+==6823==                         newarray           : 4,264 bytes in 1 blocks
+==6823==         suppressed: 0 bytes in 0 blocks
+==6823== Reachable blocks (those to which a pointer was found) are not shown.
+==6823== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6823== 
+==6823== For counts of detected and suppressed errors, rerun with: -v
+==6823== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+sizeofarray values: -834646951
+terminate called after throwing an instance of 'std::bad_array_new_length'
+  what():  std::bad_array_new_length
+ERROR: Failed: read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test
+==6846== 
+==6846== HEAP SUMMARY:
+==6846==     in use at exit: 50,292,403 bytes in 9,714 blocks
+==6846==   total heap usage: 27,723 allocs, 18,009 frees, 85,998,022 bytes allocated
+==6846== 
+==6846== 136 bytes in 1 blocks are possibly lost in loss record 49 of 1,306
+==6846==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6846==    by 0x577A8FF: __cxa_allocate_exception (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==6846==    by 0x577AADD: __cxa_throw_bad_array_new_length (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==6846==    by 0x4185E0: rcpp_read_out_of_bound(int) (read_out_of_bound.cpp:8)
+==6846==    by 0x4082AD: DeepState_Test_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:16)
+==6846==    by 0x408188: DeepState_Run_read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test() (read_out_of_bound_DeepState_TestHarness.cpp:7)
+==6846==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6846==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6846==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6846==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/read_out_of_bound_DeepState_TestHarness)
+==6846== 
+==6846== LEAK SUMMARY:
+==6846==    definitely lost: 0 bytes in 0 blocks
+==6846==    indirectly lost: 0 bytes in 0 blocks
+==6846==      possibly lost: 136 bytes in 1 blocks
+==6846==    still reachable: 50,292,267 bytes in 9,713 blocks
+==6846==                       of which reachable via heuristic:
+==6846==                         newarray           : 4,264 bytes in 1 blocks
+==6846==         suppressed: 0 bytes in 0 blocks
+==6846== Reachable blocks (those to which a pointer was found) are not shown.
+==6846== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6846== 
+==6846== For counts of detected and suppressed errors, rerun with: -v
+==6846== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+INFO: Done fuzzing! Ran 4 tests (0 tests/second) with 2 failed/2 passed/0 abandoned tests
+==6717== 
+==6717== HEAP SUMMARY:
+==6717==     in use at exit: 8 bytes in 1 blocks
+==6717==   total heap usage: 4 allocs, 3 frees, 106,568 bytes allocated
+==6717== 
+==6717== LEAK SUMMARY:
+==6717==    definitely lost: 0 bytes in 0 blocks
+==6717==    indirectly lost: 0 bytes in 0 blocks
+==6717==      possibly lost: 0 bytes in 0 blocks
+==6717==    still reachable: 8 bytes in 1 blocks
+==6717==         suppressed: 0 bytes in 0 blocks
+==6717== Reachable blocks (those to which a pointer was found) are not shown.
+==6717== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6717== 
+==6717== For counts of detected and suppressed errors, rerun with: -v
+==6717== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

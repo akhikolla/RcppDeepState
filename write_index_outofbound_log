@@ -1,0 +1,170 @@
+==6930== Memcheck, a memory error detector
+==6930== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==6930== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==6930== Command: ./write_index_outofbound_DeepState_TestHarness --fuzz
+==6930== 
+INFO: Starting fuzzing
+WARNING: No seed provided; using 1591571417
+WARNING: No test specified, defaulting to first test defined (write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test)
+boundvalue values: -844752172
+==6932== 
+==6932== HEAP SUMMARY:
+==6932==     in use at exit: 50,292,667 bytes in 9,714 blocks
+==6932==   total heap usage: 27,722 allocs, 18,008 frees, 85,998,254 bytes allocated
+==6932== 
+==6932== 400 bytes in 1 blocks are definitely lost in loss record 110 of 1,306
+==6932==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6932==    by 0x41863D: rcpp_write_index_outofbound(int) (write_index_outofbound.cpp:6)
+==6932==    by 0x4082AD: DeepState_Test_write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test() (write_index_outofbound_DeepState_TestHarness.cpp:16)
+==6932==    by 0x408188: DeepState_Run_write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test() (write_index_outofbound_DeepState_TestHarness.cpp:7)
+==6932==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6932==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6932==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6932==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6932== 
+==6932== LEAK SUMMARY:
+==6932==    definitely lost: 400 bytes in 1 blocks
+==6932==    indirectly lost: 0 bytes in 0 blocks
+==6932==      possibly lost: 0 bytes in 0 blocks
+==6932==    still reachable: 50,292,267 bytes in 9,713 blocks
+==6932==                       of which reachable via heuristic:
+==6932==                         newarray           : 4,264 bytes in 1 blocks
+==6932==         suppressed: 0 bytes in 0 blocks
+==6932== Reachable blocks (those to which a pointer was found) are not shown.
+==6932== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6932== 
+==6932== For counts of detected and suppressed errors, rerun with: -v
+==6932== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+boundvalue values: -85337929
+==6946== 
+==6946== HEAP SUMMARY:
+==6946==     in use at exit: 50,292,667 bytes in 9,714 blocks
+==6946==   total heap usage: 27,722 allocs, 18,008 frees, 85,998,254 bytes allocated
+==6946== 
+==6946== 400 bytes in 1 blocks are definitely lost in loss record 110 of 1,306
+==6946==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6946==    by 0x41863D: rcpp_write_index_outofbound(int) (write_index_outofbound.cpp:6)
+==6946==    by 0x4082AD: DeepState_Test_write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test() (write_index_outofbound_DeepState_TestHarness.cpp:16)
+==6946==    by 0x408188: DeepState_Run_write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test() (write_index_outofbound_DeepState_TestHarness.cpp:7)
+==6946==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6946==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6946==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6946==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6946== 
+==6946== LEAK SUMMARY:
+==6946==    definitely lost: 400 bytes in 1 blocks
+==6946==    indirectly lost: 0 bytes in 0 blocks
+==6946==      possibly lost: 0 bytes in 0 blocks
+==6946==    still reachable: 50,292,267 bytes in 9,713 blocks
+==6946==                       of which reachable via heuristic:
+==6946==                         newarray           : 4,264 bytes in 1 blocks
+==6946==         suppressed: 0 bytes in 0 blocks
+==6946== Reachable blocks (those to which a pointer was found) are not shown.
+==6946== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6946== 
+==6946== For counts of detected and suppressed errors, rerun with: -v
+==6946== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+boundvalue values: -821154131
+==6952== 
+==6952== HEAP SUMMARY:
+==6952==     in use at exit: 50,292,667 bytes in 9,714 blocks
+==6952==   total heap usage: 27,722 allocs, 18,008 frees, 85,998,254 bytes allocated
+==6952== 
+==6952== 400 bytes in 1 blocks are definitely lost in loss record 110 of 1,306
+==6952==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6952==    by 0x41863D: rcpp_write_index_outofbound(int) (write_index_outofbound.cpp:6)
+==6952==    by 0x4082AD: DeepState_Test_write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test() (write_index_outofbound_DeepState_TestHarness.cpp:16)
+==6952==    by 0x408188: DeepState_Run_write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test() (write_index_outofbound_DeepState_TestHarness.cpp:7)
+==6952==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6952==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6952==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6952==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6952== 
+==6952== LEAK SUMMARY:
+==6952==    definitely lost: 400 bytes in 1 blocks
+==6952==    indirectly lost: 0 bytes in 0 blocks
+==6952==      possibly lost: 0 bytes in 0 blocks
+==6952==    still reachable: 50,292,267 bytes in 9,713 blocks
+==6952==                       of which reachable via heuristic:
+==6952==                         newarray           : 4,264 bytes in 1 blocks
+==6952==         suppressed: 0 bytes in 0 blocks
+==6952== Reachable blocks (those to which a pointer was found) are not shown.
+==6952== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6952== 
+==6952== For counts of detected and suppressed errors, rerun with: -v
+==6952== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+boundvalue values: -1403005804
+==6960== 
+==6960== HEAP SUMMARY:
+==6960==     in use at exit: 50,292,666 bytes in 9,714 blocks
+==6960==   total heap usage: 27,722 allocs, 18,008 frees, 85,998,253 bytes allocated
+==6960== 
+==6960== 400 bytes in 1 blocks are definitely lost in loss record 110 of 1,306
+==6960==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6960==    by 0x41863D: rcpp_write_index_outofbound(int) (write_index_outofbound.cpp:6)
+==6960==    by 0x4082AD: DeepState_Test_write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test() (write_index_outofbound_DeepState_TestHarness.cpp:16)
+==6960==    by 0x408188: DeepState_Run_write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test() (write_index_outofbound_DeepState_TestHarness.cpp:7)
+==6960==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6960==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6960==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6960==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6960== 
+==6960== LEAK SUMMARY:
+==6960==    definitely lost: 400 bytes in 1 blocks
+==6960==    indirectly lost: 0 bytes in 0 blocks
+==6960==      possibly lost: 0 bytes in 0 blocks
+==6960==    still reachable: 50,292,266 bytes in 9,713 blocks
+==6960==                       of which reachable via heuristic:
+==6960==                         newarray           : 4,264 bytes in 1 blocks
+==6960==         suppressed: 0 bytes in 0 blocks
+==6960== Reachable blocks (those to which a pointer was found) are not shown.
+==6960== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6960== 
+==6960== For counts of detected and suppressed errors, rerun with: -v
+==6960== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+boundvalue values: -615420875
+==6966== 
+==6966== HEAP SUMMARY:
+==6966==     in use at exit: 50,292,667 bytes in 9,714 blocks
+==6966==   total heap usage: 27,722 allocs, 18,008 frees, 85,998,254 bytes allocated
+==6966== 
+==6966== 400 bytes in 1 blocks are definitely lost in loss record 110 of 1,306
+==6966==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==6966==    by 0x41863D: rcpp_write_index_outofbound(int) (write_index_outofbound.cpp:6)
+==6966==    by 0x4082AD: DeepState_Test_write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test() (write_index_outofbound_DeepState_TestHarness.cpp:16)
+==6966==    by 0x408188: DeepState_Run_write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test() (write_index_outofbound_DeepState_TestHarness.cpp:7)
+==6966==    by 0x405D43: DeepState_RunTest.isra.6 (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6966==    by 0x40E27A: DeepState_FuzzOneTestCase (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6966==    by 0x40E38F: DeepState_Fuzz (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6966==    by 0x40631D: main (in /home/akhila/R/testUBSAN/inst/include/write_index_outofbound_DeepState_TestHarness)
+==6966== 
+==6966== LEAK SUMMARY:
+==6966==    definitely lost: 400 bytes in 1 blocks
+==6966==    indirectly lost: 0 bytes in 0 blocks
+==6966==      possibly lost: 0 bytes in 0 blocks
+==6966==    still reachable: 50,292,267 bytes in 9,713 blocks
+==6966==                       of which reachable via heuristic:
+==6966==                         newarray           : 4,264 bytes in 1 blocks
+==6966==         suppressed: 0 bytes in 0 blocks
+==6966== Reachable blocks (those to which a pointer was found) are not shown.
+==6966== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6966== 
+==6966== For counts of detected and suppressed errors, rerun with: -v
+==6966== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+INFO: Done fuzzing! Ran 5 tests (0 tests/second) with 0 failed/5 passed/0 abandoned tests
+==6930== 
+==6930== HEAP SUMMARY:
+==6930==     in use at exit: 8 bytes in 1 blocks
+==6930==   total heap usage: 4 allocs, 3 frees, 106,568 bytes allocated
+==6930== 
+==6930== LEAK SUMMARY:
+==6930==    definitely lost: 0 bytes in 0 blocks
+==6930==    indirectly lost: 0 bytes in 0 blocks
+==6930==      possibly lost: 0 bytes in 0 blocks
+==6930==    still reachable: 8 bytes in 1 blocks
+==6930==         suppressed: 0 bytes in 0 blocks
+==6930== Reachable blocks (those to which a pointer was found) are not shown.
+==6930== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==6930== 
+==6930== For counts of detected and suppressed errors, rerun with: -v
+==6930== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
