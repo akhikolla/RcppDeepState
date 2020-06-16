@@ -8,10 +8,12 @@ deep_harness_analyze_one <- function(packagename,function_name,binary_file){
   function_name <- "rcpp_binseg_normal"
   fun_name <-gsub("rcpp_","",function_name)
   exec.path <- system.file("RcppDeepStatefiles/binsegRcpp", package= "RcppDeepState")
-  system(paste("cd",exec.path))
   exec <- paste0("./",fun_name,"_DeepState_TestHarness")
+  
   binary_file="/home/akhila/R/RcppDeepState/inst/RcppDeepStatefiles/binsegRcpp/binseg_normal_output/dd5b1543eccdc54b284c00142df7f40c1583ac68.crash"
-  analyze_one <- paste0(exec," --input_test_file ",binary_file)
+  analyze_one <- paste0(";",exec," --input_test_file ",binary_file)
+  var <- 
+  system()
   system(analyze_one)
   system("cd ..")
   functions.list  <- get_function_body(packagename)
@@ -39,7 +41,6 @@ deep_harness_analyze_one <- function(packagename,function_name,binary_file){
       names(arguments.list) = arguments.name
     }
   }
-  setwd(current.dir)
   return(arguments.list)
   
 }
