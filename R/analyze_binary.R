@@ -5,14 +5,17 @@
 ##' @return returns a list of all the param values of the arguments of function
 ##' @export
 deep_harness_analyze_one <- function(packagename,function_name,binary_file){
+  function_name <- "rcpp_binseg_normal"
   fun_name <-gsub("rcpp_","",function_name)
-  analyze_one <- paste0("./",fun_name,"_DeepState_TestHarness"," --input_test_file ",binary_file)
-  print(analyze_one)
+  exec.path <- system.file("RcppDeepStatefiles/binsegRcpp", package= "RcppDeepState")
+  system(paste("cd",exec.path))
+  exec <- paste0("./",fun_name,"_DeepState_TestHarness")
+  binary_file="/home/akhila/R/RcppDeepState/inst/RcppDeepStatefiles/binsegRcpp/binseg_normal_output/dd5b1543eccdc54b284c00142df7f40c1583ac68.crash"
+  analyze_one <- paste0(exec," --input_test_file ",binary_file)
   system(analyze_one)
+  system("cd ..")
   functions.list  <- get_function_body(packagename)
-  current.dir<-getwd()
   counter = 1
-  setwd("~/R/RcppDeepState/inst/include/RcppDeepStatefiles")
   #function_name = "rcpp_read_out_of_bound"
   arguments.list = list()
   arguments.name = list()
