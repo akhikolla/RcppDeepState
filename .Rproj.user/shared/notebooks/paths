@@ -8,6 +8,7 @@
 /home/akhila/R/RcppDeepState/inst/include/RcppDeepState.h="98679268"
 /home/akhila/R/RcppDeepState/tests/testthat.R="FDAFD23"
 /home/akhila/R/RcppDeepState/tests/testthat/read_out_of_bound_log="3F592E98"
+/home/akhila/R/RcppDeepState/tests/testthat/test-names-list-check.R="DD1B99B1"
 /home/akhila/R/RcppDeepState/tests/testthat/test-read-out-of-bound.R="429E464E"
 /home/akhila/R/RcppDeepState/tests/testthat/test-use-after-deallocate.R="E4DCAAB8"
 /home/akhila/R/RcppDeepState/tests/testthat/test-use-after-free.R="F39B2895"

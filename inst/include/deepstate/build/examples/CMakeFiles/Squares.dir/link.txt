@@ -1,1 +1,0 @@
-/usr/bin/cc -O3  -rdynamic CMakeFiles/Squares.dir/Squares.c.o  -o Squares ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 

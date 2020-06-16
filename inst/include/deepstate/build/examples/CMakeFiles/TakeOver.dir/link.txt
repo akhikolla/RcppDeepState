@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3  -rdynamic CMakeFiles/TakeOver.dir/TakeOver.cpp.o  -o TakeOver ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 

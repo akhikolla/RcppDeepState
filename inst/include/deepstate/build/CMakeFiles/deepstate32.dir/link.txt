@@ -1,2 +1,0 @@
-/usr/bin/ar qc libdeepstate32.a  CMakeFiles/deepstate32.dir/src/lib/DeepState.c.o CMakeFiles/deepstate32.dir/src/lib/Log.c.o CMakeFiles/deepstate32.dir/src/lib/Option.c.o CMakeFiles/deepstate32.dir/src/lib/Stream.c.o
-/usr/bin/ranlib libdeepstate32.a

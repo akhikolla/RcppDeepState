@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3  -rdynamic CMakeFiles/Primes.dir/Primes.cpp.o  -o Primes ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 

@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3  -rdynamic CMakeFiles/Euler.dir/Euler.cpp.o  -o Euler ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 

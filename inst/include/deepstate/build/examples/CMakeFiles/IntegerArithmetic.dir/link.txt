@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3  -rdynamic CMakeFiles/IntegerArithmetic.dir/IntegerArithmetic.cpp.o  -o IntegerArithmetic ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 

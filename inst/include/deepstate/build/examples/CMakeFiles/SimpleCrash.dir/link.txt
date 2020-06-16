@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3  -rdynamic CMakeFiles/SimpleCrash.dir/SimpleCrash.cpp.o  -o SimpleCrash ../libdeepstate.a -static -Wl,--allow-multiple-definition,--no-export-dynamic 
