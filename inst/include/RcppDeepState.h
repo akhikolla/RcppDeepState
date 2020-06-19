@@ -15,7 +15,8 @@ Rcpp::NumericVector values = Rcpp::NumericVector::create(NA_REAL,R_NaN,R_PosInf,
 }
 
 int RcppDeepState_int(){
-  int val = DeepState_Int();
+  //int val = DeepState_IntInRange(1,10);
+int val = DeepState_Int();
     //LOG(INFO)<< "integer val is: "  << val <<"\n";
  return val;
 }

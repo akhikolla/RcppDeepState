@@ -635,7 +635,7 @@
                 "column" : 8,
                 "file" : "/home/akhila/R/RcppDeepState/inst/include/RcppDeepState.h",
                 "kind" : 6,
-                "line" : 23,
+                "line" : 24,
                 "name" : "RcppDeepState_double",
                 "parent_name" : "",
                 "usr" : "c:@F@RcppDeepState_double#"
@@ -644,7 +644,7 @@
                 "column" : 21,
                 "file" : "/home/akhila/R/RcppDeepState/inst/include/RcppDeepState.h",
                 "kind" : 6,
-                "line" : 29,
+                "line" : 30,
                 "name" : "RcppDeepState_NumericVector",
                 "parent_name" : "",
                 "usr" : "c:@F@RcppDeepState_NumericVector#"
@@ -653,14 +653,14 @@
                 "column" : 21,
                 "file" : "/home/akhila/R/RcppDeepState/inst/include/RcppDeepState.h",
                 "kind" : 6,
-                "line" : 41,
+                "line" : 42,
                 "name" : "RcppDeepState_IntegerVector",
                 "parent_name" : "",
                 "usr" : "c:@F@RcppDeepState_IntegerVector#"
             }
         ],
         "file" : "/home/akhila/R/RcppDeepState/inst/include/RcppDeepState.h",
-        "file_last_write" : 1592200171.000000
+        "file_last_write" : 1592521447.000000
     },
     {
         "definitions" : [

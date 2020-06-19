@@ -2,13 +2,67 @@ library(testthat)
 context("deepstate_compile_run")
 library(RcppDeepState)
 
-
 path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
-print(path)
-dhc<-deep_harness_compile_run(path)
-#here::here("/home/travis/build/akhikolla/RcppDeepState/inst/include/testpkgs/binsegRcpp"))
-test_that("compile and run check", {
-  expect_match(dhc,"code compiled")
+res<-deepstate_pkg_create(path)
+test_that("create files testSAN package", {
+  expect_identical(res,"Testharness created!!")
+})
+
+files.list<-harness_files(path)
+test_that("check for harness files existence testSAN package", {
+  expect_true(file.exists(files.list[[1]]))
+  expect_identical(files.list[[1]],system.file("testfiles/testSAN/read_out_of_bound_DeepState_TestHarness.cpp",package = "RcppDeepState"))
+  expect_true(file.exists(files.list[[2]]))
+  expect_identical(files.list[[2]],system.file("testfiles/testSAN/use_after_deallocate_DeepState_TestHarness.cpp",package="RcppDeepState"))
+  expect_true(file.exists(files.list[[3]]))
+  expect_identical(files.list[[3]],system.file("testfiles/testSAN/use_after_free_DeepState_TestHarness.cpp",package="RcppDeepState"))
+  expect_true(file.exists(files.list[[4]]))
+  expect_identical(files.list[[4]],system.file("testfiles/testSAN/write_index_outofbound_DeepState_TestHarness.cpp",package="RcppDeepState"))
+  expect_true(file.exists(files.list[[5]]))
+  expect_identical(files.list[[5]],system.file("testfiles/testSAN/zero_sized_array_DeepState_TestHarness.cpp",package="RcppDeepState"))
 })
 
 
+test_that("check for harness files existence testSAN package", {
+  expect_true(file.exists(files.list[[6]]))
+  expect_identical(files.list[[6]],system.file("testfiles/testSAN/read_out_of_bound.Makefile",package = "RcppDeepState"))
+  expect_true(file.exists(files.list[[7]]))
+  expect_identical(files.list[[7]],system.file("testfiles/testSAN/use_after_deallocate.Makefile",package="RcppDeepState"))
+  expect_true(file.exists(files.list[[8]]))
+  expect_identical(files.list[[8]],system.file("testfiles/testSAN/use_after_free.Makefile",package="RcppDeepState"))
+  expect_true(file.exists(files.list[[9]]))
+  expect_identical(files.list[[9]],system.file("testfiles/testSAN/write_index_outofbound.Makefile",package="RcppDeepState"))
+  expect_true(file.exists(files.list[[10]]))
+  expect_identical(files.list[[10]],system.file("testfiles/testSAN/zero_sized_array.Makefile",package="RcppDeepState"))
+})
+
+
+path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+dhc<-deep_harness_compile_run(path)
+logfiles<-list_log_files(path)
+test_that("check for log files existence testSAN package", {
+  expect_true(file.exists(logfiles[[1]]))
+  expect_identical(logfiles[[1]],system.file("testfiles/testSAN/read_out_of_bound_log",package = "RcppDeepState"))
+  expect_true(file.exists(logfiles[[2]]))
+  expect_identical(logfiles[[2]],system.file("testfiles/testSAN/use_after_deallocate_log",package = "RcppDeepState"))
+  expect_true(file.exists(logfiles[[3]]))
+  expect_identical(logfiles[[3]],system.file("testfiles/testSAN/use_after_free_log",package = "RcppDeepState"))
+  expect_true(file.exists(logfiles[[4]]))
+  expect_identical(logfiles[[4]],system.file("testfiles/testSAN/write_index_outofbound_log",package = "RcppDeepState"))
+  expect_true(file.exists(logfiles[[5]]))
+  expect_identical(logfiles[[5]],system.file("testfiles/testSAN/zero_sized_array_log",package = "RcppDeepState"))
+})
+bin_dir<- list_bin_directory(path)
+test_that("check for binary file directories existence testSAN package", {
+  expect_true(dir.exists(bin_dir[[1]]))
+  expect_identical(bin_dir[[1]],system.file("testfiles/testSAN/read_out_of_bound_output",package = "RcppDeepState"))
+  expect_true(dir.exists(bin_dir[[2]]))
+  expect_identical(bin_dir[[2]],system.file("testfiles/testSAN/use_after_deallocate_output",package = "RcppDeepState"))
+  expect_true(dir.exists(bin_dir[[3]]))
+  expect_identical(bin_dir[[3]],system.file("testfiles/testSAN/use_after_free_output",package = "RcppDeepState"))
+  expect_true(dir.exists(bin_dir[[4]]))
+  expect_identical(bin_dir[[4]],system.file("testfiles/testSAN/write_index_outofbound_output",package = "RcppDeepState"))
+  expect_true(dir.exists(bin_dir[[5]]))
+  expect_identical(bin_dir[[5]],system.file("testfiles/testSAN/zero_sized_array_output",package = "RcppDeepState"))
+  
+   })
