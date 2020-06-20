@@ -27,14 +27,3 @@ script:
   - |
     travis_wait 40 R CMD build .
     travis_wait 60 R CMD check RcppDeepState*tar.gz
-
-after_script:
-  - tar -ztvf RcppDeepState_*.tar.gz
-  - echo ${NOT_CRAN}
-
-after_success:
-  - travis_wait 40 tar -C .. -xf $PKG_TARBALL
-  - travis_wait 40 Rscript -e 'covr::codecov()'
-
-after_failure:
-  - cat RcppDeepState.Rcheck/00*
