@@ -7,11 +7,12 @@ deepstate_pkg_create<-function(package_name){
   p <- nc::capture_all_str(gsub("/home/","",package_name),val=".+/",folder=".+/",packagename=".*")
   in_package <- paste("RcppDeepState")
   dir.create(paste0("/home/",p$val,"testfiles","/",p$packagename), showWarnings = FALSE)
-  includes <- "#include <deepstate/DeepState.hpp>
+  includes <-"#include @DeepState.hpp@
 #include <RInside.h>
 #include <iostream>
-#include <RcppDeepState.h>
+#include @RcppDeepState.h@
 #include <fstream>"
+  include<-gsub("@","\"",includes)
   fun_names <- unique(functions.list$funName)
   for(function_name.i in fun_names){
     write_to_file <- ""
@@ -20,7 +21,7 @@ deepstate_pkg_create<-function(package_name){
     fun_name <-gsub("rcpp_","",function_name.i)
     filename <-paste0(fun_name,"_DeepState_TestHarness",".cpp")
     file.create(paste0("/home/",p$val,"testfiles","/",p$packagename,"/",filename), recursive=TRUE)
-    write(includes,paste0("/home/",p$val,"testfiles","/",p$packagename,"/",filename),append = TRUE)
+    write(include,paste0("/home/",p$val,"testfiles","/",p$packagename,"/",filename),append = TRUE)
     write_to_file <-paste(write_to_file,pt[1,pt$prototype])
     testname<-paste(function_name.i,"_test",sep="")
     unittest<-gsub(" ","",paste(fun_name,"_random_datatypes"))
@@ -75,7 +76,7 @@ create_makefile <-function(package,fun_name){
   dir.create(paste0("/home/",p$val,"testfiles","/",p$packagename,"/",fun_name,"_output"), showWarnings = FALSE)
   write_to_file<-paste0(write_to_file,"\n\t","valgrind --tool=memcheck --leak-check=yes ","./",test_harness," --fuzz --fuzz_save_passing --output_test_dir"," /home/",p$val,"testfiles","/",p$packagename,"/",fun_name,"_output"," > ","/home/",p$val,"testfiles","/",p$packagename,"/",fun_name,"_log ","2>&1")
   write_to_file<-paste(write_to_file,"\n",makefile.name.o,":",system.file(paste0("testfiles/",p$packagename,"/",makefile.name.cpp),package="RcppDeepState"))
-  write_to_file<-paste0(write_to_file,"\n\t","clang++ -I${R_HOME}/include -I/usr/lib/R/site-library/Rcpp/include -I/usr/lib/R/site-library/RInside/include"," -I",system.file("include",package="RcppDeepState")," ", 
+  write_to_file<-paste0(write_to_file,"\n\t","clang++ -I${R_HOME}/include -I/usr/local/lib/R/site-library/Rcpp/include -I/usr/local/lib/R/site-library/RInside/include"," -I",system.file("include",package="RcppDeepState")," ", 
                system.file(paste0("testfiles/",p$packagename,"/",makefile.name.cpp),package="RcppDeepState")," -o ",makefile.name.o," -c")
   write(write_to_file,paste0("/home/",p$val,"testfiles","/",p$packagename,"/",makefile.name),append=TRUE)
 }
