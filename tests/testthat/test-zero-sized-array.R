@@ -3,7 +3,9 @@ context("rcpp_zero_sized_array")
 library(RcppDeepState)
 library(data.table)
 
-user.display <- user_error_display("zero_sized_array_log")
+log_path <- system.file("include/zero_sized_array_log", package = "RcppDeepState")
+print(log_path)
+user.display <- user_error_display(log_path)
 test_that("valgrind writing index out of bound", {
   expect_match(user.display$arg.name,"vectorvalue")
   expect_match(user.display$src.file.lines,"zero_sized_array.cpp")

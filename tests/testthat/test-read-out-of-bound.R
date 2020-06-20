@@ -3,8 +3,9 @@ library(data.table)
 context("rcpp_read_out_of_bound")
 library(RcppDeepState)
 
-
-user.display <- user_error_display("read_out_of_bound_log")
+log_path <- system.file("include/read_out_of_bound_log", package = "RcppDeepState")
+print(log_path)
+user.display <- user_error_display(log_path)
 test_that("valgrind errors", {
   expect_match(user.display$arg.name,"sizeofarray")
   expect_match(user.display$src.file.lines,"read_out_of_bound.cpp")

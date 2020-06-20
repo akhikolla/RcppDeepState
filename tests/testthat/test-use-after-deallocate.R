@@ -3,7 +3,9 @@ context("rcpp_use_after_deallocate")
 library(RcppDeepState)
 
 
-user.display <- user_error_display("use_after_deallocate_log")
+log_path <- system.file("include/use_after_deallocate_log", package = "RcppDeepState")
+print(log_path)
+user.display <- user_error_display(log_path)
 test_that("valgrind use after deallocate errors", {
   expect_match(user.display$arg.name,"size")
   expect_match(user.display$src.file.lines,"use_after_deallocate.cpp")

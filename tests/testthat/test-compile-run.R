@@ -3,6 +3,7 @@ context("deepstate_compile_run")
 library(RcppDeepState)
 
 path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+print(path)
 res<-deepstate_pkg_create(path)
 test_that("create files testSAN package", {
   expect_identical(res,"Testharness created!!")
