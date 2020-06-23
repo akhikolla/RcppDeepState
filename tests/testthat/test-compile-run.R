@@ -170,13 +170,15 @@ test_that("check for binary file directories existence binsegRcpp package", {
 })
 
 
-bin_file <- Sys.glob(file.path(bin_dir[[1]], "*.crash"))
+bin_file <- Sys.glob(file.path(bin_dir[[1]], "*.fail"))
 path <- paste0(bin_file[1])
 print(path)
-arguments.list<-deep_harness_analyze_one(path)
-test_that("argumentlist names validation", {
-  expect_identical(names(arguments.list), c("data_vec", "max_segments"))
-})
+if(path != "NA"){
+  arguments.list<-deep_harness_analyze_one(path)
+  test_that("argumentlist names validation", {
+    expect_identical(names(arguments.list), c("data_vec", "max_segments"))
+  })
+}
 
 path <- system.file("testfiles/binsegRcpp/binseg_normal_output/dd5b1543eccdc54b284c00142df7f40c1583ac68.crash", package ="testUBSAN")
 print(path)
