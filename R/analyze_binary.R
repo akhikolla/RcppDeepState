@@ -1,29 +1,36 @@
 ##' @title  analyze the binary file 
-##' @param packagename to test
-##' @param function_name to the RcppExports file
-##' @param binary_file binary file containing the output
+##' @param path to test
+##' @import Rcpp
+##' @import methods
 ##' @return returns a list of all the param values of the arguments of function
 ##' @export
-deep_harness_analyze_one <- function(packagename,function_name,binary_file){
-  fun_name <-gsub("rcpp_","",function_name)
-  exec.path <- system.file("RcppDeepStatefiles/binsegRcpp", package= "RcppDeepState")
-  exec <- paste0("./",fun_name,"_DeepState_TestHarness")
-  binary_file=system.file("RcppDeepStatefiles/binsegRcpp/binseg_normal_output/dd5b1543eccdc54b284c00142df7f40c1583ac68.crash",package="RcppDeepState")
-  analyze_one <- paste0(";",exec," --input_test_file ",binary_file)
+deep_harness_analyze_one <- function(path){
+  list.paths <-nc::capture_first_vec(path, "/",root=".+?","/",remain_path=".*")
+  path_details <- nc::capture_all_str(list.paths$remain_path,val=".+/",folder=".+/",package_name=".+/",fun.name=".+/",binary_file=".*")
+  exec.path <- paste0("/",list.paths$root,"/",path_details$val,path_details$folder,path_details$package_name," ;")
+  fun <- gsub("_output/","",path_details$fun.name)
+  exec <- paste0("./",fun,"_DeepState_TestHarness")
+  binary_file<-paste0("/",list.paths$root,"/",path_details$val,path_details$folder,path_details$package_name,path_details$fun.name,path_details$binary_file)
+  analyze_one <- paste0(exec," --input_test_file ",binary_file)
   var <- paste("cd",exec.path,analyze_one) 
-  system(var)
-  functions.list  <- get_function_body(packagename)
+  package_path <- paste0("/",list.paths$root,"/",path_details$val,"testpkgs/",path_details$package_name)
+  #print(var)
+  #system(var)
+  functions.list  <- get_function_body(package_path)
+  #print(functions.list)
   counter = 1
   #function_name = "rcpp_read_out_of_bound"
   arguments.list = list()
   arguments.name = list()
   for(function_name.i in unique(functions.list$funName)){ 
-    if(function_name.i == function_name){
+    #print(fun)
+    if(function_name.i == paste0("rcpp_",fun)){
       functions.rows  <- functions.list [functions.list$funName == function_name.i,] 
       for(argument.i in 1:nrow(functions.rows)){
         arg.name = gsub(" ","",paste0(functions.rows[argument.i,argument.name]))
         #print(arg.name)
-        filepath=paste0(system.file("RcppDeepStatefiles/binsegRcpp",package = "RcppDeepState"),"/",arg.name)
+        filepath=paste0("/",list.paths$root,"/",path_details$val,"testfiles/",path_details$package_name,arg.name)
+        #print(paste0("/",list.paths$root,"/",path_details$val,"testfiles/",path_details$package_name,arg.name))
         cat("\n", file = filepath, append = TRUE)
         values = read.table(filepath,sep="\t")
         #names(arguments.list) = c(arg.name)
@@ -38,5 +45,4 @@ deep_harness_analyze_one <- function(packagename,function_name,binary_file){
     }
   }
   return(arguments.list)
-  
 }

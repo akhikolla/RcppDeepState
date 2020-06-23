@@ -4,14 +4,10 @@
 \alias{deep_harness_analyze_one}
 \title{analyze the binary file}
 \usage{
-deep_harness_analyze_one(packagename, function_name, binary_file)
+deep_harness_analyze_one(path)
 }
 \arguments{
-\item{packagename}{to test}
-
-\item{function_name}{to the RcppExports file}
-
-\item{binary_file}{binary file containing the output}
+\item{path}{to test}
 }
 \value{
 returns a list of all the param values of the arguments of function

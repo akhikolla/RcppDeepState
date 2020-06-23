@@ -7,7 +7,7 @@
 create_makefile(package, fun_name)
 }
 \arguments{
-\item{package}{to the RcppExports file}
+\item{package}{to the RcppExports file*}
 
 \item{fun_name}{name of function to get makefile}
 }

@@ -47,5 +47,3 @@ user_error_display<-function(logfile){
   
   return(count.dt)
 }
-
-globalVariables(c("error.i","src.file.lines","heapsum","file.line","arg.name","value",".N",":=","prototype"))

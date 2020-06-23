@@ -10,24 +10,22 @@ r_github_packages:
 r_packages:
   - RInside
   - devtools
-
-before_script:
-  - R -e "devtools::load_all()"
+  - roxygen2
 
 after_success:
-  - Rscript -e "covr::coveralls()"
-
+  - Rscript -e 'devtools::install();devtools::test()'
+  
 r_check_args: '--as-cran --use-valgrind'
 
 addons:
   apt:
     packages:
       - valgrind
-
+      
 env:
   - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
 
 script: 
   - |
-    travis_wait 40 R CMD build .
+    travis_wait 60 R CMD build .
     travis_wait 60 R CMD check RcppDeepState*tar.gz
