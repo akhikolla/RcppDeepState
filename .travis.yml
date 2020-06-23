@@ -14,7 +14,7 @@ r_packages:
 
 after_success:
   - Rscript -e 'devtools::install();devtools::test()'
-  - travis_wait 90 Rscript -e "covr::coveralls()"
+  - travis_wait 120 Rscript -e "covr::coveralls()"
   
 r_check_args: '--as-cran --use-valgrind'
 

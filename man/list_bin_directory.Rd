@@ -9,6 +9,9 @@ list_bin_directory(path)
 \arguments{
 \item{path}{to the package test file}
 }
+\value{
+bindir.list returns binary folder paths
+}
 \description{
 creates list of log files
 }

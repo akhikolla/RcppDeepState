@@ -55,7 +55,7 @@ test_that("check for log files existence testSAN package", {
   expect_identical(logfiles[[5]],system.file("testfiles/testSAN/zero_sized_array_log",package = "RcppDeepState"))
 })
 
-log_path <- system.file("include/read_out_of_bound_log", package = "RcppDeepState")
+log_path <- system.file("extdata/read_out_of_bound_log", package = "RcppDeepState")
 print(log_path)
 user.display <- user_error_display(log_path)
 test_that("valgrind errors", {
@@ -66,7 +66,7 @@ test_that("valgrind errors", {
 })
 
 
-log_path <- system.file("include/use_after_deallocate_log", package = "RcppDeepState")
+log_path <- system.file("extdata/use_after_deallocate_log", package = "RcppDeepState")
 print(log_path)
 user.display <- user_error_display(log_path)
 test_that("valgrind use after deallocate errors", {
@@ -80,7 +80,7 @@ test_that("negative size array", {
   expect_lt(as.numeric(user.display$value[3]),0)
   #expect_match(user.display$error.message[3],"function has a fishy value")
 })
-log_path <- system.file("include/write_index_outofbound_log", package = "RcppDeepState")
+log_path <- system.file("extdata/write_index_outofbound_log", package = "RcppDeepState")
 print(log_path)
 user.display <- user_error_display(log_path)
 test_that("valgrind writing index out of bound", {
@@ -89,7 +89,7 @@ test_that("valgrind writing index out of bound", {
   #expect_match(user.display$error.message[1],"Invalid read of size 4")
 })
 
-log_path <- system.file("include/zero_sized_array_log", package = "RcppDeepState")
+log_path <- system.file("extdata/zero_sized_array_log", package = "RcppDeepState")
 print(log_path)
 user.display <- user_error_display(log_path)
 test_that("valgrind writing index out of bound", {
@@ -99,7 +99,7 @@ test_that("valgrind writing index out of bound", {
 })
 
 
-log_path <- system.file("include/use_after_free_log", package = "RcppDeepState")
+log_path <- system.file("extdata/use_after_free_log", package = "RcppDeepState")
 print(log_path)
 user.display <- user_error_display(log_path)
 test_that("valgrind use after free check", {
@@ -121,7 +121,11 @@ test_that("check for binary file directories existence testSAN package", {
   expect_identical(bin_dir[[4]],system.file("testfiles/testSAN/write_index_outofbound_output",package = "RcppDeepState"))
   expect_true(dir.exists(bin_dir[[5]]))
   expect_identical(bin_dir[[5]],system.file("testfiles/testSAN/zero_sized_array_output",package = "RcppDeepState"))
-  
+  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[1]], "*.fail")))))
+  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[2]], "*.fail")))))
+  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[3]], "*.fail")))))
+  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[4]], "*.fail")))))
+  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[5]], "*.fail")))))
    })
 
 path <- system.file("testpkgs/binsegRcpp", package = "RcppDeepState")
@@ -169,6 +173,16 @@ test_that("check for binary file directories existence binsegRcpp package", {
   
 })
 
+path <- system.file("testpkgs/testSAN",package="RcppDeepState")
+print(path)
+list.args <- list_package_args(path)
+test_that("check for input files testSAN", {
+  expect_true(file.exists(list.args[[1]]))
+  expect_true(file.exists(list.args[[2]]))
+  expect_true(file.exists(list.args[[3]]))
+  expect_true(file.exists(list.args[[4]]))
+  expect_true(file.exists(list.args[[5]]))
+})
 
 bin_file <- Sys.glob(file.path(bin_dir[[1]], "*.fail"))
 path <- paste0(bin_file[1])

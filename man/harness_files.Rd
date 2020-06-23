@@ -9,6 +9,9 @@ harness_files(path)
 \arguments{
 \item{path}{to the package test file}
 }
+\value{
+makefiles.list makefile list
+}
 \description{
 creates list of files and path for given functions in package
 }
