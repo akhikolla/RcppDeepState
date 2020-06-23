@@ -159,12 +159,12 @@ test_that("check for log files existence binsegRcpp package", {
 bin_dir<- list_bin_directory(path)
 test_that("check for binary file directories existence binsegRcpp package", {
   expect_true(dir.exists(bin_dir[[1]]))
-  expect_vector(file.exists(Sys.glob(file.path(bin_dir[[1]], "*.crash"))))
-  expect_vector(file.exists(Sys.glob(file.path(bin_dir[[1]], "*.fail"))))
+  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[1]], "*.crash")))))
+  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[1]], "*.fail")))))
   expect_identical(bin_dir[[1]],system.file("testfiles/binsegRcpp/binseg_normal_output",package = "RcppDeepState"))
   expect_true(dir.exists(bin_dir[[2]]))
-  expect_vector(file.exists(Sys.glob(file.path(bin_dir[[2]], "*.crash"))))
-  expect_vector(file.exists(Sys.glob(file.path(bin_dir[[2]], "*.fail"))))
+  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[2]], "*.crash")))))
+  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[2]], "*.fail")))))
   expect_identical(bin_dir[[2]],system.file("testfiles/binsegRcpp/binseg_normal_cost_output",package = "RcppDeepState"))
   
 })
@@ -175,5 +175,13 @@ path <- paste0(bin_file[1])
 print(path)
 arguments.list<-deep_harness_analyze_one(path)
 test_that("argumentlist names validation", {
+  expect_identical(names(arguments.list), c("data_vec", "max_segments"))
+})
+
+path <- system.file("testfiles/binsegRcpp/binseg_normal_output/dd5b1543eccdc54b284c00142df7f40c1583ac68.crash", package ="testUBSAN")
+print(path)
+arguments.list<-deep_harness_analyze_one(path)
+test_that("argumentlist names validation", {
+  #expect_true(file.exists(Sys.glob(file.path(filepath, "*.crash"))))
   expect_identical(names(arguments.list), c("data_vec", "max_segments"))
 })
