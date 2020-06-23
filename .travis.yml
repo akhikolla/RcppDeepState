@@ -14,7 +14,7 @@ r_packages:
 
 after_success:
   - Rscript -e 'devtools::install();devtools::test()'
-  - travis_wait 60 Rscript -e "covr::coveralls()"
+  - travis_wait 90 Rscript -e "covr::coveralls()"
   
 r_check_args: '--as-cran --use-valgrind'
 
@@ -28,5 +28,5 @@ env:
 
 script: 
   - |
-    travis_wait 60 R CMD build .
-    travis_wait 60 R CMD check RcppDeepState*tar.gz
+    travis_wait 90 R CMD build .
+    travis_wait 90 R CMD check RcppDeepState*tar.gz
