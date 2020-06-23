@@ -180,7 +180,7 @@ if(path != "NA"){
   })
 }
 
-path <- system.file("testfiles/binsegRcpp/binseg_normal_output/dd5b1543eccdc54b284c00142df7f40c1583ac68.crash", package ="testUBSAN")
+path <- system.file("testfiles/binsegRcpp/binseg_normal_output/dd5b1543eccdc54b284c00142df7f40c1583ac68.crash", package ="RcppDeepState")
 print(path)
 arguments.list<-deep_harness_analyze_one(path)
 test_that("argumentlist names validation", {
