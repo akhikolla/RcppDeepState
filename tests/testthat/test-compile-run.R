@@ -194,20 +194,3 @@ if(path != "NA"){
   })
 }
 
-bin_file <- Sys.glob(file.path(bin_dir[[1]], "*.crash"))
-path <- paste0(bin_file[1])
-print(path)
-if(path != "NA"){
-  arguments.list<-deep_harness_analyze_one(path)
-  test_that("argumentlist names validation", {
-    expect_identical(names(arguments.list), c("data_vec", "max_segments"))
-  })
-}
-
-path <- system.file("testfiles/binsegRcpp/binseg_normal_output/dd5b1543eccdc54b284c00142df7f40c1583ac68.crash", package ="RcppDeepState")
-print(path)
-arguments.list<-deep_harness_analyze_one(path)
-test_that("argumentlist names validation", {
-  #expect_true(file.exists(Sys.glob(file.path(filepath, "*.crash"))))
-  expect_identical(names(arguments.list), c("data_vec", "max_segments"))
-})

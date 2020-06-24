@@ -2,7 +2,7 @@
 % Please edit documentation in R/save_tests.R
 \name{deep_harness_save_crash_tests}
 \alias{deep_harness_save_crash_tests}
-\title{compile the code and save crashu=ing tests}
+\title{compile the code and save crashing tests}
 \usage{
 deep_harness_save_crash_tests(package_name)
 }
@@ -10,5 +10,5 @@ deep_harness_save_crash_tests(package_name)
 \item{package_name}{for the RcppExports file}
 }
 \description{
-compile the code and save crashu=ing tests
+compile the code and save crashing tests
 }

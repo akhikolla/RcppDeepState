@@ -14,7 +14,7 @@ deep_harness_save_passing_tests<-function(package_name){
     system(filename)
   }
 }
-##' @title  compile the code and save crashu=ing tests 
+##' @title  compile the code and save crashing tests 
 ##' @param package_name for the RcppExports file
 ##' @export
 deep_harness_save_crash_tests<-function(package_name){
@@ -29,4 +29,12 @@ deep_harness_save_crash_tests<-function(package_name){
     filename <-paste0("./",fun_name,"_DeepState_TestHarness"," --fuzz --output_test_dir ",output.dir)
     system(filename)
   }
+}
+
+
+
+##' @title  print code 
+##' @export
+check_print<- function(){
+  print("HI function working")
 }

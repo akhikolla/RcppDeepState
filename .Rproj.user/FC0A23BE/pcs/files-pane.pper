@@ -1,8 +1,8 @@
 {
-    "path" : "~/R/RcppDeepState/tests/testthat",
+    "path" : "~/R/RcppDeepState/R",
     "sortOrder" : [
         {
-            "ascending" : true,
+            "ascending" : false,
             "columnIndex" : 2
         }
     ]
