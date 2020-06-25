@@ -8,10 +8,10 @@ deepstate_pkg_create<-function(package_name){
   prototypes_calls <-get_prototype_calls(package_name)
   in_package <- paste("RcppDeepState")
   dir.create(paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename), showWarnings = FALSE)
-  includes <-"#include @DeepState.hpp@
+  includes <-"#include <deepstate/DeepState.hpp>
 #include <RInside.h>
 #include <iostream>
-#include @RcppDeepState.h@
+#include <RcppDeepState.h>
 #include <fstream>"
   include<-gsub("@","\"",includes)
   fun_names <- unique(functions.list$funName)
@@ -42,7 +42,7 @@ deepstate_pkg_create<-function(package_name){
       st_val <- paste0("= ","RcppDeepState_",(name),"()",";\n")
       file_open <- gsub("# ","\"",paste0( functions.rows [argument.i,argument.name],"_stream.open(#", functions.rows [argument.i,argument.name],"# );","\n",
                                           functions.rows [argument.i,argument.name],"_stream<<", functions.rows [argument.i,argument.name],";","\n",
-                                          "std::cout <<","#",functions.rows [argument.i,argument.name]," values:","#"," <<",functions.rows [argument.i,argument.name]," << std::endl;","\n",
+                                          "std::cout <<","#",functions.rows [argument.i,argument.name]," values: ","#"," <<",functions.rows [argument.i,argument.name]," << std::endl;","\n",
                                           functions.rows [argument.i,argument.name],"_stream.close();","\n"))
       write_to_file <-paste(write_to_file,variable,st_val,file_open)
     }
