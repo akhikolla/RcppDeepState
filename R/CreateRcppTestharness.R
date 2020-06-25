@@ -22,6 +22,8 @@ deepstate_pkg_create<-function(package_name){
     fun_name <-gsub("rcpp_","",function_name.i)
     filename <-paste0(fun_name,"_DeepState_TestHarness",".cpp")
     file.create(paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",filename), recursive=TRUE)
+    print("file created")
+    print(paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",filename))
     write(include,paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",filename),append = TRUE)
     write_to_file <-paste(write_to_file,pt[1,pt$prototype])
     testname<-paste(function_name.i,"_test",sep="")
@@ -53,6 +55,8 @@ deepstate_pkg_create<-function(package_name){
   }
   return ("Testharness created!!") 
 }   
+#deepstate_pkg_create("~/R/binsegRcpp")
+
 ##' @title  creates makefiles for above created testharness in package
 ##' @param package to the RcppExports file*
 ##' @param fun_name name of function to get makefile
@@ -68,7 +72,7 @@ create_makefile <-function(package,fun_name){
   file.create(paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name), recursive=TRUE)
   path <-paste("R_HOME=",R.home())
   write_to_file<-paste0(write_to_file,path,"\n")
-  flags <- paste0("COMMON_FLAGS = ",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.o)," -I",system.file("include/deepstate",package="RcppDeepState")," -L/usr/local/lib/R/site-library/RInside/lib -Wl,-rpath=/usr/local/lib/R/site-library/RInside/lib -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",system.file("extdata",package="RcppDeepState")," -Wl,-rpath=",system.file("extdata",package="RcppDeepState")," -lR -lRInside -ldeepstate")
+  flags <- paste0("COMMON_FLAGS = ",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.o)," -I",system.file("include/deepstate",package="testproject")," -L/usr/local/lib/R/site-library/RInside/lib -Wl,-rpath=/usr/local/lib/R/site-library/RInside/lib -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",system.file("extdata",package="testproject")," -Wl,-rpath=",system.file("extdata",package="testproject")," -lR -lRInside -ldeepstate")
   write_to_file<-paste(write_to_file,flags,"\n")
   write_to_file<-paste0(write_to_file,"\n",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",test_harness)," : ",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.o))
   compile.line <- paste("\n\t","clang++ -o",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",test_harness),"${COMMON_FLAGS}")
@@ -78,13 +82,16 @@ create_makefile <-function(package,fun_name){
   write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename)," && ","valgrind --tool=memcheck --leak-check=yes ","./",test_harness," --fuzz --fuzz_save_passing --output_test_dir ","/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",gsub("rcpp_","",fun_name),"_output"," > ","/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",gsub("rcpp_","",fun_name),"_log ","2>&1")
   #write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/home/",p$val,"testfiles","/",p$packagename)," && ","./",test_harness," --fuzz")
   write_to_file<-paste(write_to_file,"\n",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.o),":",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.cpp))
-  write_to_file<-paste0(write_to_file,"\n\t","clang++ -I${R_HOME}/include -I/usr/local/lib/R/site-library/Rcpp/include -I/usr/local/lib/R/site-library/RInside/include"," -I",system.file("include",package="RcppDeepState")," ", 
+  write_to_file<-paste0(write_to_file,"\n\t","clang++ -I${R_HOME}/include -I/usr/local/lib/R/site-library/Rcpp/include -I/usr/local/lib/R/site-library/RInside/include"," -I",system.file("include",package="testproject")," ", 
                         paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.cpp)," -o ",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.o)," -c")
   write(write_to_file,paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name),append=TRUE)
 }
 
 
 
+#deep_harness_analyze_one("rcpp_binseg_normal","6d332a405389934d1a0bb64728ae4c3a96ec12c6.pass")
+#deep_harness_compile_run("~/R/binsegRcpp")
+#deep_harness_save_passing_tests("~/R/binsegRcpp")
 globalVariables(c("argument.name","funName","argument.type","calls"
                   ,"code","funName",".","error.i","src.file.lines",
                   "heapsum","file.line","arg.name","value",":=",".N","f","fun_name"
