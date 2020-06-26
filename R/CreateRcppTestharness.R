@@ -75,8 +75,8 @@ create_makefile <-function(package,fun_name){
   obj.file.path<-gsub(" ","",paste0(package,"/src/*.o"))
   write_to_file<-paste(write_to_file,compile.line,obj.file.path)
   dir.create(paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",fun_name,"_output"), showWarnings = FALSE)
-  write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename)," && ","valgrind --tool=memcheck --leak-check=yes ","./",test_harness," --fuzz --fuzz_save_passing --output_test_dir ","/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",gsub("rcpp_","",fun_name),"_output"," > ","/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",gsub("rcpp_","",fun_name),"_log ","2>&1")
-  #write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/home/",p$val,"testfiles","/",p$packagename)," && ","./",test_harness," --fuzz")
+  #write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename)," && ","valgrind --tool=memcheck --leak-check=yes ","./",test_harness," --fuzz --fuzz_save_passing --output_test_dir ","/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",gsub("rcpp_","",fun_name),"_output"," > ","/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",gsub("rcpp_","",fun_name),"_log ","2>&1")
+  write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename)," && ","./",test_harness," --fuzz")
   write_to_file<-paste(write_to_file,"\n",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.o),":",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.cpp))
   write_to_file<-paste0(write_to_file,"\n\t","clang++ -I${R_HOME}/include -I/usr/local/lib/R/site-library/Rcpp/include -I/usr/local/lib/R/site-library/RInside/include"," -I",system.file("include",package="RcppDeepState")," ", 
                         paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.cpp)," -o ",paste0("/",list.paths$root,"/",p$val,"testfiles","/",p$packagename,"/",makefile.name.o)," -c")
