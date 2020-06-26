@@ -858,13 +858,13 @@
         "definitions" : [
         ],
         "file" : "/home/akhila/R/RcppDeepState/src/DeepState.c",
-        "file_last_write" : 1583770084.000000
+        "file_last_write" : 1593197685.000000
     },
     {
         "definitions" : [
         ],
         "file" : "/home/akhila/R/RcppDeepState/src/Log.c",
-        "file_last_write" : 1583770084.000000
+        "file_last_write" : 1593197671.000000
     },
     {
         "definitions" : [
@@ -1014,12 +1014,36 @@
             }
         ],
         "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
-        "file_last_write" : 1583770084.000000
+        "file_last_write" : 1593197660.000000
     },
     {
         "definitions" : [
         ],
         "file" : "/home/akhila/R/RcppDeepState/src/Stream.c",
+        "file_last_write" : 1593197653.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/akhila/R/RcppDeepState/src/deepstate/DeepState.h",
+        "file_last_write" : 1583770084.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/akhila/R/RcppDeepState/src/deepstate/Log.h",
+        "file_last_write" : 1583770084.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/akhila/R/RcppDeepState/src/deepstate/Option.h",
+        "file_last_write" : 1583770084.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/akhila/R/RcppDeepState/src/deepstate/Stream.h",
         "file_last_write" : 1583770084.000000
     }
 ]
