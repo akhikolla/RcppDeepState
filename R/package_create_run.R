@@ -66,7 +66,7 @@ package_deepstate_pkg_create<-function(package_name){
 ##' @export
 package_create_makefile <-function(package,fun_name){
   #list.paths <-nc::capture_first_vec(package, "/",root=".+?","/",remain_path=".*")
-  inst_path <- file.path(package_name, "inst")
+  inst_path <- file.path(package, "inst")
   #p <- nc::capture_all_str(list.paths$remain_path,val=".+/",folder=".+/",packagename=".*")
   test_path <- file.path(inst_path,"testfiles")
   write_to_file <- ""
