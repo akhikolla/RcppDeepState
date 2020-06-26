@@ -853,5 +853,173 @@
         ],
         "file" : "/home/akhila/R/RcppDeepState/inst/include/deepstate/Stream.hpp",
         "file_last_write" : 1583770084.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/akhila/R/RcppDeepState/src/DeepState.c",
+        "file_last_write" : 1583770084.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/akhila/R/RcppDeepState/src/Log.c",
+        "file_last_write" : 1583770084.000000
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 21,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 44,
+                "name" : "ProcessGroupString(DeepState_OptGroup)",
+                "parent_name" : "",
+                "usr" : "c:Option.c@F@ProcessGroupString#$@EA@DeepState_OptGroup#"
+            },
+            {
+                "column" : 12,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 55,
+                "name" : "CopyStringIntoOptions(int, const char *, int)",
+                "parent_name" : "",
+                "usr" : "c:Option.c@F@CopyStringIntoOptions#I#*1C#I#"
+            },
+            {
+                "column" : 13,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 68,
+                "name" : "TerminateOptionString(int)",
+                "parent_name" : "",
+                "usr" : "c:Option.c@F@TerminateOptionString#I#"
+            },
+            {
+                "column" : 12,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 77,
+                "name" : "IsValidOptionChar(char)",
+                "parent_name" : "",
+                "usr" : "c:Option.c@F@IsValidOptionChar#C#"
+            },
+            {
+                "column" : 12,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 84,
+                "name" : "IsValidValueChar(char)",
+                "parent_name" : "",
+                "usr" : "c:Option.c@F@IsValidValueChar#C#"
+            },
+            {
+                "column" : 13,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 90,
+                "name" : "ProcessOptionString",
+                "parent_name" : "",
+                "usr" : "c:Option.c@F@ProcessOptionString#"
+            },
+            {
+                "column" : 20,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 185,
+                "name" : "FindValueForName(const char *)",
+                "parent_name" : "",
+                "usr" : "c:Option.c@F@FindValueForName#*1C#"
+            },
+            {
+                "column" : 13,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 195,
+                "name" : "ProcessPendingOptions",
+                "parent_name" : "",
+                "usr" : "c:Option.c@F@ProcessPendingOptions#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 205,
+                "name" : "DeepState_InitOptions(int, ...)",
+                "parent_name" : "",
+                "usr" : "c:@F@DeepState_InitOptions"
+            },
+            {
+                "column" : 20,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 235,
+                "name" : "BufferDocString(char *, const char *)",
+                "parent_name" : "",
+                "usr" : "c:Option.c@F@BufferDocString#*C#*1C#"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 260,
+                "name" : "DeepState_PrintAllOptions(const char *)",
+                "parent_name" : "",
+                "usr" : "c:@F@DeepState_PrintAllOptions"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 302,
+                "name" : "DeepState_AddOption(struct DeepState_Option *)",
+                "parent_name" : "",
+                "usr" : "c:@F@DeepState_AddOption"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 313,
+                "name" : "DeepState_ParseStringOption(struct DeepState_Option *)",
+                "parent_name" : "",
+                "usr" : "c:@F@DeepState_ParseStringOption"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 322,
+                "name" : "DeepState_ParseBoolOption(struct DeepState_Option *)",
+                "parent_name" : "",
+                "usr" : "c:@F@DeepState_ParseBoolOption"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 354,
+                "name" : "DeepState_ParseIntOption(struct DeepState_Option *)",
+                "parent_name" : "",
+                "usr" : "c:@F@DeepState_ParseIntOption"
+            },
+            {
+                "column" : 6,
+                "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+                "kind" : 6,
+                "line" : 366,
+                "name" : "DeepState_ParseUIntOption(struct DeepState_Option *)",
+                "parent_name" : "",
+                "usr" : "c:@F@DeepState_ParseUIntOption"
+            }
+        ],
+        "file" : "/home/akhila/R/RcppDeepState/src/Option.c",
+        "file_last_write" : 1583770084.000000
+    },
+    {
+        "definitions" : [
+        ],
+        "file" : "/home/akhila/R/RcppDeepState/src/Stream.c",
+        "file_last_write" : 1583770084.000000
     }
 ]

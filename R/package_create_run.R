@@ -11,6 +11,7 @@ package_deepstate_pkg_create<-function(package_name){
   test_path <- file.path(inst_path,"testfiles")
   dir.create(test_path,showWarnings = FALSE)
   functions.list <- get_function_body(package_name)
+  functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
   prototypes_calls <-get_prototype_calls(package_name)
   in_package <- paste("RcppDeepState")
   #dir.create(file.path(inst_path,"testfiles"))
@@ -46,6 +47,7 @@ package_deepstate_pkg_create<-function(package_name){
                                             functions.rows [argument.i,argument.name]))
       variable <- gsub("const","",variable)
       name <- (gsub("const Rcpp::","", functions.rows[argument.i,argument.type]))
+      name <-gsub("Rcpp::","",name)
       st_val <- paste0("= ","RcppDeepState_",(name),"()",";\n")
       file_open <- gsub("# ","\"",paste0( functions.rows [argument.i,argument.name],"_stream.open(#", functions.rows [argument.i,argument.name],"# );","\n",
                                           functions.rows [argument.i,argument.name],"_stream<<", functions.rows [argument.i,argument.name],";","\n",
@@ -81,7 +83,7 @@ package_create_makefile <-function(package,fun_name){
   file.create(makefile_path, recursive=TRUE)
   path <-paste("R_HOME=",R.home())
   write_to_file<-paste0(write_to_file,path,"\n")
-  flags <- paste0("COMMON_FLAGS = ",makefile.o_path," -I",system.file("include/deepstate",package="RcppDeepState")," -L/usr/local/lib/R/site-library/RInside/lib -Wl,-rpath=/usr/local/lib/R/site-library/RInside/lib -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",system.file("extdata",package="RcppDeepState")," -Wl,-rpath=",system.file("extdata",package="RcppDeepState")," -lR -lRInside -ldeepstate")
+  flags <- paste0("COMMON_FLAGS = ",makefile.o_path," -I",system.file("include/deepstate",package="RcppDeepState")," -L/usr/local/lib/R/site-library/RInside/lib -Wl,-rpath=/usr/local/lib/R/site-library/RInside/lib -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",system.file("lib",package="RcppDeepState")," -Wl,-rpath=",system.file("lib",package="RcppDeepState")," -lR -lRInside -ldeepstate")
   write_to_file<-paste(write_to_file,flags,"\n")
   write_to_file<-paste0(write_to_file,"\n",test_harness_path," : ",makefile.o_path)
 compile.line <- paste("\n\t","clang++ -o ",test_harness_path,"${COMMON_FLAGS}")
@@ -105,6 +107,7 @@ package_deep_harness_compile_run <- function(package_name){
   inst_path <- file.path(package_name, "inst")
   test_path <- file.path(inst_path,"testfiles")
   functions.list  <- get_function_body(package_name)
+  functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
   fun_names <- unique(functions.list$funName)
   val = 0
   for(f in fun_names){
@@ -130,4 +133,5 @@ package_deep_harness_compile_run <- function(package_name){
 globalVariables(c("argument.name","funName","argument.type","calls"
                   ,"code","funName",".","error.i","src.file.lines",
                   "heapsum","file.line","arg.name","value",":=",".N","f","fun_name"
-                  ,"read.table"))
+                  ,"read.table","package_create_makefile", "package_deep_harness_compile_run",
+                  "package_deepstate_pkg_create"))

@@ -5,6 +5,7 @@ deep_harness_compile_run <- function(package_name){
   list.paths <-nc::capture_first_vec(package_name, "/",root=".+?","/",remain_path=".*")
   p <- nc::capture_all_str(list.paths$remain_path,val=".+/",folder=".+/",packagename=".*")
   functions.list  <- get_function_body(package_name)
+  
   fun_names <- unique(functions.list$funName)
   val = 0
   for(f in fun_names){

@@ -12,10 +12,12 @@
         "-std=gnu++11",
         "-I/home/akhila/lib/R/include",
         "-DNDEBUG",
+        "-I/home/akhila/R/RcppDeepState/src",
+        "-I/home/akhila/R/RcppDeepState/inst/include/",
         "-I/usr/local/include",
         "-fpic"
     ],
-    "hash" : "1592202511",
+    "hash" : "15922025111593146593",
     "is_cpp" : false,
     "pch" : ""
 }

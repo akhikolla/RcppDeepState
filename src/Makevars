@@ -1,0 +1,23 @@
+USERLIBST=libdeepstate.a
+USERDIR=../inst/lib
+
+PKG_CPPFLAGS = -I. -I../inst/include/
+PKG_LIBS = 
+
+all:	headers $(SHLIB) userLibrary
+
+RInside.cpp: headers
+
+userLibrary: $(USERLIBST)
+	-@if test ! -e $(USERDIR)$(R_ARCH); then mkdir -p $(USERDIR)$(R_ARCH); fi
+	cp $(USERLIBST) $(USERDIR)$(R_ARCH)
+	rm $(USERLIBST)
+
+$(USERLIBST): $(OBJECTS)
+	$(AR) qc $(USERLIBST) $^
+	@if test -n "$(RANLIB)"; then $(RANLIB) $(USERLIBST); fi
+
+.PHONY: all clean userLibrary headers
+
+clean:
+	rm -f $(OBJECTS) $(SHLIB) $(USERLIBST)
