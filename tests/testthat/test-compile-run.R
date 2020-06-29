@@ -61,8 +61,8 @@ user.display <- user_error_display(log_path)
 test_that("valgrind errors", {
   expect_match(user.display$arg.name,"sizeofarray")
   expect_match(user.display$src.file.lines,"read_out_of_bound.cpp")
-  #expect_match(user.display$error.message[1],"Invalid read of size 4")
-  #expect_match(user.display$error.message[2],"std::bad_array_new_length")
+  expect_match(user.display$error.message[1],"Invalid read of size 4")
+  expect_match(user.display$error.message[2],"std::bad_array_new_length")
 })
 
 
@@ -194,3 +194,12 @@ if(path != "NA"){
   })
 }
 
+bin_file <- Sys.glob(file.path(bin_dir[[1]], "*.crash"))
+path <- paste0(bin_file[1])
+print(path)
+if(path != "NA"){
+  arguments.list<-deep_harness_analyze_one(path)
+  test_that("argumentlist names validation", {
+    expect_identical(names(arguments.list), c("data_vec", "max_segments"))
+  })
+}
