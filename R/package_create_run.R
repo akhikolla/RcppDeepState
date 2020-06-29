@@ -4,7 +4,7 @@
 package_deepstate_pkg_create<-function(package_name){  
   #list.paths <-nc::capture_first_vec(package_name, "/",root=".+?","/",remain_path=".*")
   #p <- nc::capture_all_str(list.paths$remain_path,val=".+/",folder=".+/",packagename=".*")
-  inst_path <- file.path(package_name, "inst")
+  inst_path <- file.path(paste0(package_name, "inst"))
   if(!dir.exists(inst_path)){
     dir.create(inst_path)
   }
@@ -68,7 +68,7 @@ package_deepstate_pkg_create<-function(package_name){
 ##' @export
 package_create_makefile <-function(package,fun_name){
   #list.paths <-nc::capture_first_vec(package, "/",root=".+?","/",remain_path=".*")
-  inst_path <- file.path(package, "inst")
+  inst_path <- file.path(paste0(package, "inst"))
   #p <- nc::capture_all_str(list.paths$remain_path,val=".+/",folder=".+/",packagename=".*")
   test_path <- file.path(inst_path,"testfiles")
   write_to_file <- ""
@@ -104,7 +104,7 @@ write(write_to_file,makefile_path,append=TRUE)
 ##' @param package_name to the RcppExports file
 ##' @export
 package_deep_harness_compile_run <- function(package_name){
-  inst_path <- file.path(package_name, "inst")
+  inst_path <- file.path(paste0(package_name, "inst"))
   test_path <- file.path(inst_path,"testfiles")
   functions.list  <- get_function_body(package_name)
   functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
