@@ -48,6 +48,7 @@
 ~%2FR%2FRcppDeepState%2Ftests%2Ftestthat%2Ftest-write-index-outofbound.R="C1910BD5"
 ~%2FR%2FRcppDeepState%2Ftests%2Ftestthat%2Ftest-zero-sized-array.R="9FBF5DA4"
 ~%2FR%2FRcppDeepState%2Ftests%2Ftestthat.R="F4DFC8B8"
+~%2FR%2FRcppDeepState.Rcheck%2FRcppDeepState%2Ftestpkgs%2FbinsegRcppinst%2Ftestfiles%2Fbinseg_normal_DeepState_TestHarness.cpp="BDB1CCF4"
 ~%2FR%2FtestUBSAN%2Ftests%2Ftestthat%2Ftest-compile-run.R="E56989E7"
 ~%2FR%2Ftestproject%2F.travis.yml="CBD61442"
 ~%2FR%2Ftestproject%2FR%2FCreateRcppTestharness.R="3554C0C0"
