@@ -24,7 +24,7 @@ harness_files <- function(path){
 ##' @export
 list_log_files <- function(path){
   functions.list <- get_function_body(path)
-  inst_path <- file.path(paste0(path, "inst"))
+  inst_path <- file.path(path, "inst")
   test_path <- file.path(inst_path,"testfiles")
   fun_names <- unique(functions.list$funName)
   logfiles.list = list()
