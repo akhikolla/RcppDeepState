@@ -1,4 +1,4 @@
-PKG_CPPFLAGS =-I. -I../inst/include/  -I/usr/lib/R/site-library/Rcpp/include
+PKG_CPPFLAGS =-I. -I../inst/include/  -I/usr/local/lib/R/site-library/Rcpp/include
 PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
 
 all:	$(SHLIB)
