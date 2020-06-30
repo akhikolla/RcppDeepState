@@ -13,7 +13,7 @@ deepstate_pkg_create<-function(package_name){
   prototypes_calls <-get_prototype_calls(package_name)
   in_package <- paste("RcppDeepState")
   #dir.create(file.path(inst_path,"testfiles"))
-  includes <-"#include <deepstate/DeepState.hpp>
+  includes <-"#include <DeepState.hpp>
 #include <RInside.h>
 #include <iostream>
 #include <RcppDeepState.h>
