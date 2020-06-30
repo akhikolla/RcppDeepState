@@ -25,7 +25,4 @@ addons:
 env:
   - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
 
-script: 
-  - |
-    travis_wait 60 R CMD build .
-    travis_wait 60 R CMD check RcppDeepState*tar.gz
+

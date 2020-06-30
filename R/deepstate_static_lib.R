@@ -1,8 +1,8 @@
 ##' @title  creates static library
 ##' @export
 deepstate_create_static_lib <- function(){
-  insts_path <- system.file(package="RcppDeepState")
-  print(insts_path)
+  #insts_path <- system.file(package="RcppDeepState")
+  #print(insts_path)
   inst_folder <- "/home/travis/build/akhikolla/RcppDeepState/inst"
   print(inst_folder)
   deepstate_path <- file.path(inst_folder,"include")
