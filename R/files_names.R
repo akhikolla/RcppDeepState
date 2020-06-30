@@ -67,7 +67,7 @@ list_package_args <- function(path){
   list.args.i=list()
   i<-1
   for(args.i in list.args){
-    list.args.i[[i]]<-file.path(test_path,"/",args.i)
+    list.args.i[[i]]<-file.path(test_path,args.i)
     print(list.args.i[[i]])
     i = i + 1
   }

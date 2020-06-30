@@ -2,10 +2,12 @@ library(testthat)
 context("deepstate_compile_run")
 library(RcppDeepState)
 
-
+inst_path <- system.file(package="RcppDeepState")
+print(inst_path)
+deepstate_create_static_lib()
 path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
 print(path)
-res<-package_deepstate_pkg_create(path)
+res<-deepstate_pkg_create(path)
 test_that("create files testSAN package", {
   expect_identical(res,"Testharness created!!")
 })
@@ -40,7 +42,7 @@ test_that("check for harness files existence testSAN package", {
 
 
 path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
-dhc<-package_deep_harness_compile_run(path)
+dhc<-deep_harness_compile_run(path)
 logfiles<-list_log_files(path)
 test_that("check for log files existence testSAN package", {
   expect_true(file.exists(logfiles[[1]]))
@@ -60,7 +62,7 @@ print(log_path)
 user.display <- user_error_display(log_path)
 test_that("valgrind errors", {
   expect_match(user.display$arg.name,"sizeofarray")
-  expect_match(user.display$src.file.lines,"read_out_of_bound.cpp")
+  expect_match(user.display$src.file.lines,"read_out_of_bound.cpp:9")
   expect_match(user.display$error.message[1],"Invalid read of size 4")
   expect_match(user.display$error.message[2],"std::bad_array_new_length")
 })
@@ -71,14 +73,14 @@ print(log_path)
 user.display <- user_error_display(log_path)
 test_that("valgrind use after deallocate errors", {
   expect_match(user.display$arg.name,"size")
-  expect_match(user.display$src.file.lines,"use_after_deallocate.cpp")
+  expect_match(user.display$src.file.lines,"use_after_deallocate.cpp:7\nuse_after_deallocate.cpp:6\nuse_after_deallocate.cpp:5")
   expect_match(user.display$error.message[1],"Invalid read of size 1")
   
 })
 
 test_that("negative size array", {
   expect_lt(as.numeric(user.display$value[3]),0)
-  #expect_match(user.display$error.message[3],"function has a fishy value")
+  #expect_match(user.display$error.message[3],"Argument 'size' of function __builtin_vec_new has a function has a fishy value")
 })
 log_path <- system.file("extdata/write_index_outofbound_log", package = "RcppDeepState")
 print(log_path)
@@ -94,7 +96,7 @@ print(log_path)
 user.display <- user_error_display(log_path)
 test_that("valgrind writing index out of bound", {
   expect_match(user.display$arg.name,"vectorvalue")
-  expect_match(user.display$src.file.lines,"zero_sized_array.cpp")
+  expect_match(user.display$src.file.lines,"zero_sized_array.cpp:11\nzero_sized_array.cpp:10\nzero_sized_array.cpp:12")
   expect_match(user.display$error.message[1],"Invalid write of size 4")
 })
 
@@ -129,7 +131,7 @@ test_that("check for binary file directories existence testSAN package", {
 })
 
 path <- system.file("testpkgs/binsegRcpp", package = "RcppDeepState")
-res<-package_deepstate_pkg_create(path)
+res<-deepstate_pkg_create(path)
 test_that("create files binsegRcpp package", {
   expect_identical(res,"Testharness created!!")
 })
@@ -150,9 +152,8 @@ test_that("check for make files existence binsegRcpp package", {
   expect_identical(files.list[[4]],system.file("testpkgs/binsegRcpp/inst/testfiles/binseg_normal_cost.Makefile",package="RcppDeepState"))
 })
 
-
 path <- system.file("testpkgs/binsegRcpp", package = "RcppDeepState")
-dhc<-package_deep_harness_compile_run(path)
+dhc <- deep_harness_compile_run(path)
 logfiles<-list_log_files(path)
 test_that("check for log files existence binsegRcpp package", {
   expect_true(file.exists(logfiles[[1]]))
