@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#include "deepstate/DeepState.h"
-#include "deepstate/Option.h"
-#include "deepstate/Log.h"
+#include "DeepState.h"
+#include "Option.h"
+#include "Log.h"
 
 #include <assert.h>
 #include <limits.h>

@@ -16,8 +16,8 @@
 #ifndef SRC_INCLUDE_DEEPSTATE_STREAM_HPP_
 #define SRC_INCLUDE_DEEPSTATE_STREAM_HPP_
 
-#include <deepstate/DeepState.h>
-#include <deepstate/Stream.h>
+#include "DeepState.h"
+#include "Stream.h"
 
 #include <cstddef>
 #include <string>

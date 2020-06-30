@@ -22,8 +22,8 @@
 #include <string.h>
 #include <inttypes.h>
 
-#include "deepstate/DeepState.h"
-#include "deepstate/Log.h"
+#include "DeepState.h"
+#include "Log.h"
 
 DEEPSTATE_BEGIN_EXTERN_C
 

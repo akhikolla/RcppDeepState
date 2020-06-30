@@ -17,7 +17,7 @@
 #ifndef SRC_INCLUDE_DEEPSTATE_KLEE_H_
 #define SRC_INCLUDE_DEEPSTATE_KLEE_H_
 
-#include <deepstate/DeepState.h>
+#include "DeepState.h"
 
 DEEPSTATE_BEGIN_EXTERN_C
 

@@ -19,7 +19,7 @@
 
 #include <stdarg.h>
 
-#include <deepstate/Compiler.h>
+#include "Compiler.h"
 
 DEEPSTATE_BEGIN_EXTERN_C
 

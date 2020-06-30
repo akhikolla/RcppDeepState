@@ -17,7 +17,7 @@
 #ifndef SRC_INCLUDE_DEEPSTATE_OPTION_H_
 #define SRC_INCLUDE_DEEPSTATE_OPTION_H_
 
-#include "deepstate/Compiler.h"
+#include "Compiler.h"
 
 #include <stdint.h>
 

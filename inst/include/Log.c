@@ -28,8 +28,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "deepstate/DeepState.h"
-#include "deepstate/Log.h"
+#include "DeepState.h"
+#include "Log.h"
 
 #undef printf
 #undef vprintf

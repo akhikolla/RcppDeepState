@@ -36,10 +36,10 @@
 #include <unistd.h>
 #include <fnmatch.h>
 
-#include <deepstate/Log.h>
-#include <deepstate/Compiler.h>
-#include <deepstate/Option.h>
-#include <deepstate/Stream.h>
+#include "Log.h"
+#include "Compiler.h"
+#include "Option.h"
+#include "Stream.h"
 
 #ifdef assert
 # undef assert

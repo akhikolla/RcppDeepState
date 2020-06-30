@@ -20,8 +20,8 @@
 #include <stdarg.h>
 #include <stdint.h>
 
-#include <deepstate/Compiler.h>
-#include <deepstate/Log.h>
+#include "Compiler.h"
+#include "Log.h"
 
 DEEPSTATE_BEGIN_EXTERN_C
 

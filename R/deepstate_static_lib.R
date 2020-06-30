@@ -5,7 +5,7 @@ deepstate_create_static_lib <- function(){
   inst_path <- "/home/travis/build/akhikolla/RcppDeepState/inst"
   print(inst_path)
   deepstate_path <- file.path(inst_path,"include")
-  compile_line <- "gcc -fpic  -g -O2 "
+  compile_line <- "gcc -fpic -g -O2 "
   DeepState.c.o <- paste0(compile_line,file.path(deepstate_path,"DeepState.c")," -o ",file.path(deepstate_path,"DeepState.o")," -c ")
   Log.c.o <- paste0(compile_line,file.path(deepstate_path,"Log.c")," -o ",file.path(deepstate_path,"Log.o")," -c ")
   Option.c.o <- paste0(compile_line,file.path(deepstate_path,"Option.c")," -o ",file.path(deepstate_path,"Option.o")," -c ")
