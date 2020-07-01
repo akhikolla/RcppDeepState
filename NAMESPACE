@@ -3,6 +3,7 @@
 export(check_print)
 export(create_makefile)
 export(create_specific_makefile)
+export(create_testpkgs_objects)
 export(deep_harness_analyze_one)
 export(deep_harness_compile_run)
 export(deep_harness_log_binary)
