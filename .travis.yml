@@ -28,5 +28,5 @@ env:
 
 script: 
   - |
-    travis_wait R CMD build .
-    travis_wait R CMD check RcppDeepState*tar.gz
+    travis_wait 60 R CMD build .
+    travis_wait 60 R CMD check RcppDeepState*tar.gz

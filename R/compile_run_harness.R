@@ -5,6 +5,7 @@ deep_harness_compile_run <- function(package_name){
   inst_path <- file.path(package_name, "inst")
   test_path <- file.path(inst_path,"testfiles")
   functions.list  <- get_function_body(package_name)
+  create_testpkgs_objects()
   functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
   fun_names <- unique(functions.list$funName)
   val = 0
