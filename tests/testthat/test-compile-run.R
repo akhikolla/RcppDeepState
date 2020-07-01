@@ -5,6 +5,7 @@ library(RcppDeepState)
 insts_path <- system.file(package="RcppDeepState")
 print(insts_path)
 deepstate_create_static_lib()
+create_testpkgs_objects()
 path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
 print(path)
 res<-deepstate_pkg_create(path)
@@ -129,69 +130,3 @@ test_that("check for binary file directories existence testSAN package", {
   expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[4]], "*.fail")))))
   expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[5]], "*.fail")))))
 })
-
-path <- system.file("testpkgs/binsegRcpp", package = "RcppDeepState")
-res<-deepstate_pkg_create(path)
-test_that("create files binsegRcpp package", {
-  expect_identical(res,"Testharness created!!")
-})
-
-files.list<-harness_files(path)
-test_that("check for harness files existence binsegRcpp package", {
-  expect_true(file.exists(files.list[[1]]))
-  expect_identical(files.list[[1]],system.file("testpkgs/binsegRcpp/inst/testfiles/binseg_normal_DeepState_TestHarness.cpp",package = "RcppDeepState"))
-  expect_true(file.exists(files.list[[2]]))
-  expect_identical(files.list[[2]],system.file("testpkgs/binsegRcpp/inst/testfiles/binseg_normal_cost_DeepState_TestHarness.cpp",package = "RcppDeepState"))
-})
-
-files.list<-harness_files(path)
-test_that("check for make files existence binsegRcpp package", {
-  expect_true(file.exists(files.list[[3]]))
-  expect_identical(files.list[[3]],system.file("testpkgs/binsegRcpp/inst/testfiles/binseg_normal.Makefile",package = "RcppDeepState"))
-  expect_true(file.exists(files.list[[4]]))
-  expect_identical(files.list[[4]],system.file("testpkgs/binsegRcpp/inst/testfiles/binseg_normal_cost.Makefile",package="RcppDeepState"))
-})
-
-path <- system.file("testpkgs/binsegRcpp", package = "RcppDeepState")
-dhc <- deep_harness_compile_run(path)
-logfiles<-list_log_files(path)
-test_that("check for log files existence binsegRcpp package", {
-  expect_true(file.exists(logfiles[[1]]))
-  expect_identical(logfiles[[1]],system.file("testpkgs/binsegRcpp/inst/testfiles/binseg_normal_log",package = "RcppDeepState"))
-  expect_true(file.exists(logfiles[[2]]))
-  expect_identical(logfiles[[2]],system.file("testpkgs/binsegRcpp/inst/testfiles/binseg_normal_cost_log",package = "RcppDeepState"))
-})
-bin_dir<- list_bin_directory(path)
-test_that("check for binary file directories existence binsegRcpp package", {
-  expect_true(dir.exists(bin_dir[[1]]))
-  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[1]], "*.crash")))))
-  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[1]], "*.fail")))))
-  expect_identical(bin_dir[[1]],system.file("testpkgs/binsegRcpp/inst/testfiles/binseg_normal_output",package = "RcppDeepState"))
-  expect_true(dir.exists(bin_dir[[2]]))
-  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[2]], "*.crash")))))
-  expect_true(all(file.exists(Sys.glob(file.path(bin_dir[[2]], "*.fail")))))
-  expect_identical(bin_dir[[2]],system.file("testpkgs/binsegRcpp/inst/testfiles/binseg_normal_cost_output",package = "RcppDeepState"))
-  
-})
-
-path <- system.file("testpkgs/testSAN",package="RcppDeepState")
-print(path)
-list.args <- list_package_args(path)
-test_that("check for input files testSAN", {
-  expect_true(file.exists(list.args[[1]]))
-  expect_true(file.exists(list.args[[2]]))
-  expect_true(file.exists(list.args[[3]]))
-  expect_true(file.exists(list.args[[4]]))
-  expect_true(file.exists(list.args[[5]]))
-})
-
-bin_file <- Sys.glob(file.path(bin_dir[[1]], "*.fail"))
-path <- paste0(bin_file[1])
-print(path)
-if(path != "NA"){
-  arguments.list<-deep_harness_analyze_one(path)
-  test_that("argumentlist names validation", {
-    expect_identical(names(arguments.list), c("data_vec", "max_segments"))
-  })
-}
-
