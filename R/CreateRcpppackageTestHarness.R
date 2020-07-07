@@ -81,7 +81,7 @@ create_makefile <-function(package,fun_name){
   file.create(makefile_path, recursive=TRUE)
   path <-paste("R_HOME=",R.home())
   write_to_file<-paste0(write_to_file,path,"\n")
-  flags <- paste0("COMMON_FLAGS = ",makefile.o_path," -I",system.file("include",package="RcppDeepState")," -L/usr/local/lib/R/site-library/RInside/lib -Wl,-rpath=/usr/local/lib/R/site-library/RInside/lib -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",system.file("extdata",package="RcppDeepState")," -Wl,-rpath=",system.file("extdata",package="RcppDeepState")," -lR -lRInside -ldeepstate")
+  flags <- paste0("COMMON_FLAGS = ",makefile.o_path," -I",system.file("include",package="RcppDeepState")," -L/usr/local/lib/R/site-library/RInside/lib -Wl,-rpath=/usr/local/lib/R/site-library/RInside/lib -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",system.file("deepstate/build",package="RcppDeepState")," -Wl,-rpath=",system.file("deepstate/build",package="RcppDeepState")," -lR -lRInside -ldeepstate")
   write_to_file<-paste(write_to_file,flags,"\n")
   write_to_file<-paste0(write_to_file,"\n",test_harness_path," : ",makefile.o_path)
 compile.line <- paste("\n\t","clang++ -o ",test_harness_path,"${COMMON_FLAGS}")
