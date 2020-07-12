@@ -35,12 +35,12 @@ user_error_display<-function(logfile){
   error.dt[, src.file.lines := {
     file.line.dt <- nc::capture_all_str(
       trace,
-      file.line="[^()]+?:[0-9]+",nomatch.error=FALSE)
+      file.line="[^()]+?:[0-9]+")
     file.line.dt[grepl(paste0(files.list$file.name,".cpp"), file.line),paste(file.line, collapse="\n")]
   }, by=error.i]
   
   error.msg <- nc::capture_first_vec(trace,
-                                     msg=".*",nomatch.error=FALSE)
+                                     msg=".*")
   #error.msg <- nc::capture_first_vec(error.dt$errortrace,"\n",
   #                                  err.msg=".*")
   count.dt <- error.dt[, .(
