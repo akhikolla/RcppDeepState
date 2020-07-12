@@ -13,7 +13,7 @@ user_error_display<-function(logfile){
   error.dt <- nc::capture_all_str(
     logfile,
     arg.name=".*?",
-    " values: ",
+    " values:",
     value=".*",
     "\n",
     errortrace="(?:.*\n)*?", 
@@ -27,17 +27,20 @@ user_error_display<-function(logfile){
   
   files.list<-nc::capture_all_str(logfile,"Command: ./",
                                   file.name=".*",
-                                  "_DeepState_TestHarness --fuzz")
+                                  "_DeepState_TestHarness")
   error.dt[, error.i := 1:.N]
+  trace <- gsub("==[0-9]+== Warning:.*?\\n","",error.dt$errortrace)
+  trace <- paste0(trace,error.dt$heapsum,error.dt$leaksum)
+  print(trace)
   error.dt[, src.file.lines := {
     file.line.dt <- nc::capture_all_str(
-      error.dt$errortrace,
-      file.line="[^()]+?:[0-9]+")
+      trace,
+      file.line="[^()]+?:[0-9]+",nomatch.error=FALSE)
     file.line.dt[grepl(paste0(files.list$file.name,".cpp"), file.line),paste(file.line, collapse="\n")]
   }, by=error.i]
-  trace <- gsub("==[0-9]+== Warning:.*?\\n","",error.dt$errortrace)
+  
   error.msg <- nc::capture_first_vec(trace,
-                                     msg=".*")
+                                     msg=".*",nomatch.error=FALSE)
   #error.msg <- nc::capture_first_vec(error.dt$errortrace,"\n",
   #                                  err.msg=".*")
   count.dt <- error.dt[, .(

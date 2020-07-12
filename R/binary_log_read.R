@@ -34,20 +34,20 @@ binary_log_read<-function(logfile){
   error.dt[, src.file.lines := {
     file.line.dt <- nc::capture_all_str(
       trace,
-      file.line="[^()]+?:[0-9]+")
+      file.line="[^()]+?:[0-9]+",nomatch.error=FALSE)
     file.line.dt[grepl(paste0(files.list$file.name,".cpp"), file.line),paste(file.line, collapse="\n")]
   }, by=error.i]
   
   error.msg <- nc::capture_first_vec(trace,
-                                    "==[0-9]+==",
-                                    base=".*","\n",
-                                    "==[0-9]+==",
-                                     msgtrace=".*","\n",
-                                    "==[0-9]+==",
-                                    codeline=".*?",
-                                    file="[^()]+?:[0-9]+",nomatch.error=FALSE)
+                                     "==[0-9]+==",
+                                     r=".*","\n",
+                                     "==[0-9]+==",
+                                     msg=".*","\n",
+                                     "==[0-9]+==",
+                                     res=".*?",
+                                     file="[^()]+?:[0-9]+",nomatch.error=FALSE)
   count.dt <- error.dt[, .(
     count=.N
-  ), by=.(arg.name,value,src.file.lines,err.msg=paste0(error.msg$base,error.msg$msgtrace,error.msg$codeline))]
+  ), by=.(arg.name,value,src.file.lines,err.msg=paste0(error.msg$r,error.msg$msg,error.msg$res))]
   return(count.dt)
 }

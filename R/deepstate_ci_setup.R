@@ -56,7 +56,7 @@ deepstate_ci_setup<-function(path){
   file.create(testdir_path,recursive=TRUE)
   write_to_tests <- ""
   write_to_tests <-paste0(write_to_tests,"library(testthat)\nlibrary(RcppDeepState)\nlibrary(nc)\ncontext(@rcppdeepstate@)\n\n")
-  write_to_tests <-paste0(write_to_tests,"package_path <- system.file(package=",basename(path),")\n")
+  write_to_tests <-paste0(write_to_tests,"package_path <- system.file(package=@",basename(path),"@)\n")
   write_to_tests <-paste0(write_to_tests,"package_path <- gsub(@/inst@,@@,package_path)\n")
   write_to_tests <-paste0(write_to_tests,"result <- RcppDeepState::deepstate_pkg_create(package_path)\n")
   write_to_tests <-paste0(write_to_tests,"test_that(@deepstate create TestHarness@,{\nexpect_equal(result,@Testharness created!!@)\n})\n")

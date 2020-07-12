@@ -5,12 +5,16 @@ language: r
 sudo: required
 
 before_install:
-  - sudo apt-get install build-essential gcc-multilib g++-multilib cmake python3-setuptools libffi-dev z3
+  - sudo apt-get install build-essential gcc-multilib g++-multilib cmake python3-setuptools libffi-dev
 
 r_github_packages:
   - jimhester/covr
+  
+before_script:
+  - R -e "devtools::load_all()"
 
 r_packages:
+  - Rcpp
   - RInside
   - devtools
   - roxygen2
@@ -27,7 +31,6 @@ addons:
       
 env:
   - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
-
 
 script: 
   - |

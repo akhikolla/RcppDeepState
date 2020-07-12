@@ -2,6 +2,9 @@ library(testthat)
 context("deepstate_compile_run")
 library(RcppDeepState)
 
+
+print(system.file("include", package="RInside"))
+print(system.file("include", package="Rcpp"))
 insts_path <- system.file(package="RcppDeepState")
 print(insts_path)
 #deepstate_create_static_lib()

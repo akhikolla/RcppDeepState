@@ -3,7 +3,7 @@
 create_testpkgs_objects<-function(){
   deepstate_path <- system.file("testpkgs/testSAN",package="RcppDeepState")
   includes <- paste0("g++ -std=gnu++11 -I${R_HOME}/include -DNDEBUG -I. -I../inst/include/")
-  libs<- " -I/usr/local/lib/R/site-library/Rcpp/include  -I/usr/local/include"
+  libs<- paste0(" -I",system.file("include", package="Rcpp")," -I/usr/local/include")
   flags<-" -fpic  -g -O2  -c "
   print(paste0(includes,libs,flags,deepstate_path,"/src/RcppExports.cpp -o ", deepstate_path,"/src/RcppExports.o"))
   print(paste0(includes,libs,flags,deepstate_path,"/src/read_out_of_bound.cpp -o ", deepstate_path,"/src/read_out_of_bound.o"))
