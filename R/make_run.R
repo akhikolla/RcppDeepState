@@ -14,7 +14,8 @@ make_run<-function(){
   #system(paste0("cd ",insts.path, " ; ", "git clone https://github.com/trailofbits/deepstate.git"))
   master <- file.path(deepstate.path,"deepstate-master")
   deepstate.build <- paste0(master,"/build")
-  system(paste0("mkdir ", deepstate.build ," ; "))
+  #system(paste0("mkdir ", deepstate.build ," ; "))
+  dir.create(deepstate.build,showWarnings = FALSE)
   system(paste0("cd ", deepstate.build," ; ","cmake ../", " ; ","make"))
-  system("sudo make install")
+  #system("sudo make install")
 }

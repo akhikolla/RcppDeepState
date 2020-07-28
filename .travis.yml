@@ -16,6 +16,7 @@ before_script:
 r_packages:
   - Rcpp
   - RInside
+  - RcppArmadillo
   - devtools
   - roxygen2
 
