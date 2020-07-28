@@ -6,6 +6,9 @@
 \usage{
 make_run()
 }
+\arguments{
+\item{package_name}{to the RcppExports file}
+}
 \description{
 creates testharness for given functions in package
 }

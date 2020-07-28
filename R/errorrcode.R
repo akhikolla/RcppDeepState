@@ -7,6 +7,7 @@
 ##' 
 ##' @param logfile path to the logfile
 ##' @import data.table
+##' @import RcppArmadillo
 ##' @export
 
 user_error_display<-function(logfile){

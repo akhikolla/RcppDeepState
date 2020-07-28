@@ -1,3 +1,7 @@
+##' @title getRcppExports
+##' @author Akhila Chowdary Kolla
+##' 
+getRcppExports<-function(){
 cA.dir <- "/home/akhila/Documents/compileAttributes"
 dir.create(cA.dir, showWarnings=FALSE)
 tgz.vec <- Sys.glob("/home/akhila/Documents/pac/*.tar.gz")
@@ -20,4 +24,5 @@ for(pkg.i in seq_along(tgz.vec)){
     dir.create(dirname(RcppExports.cpp), recursive=TRUE)
     writeLines(generated, RcppExports.cpp)
   }
+}
 }
