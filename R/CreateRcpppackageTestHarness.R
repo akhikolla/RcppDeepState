@@ -95,7 +95,7 @@ create_makefile <-function(package,fun_name){
   write_to_file<-paste0(write_to_file,"\n\t","cd ",test_path," && ","valgrind --tool=memcheck --leak-check=yes ","./",test_harness," --fuzz --fuzz_save_passing --output_test_dir ",test_path,"/",fun_name,"_output"," > ",test_path,"/",fun_name,"_log ","2>&1")
   #write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/home/",p$val,"testfiles","/",p$packagename)," && ","./",test_harness," --fuzz")
   write_to_file<-paste(write_to_file,"\n",makefile.o_path,":",makefile.cpp_path)
-  write_to_file<-paste0(write_to_file,"\n\t","clang++ -I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RInside")," -I",system.file("include",package="RcppDeepState")," ", 
+  write_to_file<-paste0(write_to_file,"\n\t","clang++ -I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",system.file("include", package="RInside")," -I",system.file("include",package="RcppDeepState")," ", 
                         makefile.cpp_path," -o ",makefile.o_path," -c")
   write(write_to_file,makefile_path,append=TRUE)
 }
