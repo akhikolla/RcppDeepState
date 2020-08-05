@@ -8,8 +8,8 @@ print(system.file("include", package="Rcpp"))
 insts_path <- system.file(package="RcppDeepState")
 print(insts_path)
 #deepstate_create_static_lib()
-create_testpkgs_objects()
-make_run()
+deepstate_create_testpkgs_objects()
+deepstate_make_run()
 path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
 print(path)
 res<-deepstate_pkg_create(path)
@@ -17,7 +17,7 @@ test_that("create files testSAN package", {
   expect_identical(res,"Testharness created!!")
 })
 
-files.list<-harness_files(path)
+files.list<-deepstate_harness_files(path)
 test_that("check for harness files existence testSAN package", {
   expect_true(file.exists(files.list[[1]]))
   expect_identical(files.list[[1]],system.file("testpkgs/testSAN/inst/testfiles/read_out_of_bound_DeepState_TestHarness.cpp",package = "RcppDeepState"))
@@ -47,7 +47,7 @@ test_that("check for harness files existence testSAN package", {
 
 
 path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
-dhc<-deep_harness_compile_run(path)
+dhc<-deepstate_harness_compile_run(path)
 logfiles<-list_log_files(path)
 test_that("check for log files existence testSAN package", {
   expect_true(file.exists(logfiles[[1]]))
@@ -64,7 +64,7 @@ test_that("check for log files existence testSAN package", {
 
 log_path <- system.file("extdata/read_out_of_bound_log", package = "RcppDeepState")
 print(log_path)
-user.display <- user_error_display(log_path)
+user.display <- deepstate_user_error_display(log_path)
 test_that("valgrind errors", {
   expect_match(user.display$arg.name,"sizeofarray")
   expect_match(user.display$src.file.lines,"read_out_of_bound.cpp:9")
@@ -75,7 +75,7 @@ test_that("valgrind errors", {
 
 log_path <- system.file("extdata/use_after_deallocate_log", package = "RcppDeepState")
 print(log_path)
-user.display <- user_error_display(log_path)
+user.display <- deepstate_user_error_display(log_path)
 test_that("valgrind use after deallocate errors", {
   expect_match(user.display$arg.name,"size")
   expect_match(user.display$src.file.lines,"use_after_deallocate.cpp:7\nuse_after_deallocate.cpp:6\nuse_after_deallocate.cpp:5")
@@ -89,7 +89,7 @@ test_that("negative size array", {
 })
 log_path <- system.file("extdata/write_index_outofbound_log", package = "RcppDeepState")
 print(log_path)
-user.display <- user_error_display(log_path)
+user.display <- deepstate_user_error_display(log_path)
 test_that("valgrind writing index out of bound", {
   expect_match(user.display$arg.name,"boundvalue")
   #expect_match(user.display$src.file.lines,"write_index_outofbound.cpp")
@@ -98,7 +98,7 @@ test_that("valgrind writing index out of bound", {
 
 log_path <- system.file("extdata/zero_sized_array_log", package = "RcppDeepState")
 print(log_path)
-user.display <- user_error_display(log_path)
+user.display <- deepstate_user_error_display(log_path)
 test_that("valgrind writing index out of bound", {
   expect_match(user.display$arg.name,"vectorvalue")
   expect_match(user.display$src.file.lines,"zero_sized_array.cpp:11\nzero_sized_array.cpp:10\nzero_sized_array.cpp:12")
@@ -108,7 +108,7 @@ test_that("valgrind writing index out of bound", {
 
 log_path <- system.file("extdata/use_after_free_log", package = "RcppDeepState")
 print(log_path)
-user.display <- user_error_display(log_path)
+user.display <- deepstate_user_error_display(log_path)
 test_that("valgrind use after free check", {
   expect_match(user.display$arg.name,"size_free")
   expect_match(user.display$src.file.lines,"use_after_free.cpp")
@@ -116,7 +116,7 @@ test_that("valgrind use after free check", {
 })
 
 
-bin_dir<- list_bin_directory(path)
+bin_dir<- deepstate_list_bin_directory(path)
 test_that("check for binary file directories existence testSAN package", {
   expect_true(dir.exists(bin_dir[[1]]))
   expect_identical(bin_dir[[1]],system.file("testpkgs/testSAN/inst/testfiles/read_out_of_bound_output",package = "RcppDeepState"))

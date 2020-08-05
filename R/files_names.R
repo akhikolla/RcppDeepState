@@ -2,8 +2,8 @@
 ##' @param path to the package test file
 ##' @return makefiles.list makefile list 
 ##' @export
-harness_files <- function(path){
-  functions.list <- get_function_body(path)
+deepstate_harness_files <- function(path){
+  functions.list <- deepstate_get_function_body(path)
   inst_path <- file.path(path, "inst")
   test_path <- file.path(inst_path,"testfiles")
   fun_names <- unique(functions.list$funName)
@@ -22,8 +22,8 @@ harness_files <- function(path){
 ##' @param path to the package test file
 ##' @return logfiles.list logfile path list
 ##' @export
-list_log_files <- function(path){
-  functions.list <- get_function_body(path)
+deepstate_list_log_files <- function(path){
+  functions.list <- deepstate_get_function_body(path)
   inst_path <- file.path(path, "inst")
   test_path <- file.path(inst_path,"testfiles")
   fun_names <- unique(functions.list$funName)
@@ -40,8 +40,8 @@ list_log_files <- function(path){
 ##' @param path to the package test file
 ##' @return bindir.list returns binary folder paths
 ##' @export
-list_bin_directory <- function(path){
-  functions.list <- get_function_body(path)
+deepstate_list_bin_directory <- function(path){
+  functions.list <- deepstate_get_function_body(path)
   inst_path <- file.path(path, "inst")
   test_path <- file.path(inst_path,"testfiles")
   fun_names <- unique(functions.list$funName)
@@ -59,8 +59,8 @@ list_bin_directory <- function(path){
 ##' @param path to the package test file
 ##' @return list.args.i returns args path list
 ##' @export
-list_package_args <- function(path){
-  body.list <- get_function_body(path)
+deepstate_list_package_args <- function(path){
+  body.list <- deepstate_get_function_body(path)
   inst_path <- file.path(path, "inst")
   test_path <- file.path(inst_path,"testfiles")
   list.args = gsub(" ","",body.list$argument.name)

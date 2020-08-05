@@ -2,7 +2,7 @@
 ##' @return function list with function names and arguments
 ##' @param path to the RcppExports file
 ##' @export
-get_package_details <- function(path){
+deepstate_get_package_details <- function(path){
   package_path <- Sys.glob(file.path(
     path,"src", "RcppExports.cpp"))
   funs<- nc::capture_all_str(
@@ -26,8 +26,8 @@ get_package_details <- function(path){
 ##' @return function.list list with function names and arguments
 ##' @param package_name to the RcppExports file
 ##' @export
-get_function_body<-function(package_name){
-  funs <- get_package_details(package_name) 
+deepstate_get_function_body<-function(package_name){
+  funs <- deepstate_get_package_details(package_name) 
   function.list <- funs[,{
     dt <- nc::capture_all_str(
       code,
@@ -43,8 +43,8 @@ get_function_body<-function(package_name){
 ##' @return prototypes list with function prototype
 ##' @param package_name to the RcppExports file
 ##' @export
-get_prototype_calls <-function(package_name){
-  funs <- get_package_details(package_name) 
+deepstate_get_prototype_calls <-function(package_name){
+  funs <- deepstate_get_package_details(package_name) 
   codes <- funs[,{nc::capture_all_str(code,"::wrap",calls ="(?:.*)")},by=funName]
   prototypes <-funs[,.(funName,prototype,calls=codes$calls)]
   return(prototypes)

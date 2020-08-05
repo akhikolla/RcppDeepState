@@ -1,4 +1,4 @@
-##' @title user_error_display
+##' @title deepstate_binary_log_read
 ##'
 ##' @return count.dt list with error messgae,inputs which caused the error,
 ##'   corresponding line and datavariable name
@@ -9,7 +9,7 @@
 ##' @import data.table
 ##' @export
 
-binary_log_read<-function(logfile){
+deepstate_binary_log_read<-function(logfile){
   error.dt <- nc::capture_all_str(
     logfile,
     arg.name=".*?",

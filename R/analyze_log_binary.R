@@ -1,7 +1,7 @@
 ##' @title  analyze the binary file 
 ##' @param path to test
 ##' @export
-deep_harness_log_binary <- function(path){
+deepstate_harness_log_binary <- function(path){
   list.paths <-nc::capture_first_vec(path, "/",root=".+?","/",remain_path=".*")
   path_details <- nc::capture_all_str(list.paths$remain_path,val=".+/",folder=".+/",package_name=".+/",fun.name=".+/",binary_file=".*")
   till_exec_package<-paste0("/",list.paths$root,"/",path_details$val,path_details$folder,path_details$package_name)

@@ -9,6 +9,6 @@ Description: One paragraph description of what the package does as one or more f
          sentences.
 License: GPL (>= 2)
 Imports: RcppArmadillo,RInside,data.table,Rcpp (>= 1.0.4),methods
-Suggests: testthat,nc,here
+Suggests: testthat,nc,here,devtools
 RoxygenNote: 7.1.0
 Encoding: UTF-8
