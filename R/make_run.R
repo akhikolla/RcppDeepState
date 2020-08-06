@@ -6,10 +6,9 @@ deepstate_make_run<-function(){
   deepstate.path <- paste0(insts.path,"/.RcppDeepState")
   dir.create(deepstate.path,showWarnings = FALSE)
   deepstate.zip <- file.path(deepstate.path, "deepstate-master.zip")
-  #system(paste0("wget -O ",deepstate.zip," https://github.com/trailofbits/deepstate/archive/master.zip"))
+  system(paste0("wget -O ",deepstate.zip," https://github.com/trailofbits/deepstate/archive/master.zip"))
   #download.file("https://github.com/trailofbits/deepstate/archive/master.zip", deepstate.zip)
-  download.file("https://github.com/trailofbits/deepstate/archive/master.zip",
-                deepstate.zip,"auto")
+  #download.file("https://github.com/trailofbits/deepstate/archive/master.zip",deepstate.zip,"auto")
   unzip(deepstate.zip, exdir=deepstate.path)
   #deepstate.path <- file.path(insts.path,"deepstate")
   #system(paste0("cd ",insts.path, " ; ", "git clone https://github.com/trailofbits/deepstate.git"))
