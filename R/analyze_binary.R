@@ -3,6 +3,7 @@
 ##' @return returns a list of all the param values of the arguments of function
 ##' @import methods
 ##' @import Rcpp
+##' @import RInside
 ##' @export
 deepstate_harness_analyze_one <- function(path){
   list.paths <-nc::capture_first_vec(path, "/",root=".+?","/",remain_path=".*")

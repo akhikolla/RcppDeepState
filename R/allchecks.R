@@ -10,17 +10,19 @@ for(log.i in log_files){
     print("valgind checks doesn't detect any issue with the package")
     inst_path <- file.path(path, "inst")
     test_path <- file.path(inst_path,"testfiles")
-    #Sys.glob(file.path("/home/akhila/Documents/compileAttributes/ambient/inst/testfiles","*.Makefile"))
-    makefiles.list <- Sys.glob(file.path(test_path,"*.Makefile"))
-    for(makefile.i in makefiles.list){
-        makefile_lines <- readLines(makefile.i,warn=FALSE)
-        makefile_lines <-gsub("clang++","clang++ -fsanitize=address -ggdb -fno-omit-frame-pointer ",makefile_lines)
-        makefile_lines <- gsub("valgrind --tool=memcheck --leak-check=yes --track-origins=yes","",makefile_lines)
-        makefile_lines <- gsub("_log","_asan_log",makefile_lines)
-        makefile.asan <- gsub(".Makefile","_asan.Makefile",makefile.i)
-        asan_log <- gsub(".Makefile","_asan_log",makefile.i)
-        file.create(makefile.asan,recursive=TRUE)
-        cat(makefile_lines, file=makefile.asan, sep="\n")
+    makefile.i <- gsub("_log$",".Makefile",log.i)
+    executable <- gsub("_log$","_DeepState_TestHarness",log.i)
+    object <- paste0(executable,".o")
+    makefile_lines <- readLines(makefile.i,warn=FALSE)
+    makefile_lines <-gsub("clang++","clang++ -fsanitize=address -ggdb -fno-omit-frame-pointer ",makefile_lines,fixed=TRUE)
+    makefile_lines <- gsub("valgrind --tool=memcheck --leak-check=yes --track-origins=yes","",makefile_lines)
+    makefile_lines <- gsub(log.i,gsub("_log$","_asan_log",log.i),makefile_lines)
+    makefile.asan <- gsub(".Makefile","_asan.Makefile",makefile.i)
+    asan_log <- gsub(".Makefile","_asan_log",makefile.i)
+    file.create(makefile.asan,recursive=TRUE)
+    cat(makefile_lines, file=makefile.asan, sep="\n")
+    file.remove(object)
+    file.remove(executable)
         compile_line <-paste0("rm -f *.o && make -f ",makefile.asan)
         #print(compile_line) 
         system(compile_line)
@@ -29,7 +31,6 @@ for(log.i in log_files){
         else {
           print("detected error using asan")
           print(asan_result)}
-        }
     }
   else{
        print(result)
