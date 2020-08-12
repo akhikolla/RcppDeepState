@@ -1,6 +1,6 @@
 ##' @title  creates testharness for given functions in package
 ##' @export
-create_testpkgs_objects<-function(){
+deepstate_create_testpkgs_objects<-function(){
   deepstate_path <- system.file("testpkgs/testSAN",package="RcppDeepState")
   includes <- paste0("g++ -std=gnu++11 -I${R_HOME}/include -DNDEBUG -I. -I../inst/include/")
   libs<- paste0(" -I",system.file("include", package="Rcpp")," -I/usr/local/include")

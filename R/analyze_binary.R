@@ -3,8 +3,9 @@
 ##' @return returns a list of all the param values of the arguments of function
 ##' @import methods
 ##' @import Rcpp
+##' @import RInside
 ##' @export
-deep_harness_analyze_one <- function(path){
+deepstate_harness_analyze_one <- function(path){
   list.paths <-nc::capture_first_vec(path, "/",root=".+?","/",remain_path=".*")
   path_details <- nc::capture_all_str(list.paths$remain_path,val=".+/",folder=".+/",testfolder=".+/",fun.name=".+/",binary_file=".*")
   inst_path <- file.path(paste0("/",list.paths$root,"/",path_details$val,path_details$folder))
@@ -18,7 +19,7 @@ deep_harness_analyze_one <- function(path){
   package_path <- gsub("inst/","",inst_path)
   print(var)
   system(var)
-  functions.list  <- get_function_body(package_path)
+  functions.list  <- deepstate_get_function_body(package_path)
   #print(functions.list)
   counter = 1
   #function_name = "rcpp_read_out_of_bound"

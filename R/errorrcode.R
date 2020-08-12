@@ -1,4 +1,4 @@
-##' @title user_error_display
+##' @title deepstate_user_error_display
 ##'
 ##' @return count.dt list with error messgae,inputs which caused the error,
 ##'   corresponding line and datavariable name
@@ -7,9 +7,10 @@
 ##' 
 ##' @param logfile path to the logfile
 ##' @import data.table
+##' @import RcppArmadillo
 ##' @export
 
-user_error_display<-function(logfile){
+deepstate_user_error_display<-function(logfile){
   error.dt <- nc::capture_all_str(
     logfile,
     arg.name=".*?",
@@ -50,4 +51,4 @@ user_error_display<-function(logfile){
   return(count.dt)
 }
 
-globalVariables(c("error.i","src.file.lines","heapsum","file.line","arg.name","value",".N",":=","prototype"))
+globalVariables(c("error.i","error.type","sanitizer","function.i","src.file.lines","heapsum","file.line","arg.name","value",".N",":=","prototype"))

@@ -1,7 +1,6 @@
 ##' @title  creates testharness for given functions in package
-##' @param package_name to the RcppExports file
 ##' @export
-make_run<-function(){ 
+deepstate_make_run<-function(){ 
   #insts.path <- system.file(package="RcppDeepState")
   insts.path <- "~"
   deepstate.path <- paste0(insts.path,"/.RcppDeepState")
@@ -9,12 +8,14 @@ make_run<-function(){
   deepstate.zip <- file.path(deepstate.path, "deepstate-master.zip")
   system(paste0("wget -O ",deepstate.zip," https://github.com/trailofbits/deepstate/archive/master.zip"))
   #download.file("https://github.com/trailofbits/deepstate/archive/master.zip", deepstate.zip)
+  #download.file("https://github.com/trailofbits/deepstate/archive/master.zip",deepstate.zip,"auto")
   unzip(deepstate.zip, exdir=deepstate.path)
   #deepstate.path <- file.path(insts.path,"deepstate")
   #system(paste0("cd ",insts.path, " ; ", "git clone https://github.com/trailofbits/deepstate.git"))
   master <- file.path(deepstate.path,"deepstate-master")
   deepstate.build <- paste0(master,"/build")
-  system(paste0("mkdir ", deepstate.build ," ; "))
+  #system(paste0("mkdir ", deepstate.build ," ; "))
+  dir.create(deepstate.build,showWarnings = FALSE)
   system(paste0("cd ", deepstate.build," ; ","cmake ../", " ; ","make"))
-  system("sudo make install")
+  #system("sudo make install")
 }
