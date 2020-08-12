@@ -1,4 +1,4 @@
-##' @title  analyze the asan and valgrind checks 
+  ##' @title  analyze the asan and valgrind checks 
 ##' @param path to the package we are working on 
 ##' @export
 deepstate_allchecks <- function(path){

@@ -1,7 +1,8 @@
 ##' @title  creates testharness for given functions in package
 ##' @param package_name to the RcppExports file
 ##' @export
-deepstate_pkg_create<-function(package_name){  
+deepstate_pkg_create<-function(package_name){
+  packagename <- basename(package_name)
   inst_path <- file.path(package_name, "inst")
   if(!dir.exists(inst_path)){
     dir.create(inst_path)
@@ -37,7 +38,7 @@ deepstate_pkg_create<-function(package_name){
         write(include,file_path,append = TRUE)
         write_to_file <-paste(write_to_file,pt[1,pt$prototype])
         testname<-paste(function_name.i,"_test",sep="")
-        unittest<-gsub(" ","",paste(fun_name,"_random_datatypes"))
+        unittest<-gsub(" ","",paste(packagename,"_deepstate_test"))
         write_to_file <- paste0(write_to_file,"\n","TEST(",unittest,",",testname,")","{","\n")
         #obj <-gsub( "\\s+", " " ,paste(in_package,tolower(in_package),";","\n"))
         #write(obj,filename,append = TRUE)
@@ -46,6 +47,7 @@ deepstate_pkg_create<-function(package_name){
         }
         write_to_file<-paste(write_to_file,"RInside();\n")
         deepstate_create_makefile(package_name,fun_name) 
+        proto_args <-""
         for(argument.i in 1:nrow(functions.rows)){
           variable <- gsub( "\\s+", " " ,paste( functions.rows [argument.i,argument.type],
                                                 functions.rows [argument.i,argument.name]))
@@ -58,9 +60,12 @@ deepstate_pkg_create<-function(package_name){
                                               functions.rows [argument.i,argument.name],"_stream<<", functions.rows [argument.i,argument.name],";","\n",
                                               "std::cout <<","#",functions.rows [argument.i,argument.name]," values: ","#"," <<",functions.rows [argument.i,argument.name]," << std::endl;","\n",
                                               functions.rows [argument.i,argument.name],"_stream.close();","\n"))
+          proto_args <- paste0(proto_args,functions.rows[argument.i,argument.name])
+          if(argument.i < nrow(functions.rows)) proto_args <- paste0(proto_args,",")
           write_to_file <-paste(write_to_file,variable,st_val,file_open)
         }
-        write_to_file<-paste(write_to_file,"try{\n", sub("\\)","",sub("\\(","",pt[1,calls])))
+        write_to_file<-paste(write_to_file,"try{\n")
+        write_to_file<-paste0(write_to_file,fun_name,"(",proto_args,");")
         write_to_file<-gsub("#","\"",paste0(write_to_file,"\n","}\n","catch(Rcpp::exception& e){\n","std::cout<<#Exception Handled#<<std::endl;\n}"))
         write_to_file<-paste(write_to_file,"\n","}")
         write(write_to_file,file_path,append=TRUE)
@@ -68,22 +73,24 @@ deepstate_pkg_create<-function(package_name){
       else if(deepstate_datatype_check(params) == 0)
       {
         mismatch_count = mismatch_count + 1
-        cat(sprintf("We can't test the function - %s - due to  datatypes fall out of the specified list\n", function.i))
+        cat(sprintf("We can't test the function - %s - due to  datatypes fall out of the specified list\n", function_name.i))
       }
     }
-    print(match_count)
-    print(mismatch_count)
-    if(match_count == length(fun_names)){
-      print("Testharness created for every function in the package!!")
+    #print(match_count)
+    #print(mismatch_count)
+    if(match_count == length(fun_names) || mismatch_count > 1){
+      #print(match_count)
+      cat(sprintf("Testharness created for - %d ",match_count," functions in the package"))
+      #print("Testharness created for function in the package!!")
       return(1)
     }
     else if(mismatch_count == length(fun_names)){
       print("Testharness cannot be created for the package!!")
       return(0)
     }
-    return(-1)
+    else return(-1)
   }
-  else return(-1)
+  
 }   
 ##' @title  creates makefiles for above created testharness in package
 ##' @param package to the RcppExports file*
