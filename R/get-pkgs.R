@@ -6,7 +6,6 @@ dir.create("packages")
 download.packages(Rcpp.LinkingTo.pkgs, "packages", type="source")
 }
 
-
 ##' @title  deepstate_datatype_check
 ##' @param params.list to the package test file
 ##' @export

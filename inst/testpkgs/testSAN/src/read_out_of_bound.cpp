@@ -4,9 +4,9 @@
 #include <Rcpp.h>
 using namespace std;
 // [[Rcpp::export]]
-int read_out_of_bound(int val){
-  int *stack_array = new int[val];
-  return stack_array[val+100];
+int rcpp_read_out_of_bound(int rbound){
+  int *stack_array = new int[rbound];
+  return stack_array[rbound+100];
   	
 } 
   

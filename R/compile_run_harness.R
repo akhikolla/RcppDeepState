@@ -13,15 +13,18 @@ deepstate_harness_compile_run <- function(package_name){
     functions.rows  <- functions.list[functions.list$funName == f,]
     params <- c(functions.rows$argument.type)
     if(deepstate_datatype_check(params) == 1){
-    fun <-gsub("rcpp_","",f)
-    compile_line <-paste0("rm -f *.o && make -f ",test_path,"/",fun,
-                          ".Makefile ")
+    fun <-(f)
+    fun_path <- file.path(test_path,f)
+    compile_line <-paste0("cd ",fun_path," && rm -f *.o && make")
     print(compile_line) 
+    print(paste0(fun_path,"/",f,"_log"))
     #system(compile_line)
     if(system(compile_line) == 1){
-       val = val + 1 
+       val = val + 1
        cat(sprintf("Couldn't compile - %s\n", f))
     }
+    result <- deepstate_user_error_display(paste0(fun_path,"/",f,"_log"))
+    print(result)
   }
   }
   if(val == 0) return("Compiled all the functions in the package successfully")

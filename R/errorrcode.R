@@ -11,12 +11,11 @@
 ##' @export
 
 deepstate_user_error_display<-function(logfile){
+  count.dt <- ""
+  if(length(logfile) > 0){
   error.dt <- nc::capture_all_str(
     logfile,
-    arg.name=".*?",
-    " values:",
-    value=".*",
-    "\n",
+    inputs="(?:.*?values:.*\n)+",
     errortrace="(?:.*\n)*?", 
     "==[0-9]+== HEAP SUMMARY:",
     "\n",
@@ -24,7 +23,7 @@ deepstate_user_error_display<-function(logfile){
     "==[0-9]+== LEAK SUMMARY:",
     "\n",
     leaksum="(?:.*\n)*?",
-    "==[0-9]+== ERROR SUMMARY:")
+    "==[0-9]+== ERROR SUMMARY:") 
   
   files.list<-nc::capture_all_str(logfile,"Command: ./",
                                   file.name=".*",
@@ -45,8 +44,8 @@ deepstate_user_error_display<-function(logfile){
   #                                  err.msg=".*")
   count.dt <- error.dt[, .(
     count=.N
-  ), by=.(arg.name,value,src.file.lines,error.message=gsub("==[0-9]+==","",error.msg$msg))]
-  
+  ), by=.(inputs,src.file.lines,error.message=gsub("==[0-9]+==","",error.msg$msg))]
+  }
   return(count.dt)
 }
 

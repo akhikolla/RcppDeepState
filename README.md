@@ -41,7 +41,7 @@ This is the first thing we need to do before creating the testharness.
 
 ```R
 library(RcppDeepState)
-RcppDeepState::make_run()
+RcppDeepState::deepstate_make_run()
 ```
 
 (b) **deepstate_pkg_create**: This function creates the TestHarnesses for all the functions in the test package with the corresponding makefiles.
@@ -54,13 +54,13 @@ All these files generated are stored in inst/testfiles in your test package.
 (c) **deep_harness_compile_run**: This function compiles and runs all the TestHarnesses that are created above and test your code for errors/bugs and stores the results in logfiles.
 
 ```R
-RcppDeepState::deep_harness_compile_run(pathtotestpackage)
+RcppDeepState::deepstate_harness_compile_run(pathtotestpackage)
 ```
 
 (d) **user_error_display**: This function lists out the error messages, line numbers where the error occurred, and inputs that are passed on to the functions taking the log files as input. The generated log files are stored in the same folder as testharness i.e inst/testfiles
 
 ```R
-RcppDeepState::user_error_display(testpackage/inst/testfiles/funname_log)
+RcppDeepState::deepstate_user_error_display(testpackage/inst/testfiles/funname_log)
 ```
 Now RcppDeepState makes it easy to use RcppDeepState on Travis-CI. 
 

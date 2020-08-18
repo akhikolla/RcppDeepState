@@ -30,7 +30,7 @@ deepstate_list_log_files <- function(path){
   logfiles.list = list()
   i<-1
   for(function_name.i in fun_names){
-    logfiles.list[[i]] <- gsub("rcpp_","",paste0(test_path,"/",function_name.i,"_log"))
+    logfiles.list[[i]] <- gsub("rcpp_","",paste0(test_path,"/",function_name.i,"/",function_name.i,"_log"))
     i = i + 1
   }
   return(logfiles.list)

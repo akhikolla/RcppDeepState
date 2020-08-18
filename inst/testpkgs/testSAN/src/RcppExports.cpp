@@ -6,71 +6,71 @@
 using namespace Rcpp;
 
 // rcpp_read_out_of_bound
-int rcpp_read_out_of_bound(int sizeofarray);
-RcppExport SEXP _testUBSAN_rcpp_read_out_of_bound(SEXP sizeofarraySEXP) {
+int rcpp_read_out_of_bound(int rbound);
+RcppExport SEXP _testSAN_rcpp_read_out_of_bound(SEXP rboundSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type sizeofarray(sizeofarraySEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_read_out_of_bound(sizeofarray));
+    Rcpp::traits::input_parameter< int >::type rbound(rboundSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_read_out_of_bound(rbound));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_use_after_deallocate
-int rcpp_use_after_deallocate(int size);
-RcppExport SEXP _testUBSAN_rcpp_use_after_deallocate(SEXP sizeSEXP) {
+int rcpp_use_after_deallocate(int array_size);
+RcppExport SEXP _testSAN_rcpp_use_after_deallocate(SEXP array_sizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type size(sizeSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_use_after_deallocate(size));
+    Rcpp::traits::input_parameter< int >::type array_size(array_sizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_use_after_deallocate(array_size));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_use_after_free
-int rcpp_use_after_free(int size_free);
-RcppExport SEXP _testUBSAN_rcpp_use_after_free(SEXP size_freeSEXP) {
+int rcpp_use_after_free(int alloc_size);
+RcppExport SEXP _testSAN_rcpp_use_after_free(SEXP alloc_sizeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type size_free(size_freeSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_use_after_free(size_free));
+    Rcpp::traits::input_parameter< int >::type alloc_size(alloc_sizeSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_use_after_free(alloc_size));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_write_index_outofbound
-int rcpp_write_index_outofbound(int boundvalue);
-RcppExport SEXP _testUBSAN_rcpp_write_index_outofbound(SEXP boundvalueSEXP) {
+int rcpp_write_index_outofbound(int wbound);
+RcppExport SEXP _testSAN_rcpp_write_index_outofbound(SEXP wboundSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type boundvalue(boundvalueSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_write_index_outofbound(boundvalue));
+    Rcpp::traits::input_parameter< int >::type wbound(wboundSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_write_index_outofbound(wbound));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_zero_sized_array
-int rcpp_zero_sized_array(int vectorvalue);
-RcppExport SEXP _testUBSAN_rcpp_zero_sized_array(SEXP vectorvalueSEXP) {
+int rcpp_zero_sized_array(int value);
+RcppExport SEXP _testSAN_rcpp_zero_sized_array(SEXP valueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type vectorvalue(vectorvalueSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_zero_sized_array(vectorvalue));
+    Rcpp::traits::input_parameter< int >::type value(valueSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_zero_sized_array(value));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_testUBSAN_rcpp_read_out_of_bound", (DL_FUNC) &_testUBSAN_rcpp_read_out_of_bound, 1},
-    {"_testUBSAN_rcpp_use_after_deallocate", (DL_FUNC) &_testUBSAN_rcpp_use_after_deallocate, 1},
-    {"_testUBSAN_rcpp_use_after_free", (DL_FUNC) &_testUBSAN_rcpp_use_after_free, 1},
-    {"_testUBSAN_rcpp_write_index_outofbound", (DL_FUNC) &_testUBSAN_rcpp_write_index_outofbound, 1},
-    {"_testUBSAN_rcpp_zero_sized_array", (DL_FUNC) &_testUBSAN_rcpp_zero_sized_array, 1},
+    {"_testSAN_rcpp_read_out_of_bound", (DL_FUNC) &_testSAN_rcpp_read_out_of_bound, 1},
+    {"_testSAN_rcpp_use_after_deallocate", (DL_FUNC) &_testSAN_rcpp_use_after_deallocate, 1},
+    {"_testSAN_rcpp_use_after_free", (DL_FUNC) &_testSAN_rcpp_use_after_free, 1},
+    {"_testSAN_rcpp_write_index_outofbound", (DL_FUNC) &_testSAN_rcpp_write_index_outofbound, 1},
+    {"_testSAN_rcpp_zero_sized_array", (DL_FUNC) &_testSAN_rcpp_zero_sized_array, 1},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_testUBSAN(DllInfo *dll) {
+RcppExport void R_init_testSAN(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
