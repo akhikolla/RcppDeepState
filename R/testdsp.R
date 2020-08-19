@@ -9,7 +9,7 @@
 ##' @import RcppArmadillo
 ##' @export
 
-deepstate_user_error_display<-function(logfile){
+deepstate_display<-function(logfile){
   count.dt <- ""
   if(length(logfile) > 0){
     display.dt <- nc::capture_all_str(
@@ -26,3 +26,12 @@ deepstate_user_error_display<-function(logfile){
     
   }
 }
+
+error.msg <- nc::capture_first_vec(display.dt$errortrace,
+                                   "==[0-9]+==",
+                                   r=".*","\n",
+                                   "==[0-9]+==",
+                                   msg=".*","\n",
+                                   resu = "DeepState_Test_.*._test())+",
+                                   res=".*?",
+                                   file="[^()]+?:[0-9]+")

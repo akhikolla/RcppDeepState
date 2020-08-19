@@ -3,16 +3,20 @@
 ##' @export
 deepstate_pkg_create<-function(package_name){
   packagename <- basename(package_name)
-  system(paste0("R CMD INSTALL ",package_name))
   inst_path <- file.path(package_name, "inst")
   if(!dir.exists(inst_path)){
     dir.create(inst_path)
   }
   test_path <- file.path(inst_path,"testfiles")
-  if(dir.exists(test_path)){
-    unlink(test_path, recursive = TRUE)
+  unlink(test_path, recursive = TRUE)
+  system(paste0("R CMD INSTALL ",package_name))
+  if(!(file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate32.a") &&
+       file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate.a")))
+  {
+    RcppDeepState::deepstate_make_run()
   }
   dir.create(test_path,showWarnings = FALSE)
+  Rcpp::compileAttributes(package_name)
   functions.list <- deepstate_get_function_body(package_name)
   if(!is.null(functions.list) && length(functions.list) > 1){
     functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
@@ -102,7 +106,7 @@ deepstate_pkg_create<-function(package_name){
       return("success")
     }
     else if(mismatch_count == length(fun_names)){
-      print("Testharness cannot be created for the package!!")
+      cat(sprintf("Testharness cannot be created for the package!!"))
       return(0)
     }
     else return(-1)
