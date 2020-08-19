@@ -17,11 +17,11 @@ deepstate_harness_compile_run <- function(package_name){
     fun <-(f)
     fun_path <- file.path(test_path,f)
     compile_line <-paste0("cd ",fun_path," && rm -f *.o && make")
-     
+     print(paste0(fun_path,"/","Makefile"))
     #print(paste0(fun_path,"/",f,"_log"))
     #system(compile_line)
-    if(file.exists(paste0(fun_path,"/",f,"/",f,"_DeepState_TestHarness.cpp")) && 
-       file.exists(paste0(fun_path,"/",f,"/","Makefile"))){
+    if(file.exists(paste0(fun_path,"/",f,"_DeepState_TestHarness.cpp")) && 
+       file.exists(paste0(fun_path,"/","Makefile"))){
       cat(sprintf(compile_line))
          system(compile_line)
     }

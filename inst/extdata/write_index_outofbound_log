@@ -7,6 +7,7 @@ INFO: Starting fuzzing
 WARNING: No seed provided; using 1591571417
 WARNING: No test specified, defaulting to first test defined (write_index_outofbound_random_datatypes_rcpp_write_index_outofbound_test)
 boundvalue values: -844752172
+inputends
 ==6932== 
 ==6932== HEAP SUMMARY:
 ==6932==     in use at exit: 50,292,667 bytes in 9,714 blocks
@@ -36,6 +37,7 @@ boundvalue values: -844752172
 ==6932== For counts of detected and suppressed errors, rerun with: -v
 ==6932== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 boundvalue values: -85337929
+inputends
 ==6946== 
 ==6946== HEAP SUMMARY:
 ==6946==     in use at exit: 50,292,667 bytes in 9,714 blocks
@@ -65,6 +67,7 @@ boundvalue values: -85337929
 ==6946== For counts of detected and suppressed errors, rerun with: -v
 ==6946== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 boundvalue values: -821154131
+inputends
 ==6952== 
 ==6952== HEAP SUMMARY:
 ==6952==     in use at exit: 50,292,667 bytes in 9,714 blocks
@@ -94,6 +97,7 @@ boundvalue values: -821154131
 ==6952== For counts of detected and suppressed errors, rerun with: -v
 ==6952== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 boundvalue values: -1403005804
+inputends
 ==6960== 
 ==6960== HEAP SUMMARY:
 ==6960==     in use at exit: 50,292,666 bytes in 9,714 blocks
@@ -123,6 +127,7 @@ boundvalue values: -1403005804
 ==6960== For counts of detected and suppressed errors, rerun with: -v
 ==6960== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 boundvalue values: -615420875
+inputends
 ==6966== 
 ==6966== HEAP SUMMARY:
 ==6966==     in use at exit: 50,292,667 bytes in 9,714 blocks

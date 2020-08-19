@@ -7,6 +7,7 @@ INFO: Starting fuzzing
 WARNING: No seed provided; using 1591660702
 WARNING: No test specified, defaulting to first test defined (zero_sized_array_random_datatypes_rcpp_zero_sized_array_test)
 vectorvalue values: -694812353
+inputends
 ==13054== Invalid write of size 4
 ==13054==    at 0x4198C5: rcpp_zero_sized_array(int) (zero_sized_array.cpp:11)
 ==13054==    by 0x40740D: DeepState_Test_zero_sized_array_random_datatypes_rcpp_zero_sized_array_test() (zero_sized_array_DeepState_TestHarness.cpp:16)
@@ -72,6 +73,7 @@ vectorvalue values: -694812353
 ==13054== For counts of detected and suppressed errors, rerun with: -v
 ==13054== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)
 vectorvalue values: 238082674
+inputends
 ==13074== Invalid write of size 4
 ==13074==    at 0x4198C5: rcpp_zero_sized_array(int) (zero_sized_array.cpp:11)
 ==13074==    by 0x40740D: DeepState_Test_zero_sized_array_random_datatypes_rcpp_zero_sized_array_test() (zero_sized_array_DeepState_TestHarness.cpp:16)
@@ -137,6 +139,7 @@ vectorvalue values: 238082674
 ==13074== For counts of detected and suppressed errors, rerun with: -v
 ==13074== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)
 vectorvalue values: 1464085476
+inputends
 ==13090== Invalid write of size 4
 ==13090==    at 0x4198C5: rcpp_zero_sized_array(int) (zero_sized_array.cpp:11)
 ==13090==    by 0x40740D: DeepState_Test_zero_sized_array_random_datatypes_rcpp_zero_sized_array_test() (zero_sized_array_DeepState_TestHarness.cpp:16)
@@ -202,6 +205,7 @@ vectorvalue values: 1464085476
 ==13090== For counts of detected and suppressed errors, rerun with: -v
 ==13090== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)
 vectorvalue values: 2038252255
+inputends
 ==13100== Invalid write of size 4
 ==13100==    at 0x4198C5: rcpp_zero_sized_array(int) (zero_sized_array.cpp:11)
 ==13100==    by 0x40740D: DeepState_Test_zero_sized_array_random_datatypes_rcpp_zero_sized_array_test() (zero_sized_array_DeepState_TestHarness.cpp:16)
@@ -267,6 +271,7 @@ vectorvalue values: 2038252255
 ==13100== For counts of detected and suppressed errors, rerun with: -v
 ==13100== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)
 vectorvalue values: -1575140075
+inputends
 ==13112== Invalid write of size 4
 ==13112==    at 0x4198C5: rcpp_zero_sized_array(int) (zero_sized_array.cpp:11)
 ==13112==    by 0x40740D: DeepState_Test_zero_sized_array_random_datatypes_rcpp_zero_sized_array_test() (zero_sized_array_DeepState_TestHarness.cpp:16)
@@ -332,6 +337,7 @@ vectorvalue values: -1575140075
 ==13112== For counts of detected and suppressed errors, rerun with: -v
 ==13112== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)
 vectorvalue values: 1152798166
+inputends
 ==13126== Invalid write of size 4
 ==13126==    at 0x4198C5: rcpp_zero_sized_array(int) (zero_sized_array.cpp:11)
 ==13126==    by 0x40740D: DeepState_Test_zero_sized_array_random_datatypes_rcpp_zero_sized_array_test() (zero_sized_array_DeepState_TestHarness.cpp:16)

@@ -7,6 +7,7 @@ INFO: Starting fuzzing
 WARNING: No seed provided; using 1591572999
 WARNING: No test specified, defaulting to first test defined (use_after_free_random_datatypes_rcpp_use_after_free_test)
 size_free values: 1470227958
+inputends
 ==7041== Warning: set address range perms: large range [0x59e43040, 0x1b86bc818) (undefined)
 ==7041== Warning: set address range perms: large range [0x59e43028, 0x1b86bc830) (noaccess)
 ==7041== Invalid read of size 4
@@ -55,6 +56,7 @@ size_free values: 1470227958
 ==7041== For counts of detected and suppressed errors, rerun with: -v
 ==7041== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 size_free values: 853634454
+inputends
 ==7054== Warning: set address range perms: large range [0x59e43040, 0x12569e698) (undefined)
 ==7054== Warning: set address range perms: large range [0x59e43028, 0x12569e6b0) (noaccess)
 ==7054== Invalid read of size 4
@@ -103,6 +105,7 @@ size_free values: 853634454
 ==7054== For counts of detected and suppressed errors, rerun with: -v
 ==7054== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 size_free values: 1552011320
+inputends
 ==7062== Warning: set address range perms: large range [0x59e43040, 0x1cbeb7120) (undefined)
 ==7062== Warning: set address range perms: large range [0x59e43028, 0x1cbeb7138) (noaccess)
 ==7062== Invalid read of size 4
