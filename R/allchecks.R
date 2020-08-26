@@ -5,12 +5,13 @@ deepstate_allchecks <- function(path){
 log_files <- deepstate_list_log_files(path)
 for(log.i in log_files){
   if(file.exists(log.i) && length(log.i) > 1 ){
-  result <-  deepstate_user_error_display(log.i)
-  if(paste0(result$src.file.lines,collapse="") == ""){
+  msg <-  deepstate_displays(log.i)
+  if(nrow(msg) >= 1){
     print("valgind checks doesn't detect any issue with the package")
     inst_path <- file.path(path, "inst")
     test_path <- file.path(inst_path,"testfiles")
-    makefile.i <- gsub("_log$",".Makefile",log.i)
+    #makefile.i <- gsub("_log$",".Makefile",log.i)
+    makefile.i <- paste0(dirname(log.i),"/Makefile")
     executable <- gsub("_log$","_DeepState_TestHarness",log.i)
     object <- paste0(executable,".o")
     makefile_lines <- readLines(makefile.i,warn=FALSE)

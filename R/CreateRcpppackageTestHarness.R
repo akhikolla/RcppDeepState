@@ -57,7 +57,7 @@ deepstate_pkg_create<-function(package_name){
         for(filestream.j in 1:nrow( functions.rows )){
           write_to_file<-paste0(write_to_file,"std::ofstream ", functions.rows[filestream.j,argument.name],"_stream",";\n")
         }
-        write_to_file<-paste(write_to_file,"RInside();\n")
+        write_to_file<-paste0(write_to_file,"RInside();\n","std::cout << #input starts# << std::endl;\n")
         deepstate_create_makefile(package_name,fun_name) 
         proto_args <-""
         for(argument.i in 1:nrow(functions.rows)){
@@ -99,7 +99,7 @@ deepstate_pkg_create<-function(package_name){
     }
     #print(match_count)
     #print(mismatch_count)
-    if(match_count == length(fun_names) || mismatch_count > 1){
+    if(match_count != 0 && match_count == length(fun_names) || mismatch_count > 1){
       #print(match_count)
       cat(sprintf("Testharness created for %d functions in the package\n ",match_count))
       #print("Testharness created for function in the package!!")
@@ -111,6 +111,7 @@ deepstate_pkg_create<-function(package_name){
     }
     else return(-1)
   }
+  else return("failed")
   
 }   
 ##' @title  creates makefiles for above created testharness in package

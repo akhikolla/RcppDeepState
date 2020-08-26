@@ -15,7 +15,7 @@ deepstate_user_error_display<-function(logfile){
   if(length(logfile) > 0){
   error.dt <- nc::capture_all_str(
     logfile,
-    inputs="(?:.*?values:.*\n)+",
+    inputs="(?:[a-zA-Z ]+values:(?:.*\n)*?)inputends\n+",
     errortrace="(?:.*\n)*?", 
     "==[0-9]+== HEAP SUMMARY:",
     "\n",
@@ -35,7 +35,7 @@ deepstate_user_error_display<-function(logfile){
     file.line.dt <- nc::capture_all_str(
       trace,
       file.line="[^()]+?:[0-9]+")
-    file.line.dt[grepl(paste0(files.list$file.name,".cpp"), file.line),paste(file.line, collapse="\n")]
+      file.line.dt[grepl(paste0(files.list$file.name,"_DeepState_TestHarness.cpp"), file.line),paste(file.line, collapse="\n")]
   }, by=error.i]
   
   error.msg <- nc::capture_first_vec(trace,

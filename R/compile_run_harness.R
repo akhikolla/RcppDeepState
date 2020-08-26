@@ -34,8 +34,8 @@ deepstate_harness_compile_run <- function(package_name){
        #cat(sprintf("Couldn't compile - %s\n", f))
     }
     else{
-    result <- deepstate_user_error_display(paste0(fun_path,"/",f,"_log"))
-    print(result)
+    result <- deepstate_displays(paste0(fun_path,"/",f,"_log"))
+    #print(result)
     }
   }
   }
