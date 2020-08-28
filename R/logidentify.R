@@ -4,6 +4,7 @@
 ##' @export
 ##' 
 deepstate_logcheck <- function(){
+  rcppdeepstate_list <- list()
 zip.path <- "/home/akhila/Documents/compileAttributescheck/"
 tgz.vec <- Sys.glob("/home/akhila/Documents/compileAttributescheck/*")
 for(pkg.i in seq_along(tgz.vec)){
@@ -16,8 +17,8 @@ for(pkg.i in seq_along(tgz.vec)){
     if(file.exists(log.i)){
       print(log.i)
       result <- deepstate_display(log.i)
-      if(!is.null(nrow(result)) || nrow(result) != 0){
-        #print(result)
+      if(nrow(result) > 0 && !is.null(nrow(result))){
+        rcppdeepstate_list <- c(rcppdeepstate_list,basename(pkg.name))
         log.path <- file.path(dirname(dirname(pkg.name)),"errorlogs",basename(pkg.name))
         dir.create(log.path,showWarnings=FALSE)
         file.copy(log.i,log.path)
@@ -31,8 +32,9 @@ for(pkg.i in seq_along(tgz.vec)){
   }
  }
 }
+#print(rcppdeepstate_list)
 }
     
   
   
-  
+rcppdeepsatte_list <-basename(Sys.glob("/home/akhila/Documents/compileAttributescheck/errorlogs/*"))

@@ -51,7 +51,7 @@ for(pkg.i in seq_along(check.file.vec)){
 }
 issue.dt <- do.call(rbind, issue.dt.list)
 unique(issue.dt$pkg)
-
+type.dt <- do.call(rbind, type.dt.list)
 
 for(issue.i in seq_along(issue.dt)){
   cran.issue <- file.path("/home/akhila/Documents/checks/CRANIssue",issue.dt$pkg[[issue.i]])

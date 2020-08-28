@@ -2,12 +2,13 @@
 ##' @param package_name to the RcppExports file
 ##' @export
 deepstate_pkg_create<-function(package_name){
-  packagename <- basename(package_name)
+  package_name <- sub("/$","",package_name)
   inst_path <- file.path(package_name, "inst")
   if(!dir.exists(inst_path)){
     dir.create(inst_path)
   }
   test_path <- file.path(inst_path,"testfiles")
+  packagename <- basename(package_name)
   unlink(test_path, recursive = TRUE)
   system(paste0("R CMD INSTALL ",package_name))
   if(!(file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate32.a") &&
@@ -21,16 +22,12 @@ deepstate_pkg_create<-function(package_name){
   if(!is.null(functions.list) && length(functions.list) > 1){
     functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
     prototypes_calls <-deepstate_get_prototype_calls(package_name)
-    in_package <- paste("RcppDeepState")
+    in_package <- paste0("RcppDeepState")
     match_count = 0
     mismatch_count = 0
     #dir.create(file.path(inst_path,"testfiles"))
-    includes <-"#include <DeepState.hpp>
-#include <RInside.h>
-#include <iostream>
-#include <RcppDeepState.h>
-#include <fstream>"
-    include<-gsub("@","\"",includes)
+    headers <-"#include <fstream>\n#include <RInside.h>\n#include <iostream>\n#include <RcppDeepState.h>\n#include <DeepState.hpp>\n"
+    #include <-gsub("@","\"",includes)
     fun_names <- unique(functions.list$funName)
     for(function_name.i in fun_names){
       write_to_file <- ""
@@ -47,24 +44,26 @@ deepstate_pkg_create<-function(package_name){
         }
         file_path <- file.path(fun_path,filename)
         file.create(file_path,recursive=TRUE)
-        write(include,file_path,append = TRUE)
-        write_to_file <-paste(write_to_file,pt[1,pt$prototype])
-        testname<-paste(function_name.i,"_test",sep="")
-        unittest<-gsub(" ","",paste(packagename,"_deepstate_test"))
-        write_to_file <- paste0(write_to_file,"\n","TEST(",unittest,",",testname,")","{","\n")
+        write(headers,file_path,append = TRUE)
+        write_to_file <-paste0(write_to_file,pt[1,pt$prototype],"\n")
+        testname<-paste0(function_name.i,"_test",sep="")
+        unittest<-paste0(packagename,"_deepstate_test")
+        write_to_file <- paste0(write_to_file,"\n","TEST(",unittest,",",testname,")","{","\n\n")
         #obj <-gsub( "\\s+", " " ,paste(in_package,tolower(in_package),";","\n"))
         #write(obj,filename,append = TRUE)
         for(filestream.j in 1:nrow( functions.rows )){
-          write_to_file<-paste0(write_to_file,"std::ofstream ", functions.rows[filestream.j,argument.name],"_stream",";\n")
+          stream <- functions.rows[filestream.j,argument.name]
+          write_to_file<-paste0(write_to_file,"std::ofstream ",gsub(" ","",stream),"_stream",";\n")
         }
         write_to_file<-paste0(write_to_file,"RInside();\n","std::cout << #input starts# << std::endl;\n")
         deepstate_create_makefile(package_name,fun_name) 
         proto_args <-""
         for(argument.i in 1:nrow(functions.rows)){
-          variable <- gsub( "\\s+", " " ,paste( functions.rows [argument.i,argument.type],
-                                                functions.rows [argument.i,argument.name]))
+          arg.type <- gsub(" ","",functions.rows [argument.i,argument.type])
+          arg.name <- gsub(" ","",functions.rows [argument.i,argument.name])
+          variable <- paste0(arg.type," ",arg.name)
           variable <- gsub("const","",variable)
-          name <- (gsub("const ","", functions.rows[argument.i,argument.type]))
+          name <- gsub("const ","", arg.type)
           name <-gsub("Rcpp::","",name)
           name <-gsub("arma::","",name)
           st_val <- paste0("= ","RcppDeepState_",(name),"()",";\n")
@@ -72,23 +71,22 @@ deepstate_pkg_create<-function(package_name){
           if(!dir.exists(inputs_path)){
             dir.create(inputs_path)
           }
-          input.vals <- file.path(inputs_path,functions.rows [argument.i,argument.name])
-          file_open <- gsub("# ","\"",paste0( functions.rows [argument.i,argument.name],
-                                              "_stream.open(#",input.vals,"# );","\n",
-           functions.rows [argument.i,argument.name],"_stream<<", 
-           functions.rows [argument.i,argument.name],";","\n",
-          "std::cout <<","#",functions.rows [argument.i,argument.name],
-          " values: ","#"," <<",functions.rows [argument.i,argument.name],
+          input.vals <- file.path(inputs_path,arg.name)
+          file_open <- gsub("# ","\"",paste0(arg.name,"_stream.open(#",input.vals,"# );","\n",
+                                             arg.name,"_stream << ", 
+                                             arg.name,";","\n",
+          "std::cout << ","#",arg.name,
+          " values: ","#"," << ",arg.name,
           " << std::endl;","\n",
-          functions.rows [argument.i,argument.name],"_stream.close();","\n"))
-          proto_args <- paste0(proto_args,functions.rows[argument.i,argument.name])
+          arg.name,"_stream.close();","\n"))
+          proto_args <- gsub(" ","",paste0(proto_args,arg.name))
           if(argument.i < nrow(functions.rows)) proto_args <- paste0(proto_args,",")
-          write_to_file <-paste(write_to_file,variable,st_val,file_open)
+          write_to_file <- paste0(write_to_file,paste0(variable,st_val,file_open))
         }
-        write_to_file<-paste(write_to_file,"std::cout << #input ends# << std::endl;\n","try{\n")
+        write_to_file<-paste0(write_to_file,"std::cout << #input ends# << std::endl;\n","try{\n  ")
         write_to_file<-paste0(write_to_file,fun_name,"(",proto_args,");")
-        write_to_file<-gsub("#","\"",paste0(write_to_file,"\n","}\n","catch(Rcpp::exception& e){\n","std::cout<<#Exception Handled#<<std::endl;\n}"))
-        write_to_file<-paste(write_to_file,"\n","}")
+        write_to_file<-gsub("#","\"",paste0(write_to_file,"\n","}\n","catch(Rcpp::exception& e){\n  ","std::cout<<#Exception Handled#<<std::endl;\n}"))
+        write_to_file<-paste0(write_to_file,"\n","}")
         write(write_to_file,file_path,append=TRUE)
       }
       else if(deepstate_datatype_check(params) == 0)
@@ -147,15 +145,16 @@ deepstate_create_makefile <-function(package,fun_name){
    " -Wl,-rpath=",system.file("lib", package="RInside"),
    " -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",deepstate.build,
    " -Wl,-rpath=",deepstate.build," -lR -lRInside -ldeepstate")
-  write_to_file<-paste(write_to_file,flags,"\n")
-  write_to_file<-paste0(write_to_file,"\n",test_harness_path," : ",makefile.o_path)
-  compile.line <- paste("\n\t","clang++ -g -o ",test_harness_path,"${COMMON_FLAGS}","-I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," "," -I",deepstate.header," ")
-  obj.file.path<-gsub(" ","",paste0(package,"/src/*.cpp"))
-  write_to_file<-paste(write_to_file,compile.line,obj.file.path)
-  dir.create(paste0(fun_path,"/",fun_name,"_output"), showWarnings = FALSE)
+  write_to_file<-paste0(write_to_file,flags,"\n")
+  write_to_file<-paste0(write_to_file,"\n",basename(test_harness_path)," : ",test_harness_path)
   write_to_file<-paste0(write_to_file,"\n\t","cd ",fun_path," && ","valgrind --tool=memcheck --leak-check=yes --track-origins=yes ","./",test_harness," --fuzz --fuzz_save_passing --output_test_dir ",fun_path,"/",fun_name,"_output"," > ",fun_path,"/",fun_name,"_log ","2>&1")
+  write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
+  compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${COMMON_FLAGS} ","-I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",deepstate.header," ")
+  obj.file.path<-gsub(" ","",paste0(package,"/src/*.cpp"))
+  write_to_file<-paste0(write_to_file,compile.line,obj.file.path)
+  dir.create(paste0(fun_path,"/",fun_name,"_output"), showWarnings = FALSE)
   #write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/home/",p$val,"testfiles","/",p$packagename)," && ","./",test_harness," --fuzz")
-  write_to_file<-paste(write_to_file,"\n",makefile.o_path,":",makefile.cpp_path)
+  write_to_file<-paste0(write_to_file,"\n\n",makefile.o_path," : ",makefile.cpp_path)
   write_to_file<-paste0(write_to_file,"\n\t","clang++ -g -I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",system.file("include", package="RInside")," -I",system.file("include",package="RcppDeepState")," ", 
                         makefile.cpp_path," -o ",makefile.o_path," -c")
   write(write_to_file,makefile_path,append=TRUE)
