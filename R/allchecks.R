@@ -41,3 +41,10 @@ for(log.i in log_files){
   else {print("valgind checks doesn't detect any issue with the package")}
 }
 }
+
+
+
+hapy <- function(x){
+  print("In happy")
+  saveRDS(x,"filex.RDs")
+}
