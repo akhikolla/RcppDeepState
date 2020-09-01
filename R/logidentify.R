@@ -11,7 +11,7 @@ for(pkg.i in seq_along(tgz.vec)){
   pkg.name <- tgz.vec[[pkg.i]]
   RcppExports.cpp <- file.path(pkg.name, "src/RcppExports.cpp")
  if(file.exists(RcppExports.cpp)){
-  log_files <- deepstate_list_log_files(pkg.name)
+  log_files <-  deepstate_list_log_files(pkg.name)
   print(pkg.name)
   for(log.i in log_files){
     if(file.exists(log.i)){

@@ -5,7 +5,7 @@ deepstate_harness_compile_run <- function(package_name){
   inst_path <- file.path(package_name, "inst")
   test_path <- file.path(inst_path,"testfiles")
   uncompiled.code <- list()
-  functions.list  <- deepstate_get_function_body(package_name)
+  functions.list  <-  RcppDeepState::deepstate_get_function_body(package_name)
   #create_testpkgs_objects()
   functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
   fun_names <- unique(functions.list$funName)
@@ -14,7 +14,7 @@ deepstate_harness_compile_run <- function(package_name){
   for(f in fun_names){
     functions.rows  <- functions.list[functions.list$funName == f,]
     params <- c(functions.rows$argument.type)
-    if(deepstate_datatype_check(params) == 1){
+    if( RcppDeepState::deepstate_datatype_check(params) == 1){
     fun_path <- file.path(test_path,f)
     compile_line <-paste0("cd ",fun_path," && rm -f *.o && make")
      print(paste0(fun_path,"/","Makefile"))

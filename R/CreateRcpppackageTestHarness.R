@@ -18,7 +18,7 @@ deepstate_pkg_create<-function(package_name){
   }
   dir.create(test_path,showWarnings = FALSE)
   Rcpp::compileAttributes(package_name)
-  functions.list <- deepstate_get_function_body(package_name)
+  functions.list <-  RcppDeepState::deepstate_get_function_body(package_name)
   if(!is.null(functions.list) && length(functions.list) > 1){
     functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
     prototypes_calls <-deepstate_get_prototype_calls(package_name)
@@ -33,7 +33,7 @@ deepstate_pkg_create<-function(package_name){
       write_to_file <- ""
       functions.rows  <- functions.list [functions.list$funName == function_name.i,]
       params <- c(functions.rows$argument.type)
-      if(deepstate_datatype_check(params) == 1){
+      if( RcppDeepState::deepstate_datatype_check(params) == 1){
         match_count = match_count + 1
         pt <- prototypes_calls[prototypes_calls$funName == function_name.i,]
         fun_name <-function_name.i
@@ -48,7 +48,7 @@ deepstate_pkg_create<-function(package_name){
         write_to_file <-paste0(write_to_file,pt[1,pt$prototype],"\n")
         testname<-paste0(function_name.i,"_test",sep="")
         unittest<-paste0(packagename,"_deepstate_test")
-        write_to_file <- paste0(write_to_file,"\n","TEST(",unittest,",",testname,")","{","\n\n")
+        write_to_file <- paste0(write_to_file,"\n","TEST(",unittest,",",testname,")","{","\n")
         #obj <-gsub( "\\s+", " " ,paste(in_package,tolower(in_package),";","\n"))
         #write(obj,filename,append = TRUE)
         indent <- "  "
@@ -57,14 +57,14 @@ deepstate_pkg_create<-function(package_name){
           write_to_file<-paste0(write_to_file,indent,"std::ofstream ",gsub(" ","",stream),"_stream",";\n")
         }
         write_to_file<-paste0(write_to_file,indent,"RInside();\n",indent,"std::cout << #input starts# << std::endl;\n")
-        deepstate_create_makefile(package_name,fun_name) 
+        RcppDeepState::deepstate_create_makefile(package_name,fun_name) 
         proto_args <-""
         for(argument.i in 1:nrow(functions.rows)){
           arg.type <- gsub(" ","",functions.rows [argument.i,argument.type])
           arg.name <- gsub(" ","",functions.rows [argument.i,argument.name])
           variable <- paste0(arg.type," ",arg.name)
           variable <- gsub("const","",variable)
-          name <- gsub("const ","", arg.type)
+          name <- gsub("const","", arg.type)
           name <-gsub("Rcpp::","",name)
           name <-gsub("arma::","",name)
           st_val <- paste0("= ","RcppDeepState_",(name),"()",";\n")
@@ -164,8 +164,3 @@ deepstate_create_makefile <-function(package,fun_name){
   write(write_to_file,makefile_path,append=TRUE)
 }
 
-
-globalVariables(c("argument.name","funName","argument.type","calls"
-                  ,"code","funName",".","error.i","src.file.lines",
-                  "heapsum","file.line","arg.name","value",":=",".N","f","fun_name"
-                  ,"read.table"))

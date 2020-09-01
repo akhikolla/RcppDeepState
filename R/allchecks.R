@@ -2,10 +2,10 @@
 ##' @param path to the package we are working on 
 ##' @export
 deepstate_allchecks <- function(path){
-log_files <- deepstate_list_log_files(path)
+log_files <-  RcppDeepState::deepstate_list_log_files(path)
 for(log.i in log_files){
   if(file.exists(log.i) && length(log.i) > 1 ){
-  msg <-  deepstate_displays(log.i)
+  msg <-   RcppDeepState::deepstate_displays(log.i)
   if(nrow(msg) >= 1){
     print("valgind checks doesn't detect any issue with the package")
     inst_path <- file.path(path, "inst")
@@ -27,7 +27,7 @@ for(log.i in log_files){
         compile_line <-paste0("rm -f *.o && make -f ",makefile.asan)
         #print(compile_line) 
         system(compile_line)
-        asan_result <- deepstate_user_asan_error_display(asan_log)
+        asan_result <-  RcppDeepState::deepstate_user_asan_error_display(asan_log)
         if(asan_result$count == 0) print("no error detected using asan")
         else {
           print("detected error using asan")
@@ -40,11 +40,4 @@ for(log.i in log_files){
   }
   else {print("valgind checks doesn't detect any issue with the package")}
 }
-}
-
-
-
-hapy <- function(x){
-  print("In happy")
-  saveRDS(x,"filex.RDs")
 }

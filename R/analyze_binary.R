@@ -6,47 +6,45 @@
 ##' @import RInside
 ##' @export
 deepstate_harness_analyze_one <- function(path){
-  list.paths <-nc::capture_first_vec(path, "/",root=".+?","/",remain_path=".*")
-  path_details <- nc::capture_all_str(list.paths$remain_path,val=".+/",folder=".+/",testfolder=".+/",fun.name=".+/",binary_file=".*")
-  inst_path <- file.path(paste0("/",list.paths$root,"/",path_details$val,path_details$folder))
-  test_path <- file.path(inst_path,path_details$testfolder)
-  exec.path <- paste0(file.path(test_path)," ;")
-  fun <- gsub("_output/","",path_details$fun.name)
-  exec <- paste0("./",fun,"_DeepState_TestHarness")
-  binary_file<-file.path(paste0(test_path,path_details$fun.name,path_details$binary_file))
-  analyze_one <- paste0(exec," --input_test_file ",binary_file)
-  var <- paste("cd",exec.path,analyze_one) 
-  package_path <- gsub("inst/","",inst_path)
-  print(var)
-  system(var)
-  functions.list  <- deepstate_get_function_body(package_path)
-  #print(functions.list)
-  counter = 1
-  #function_name = "rcpp_read_out_of_bound"
-  arguments.list = list()
-  arguments.name = list()
-  for(function_name.i in unique(functions.list$funName)){ 
-    #print(fun)
-    if(function_name.i == fun){
-      functions.rows  <- functions.list [functions.list$funName == function_name.i,] 
-      for(argument.i in 1:nrow(functions.rows)){
-        arg.name = gsub(" ","",paste0(functions.rows[argument.i,argument.name]))
-        print(arg.name)
-        filepath=file.path(paste0(test_path,arg.name))
-        print(filepath)
-        #print(paste0("/",list.paths$root,"/",path_details$val,"testfiles/",path_details$package_name,arg.name))
-        cat("\n", file = filepath, append = TRUE)
-        values = read.table(filepath,sep="\t")
-        #names(arguments.list) = c(arg.name)
-        #arguments.list <- (arguments.list,arg.name=list(values))
-        arguments.list[counter] = list(values)
-        names(arguments.list[counter]) = arg.name
-        arguments.name[counter] = arg.name
-        counter = counter+1
-        
-      }
-      names(arguments.list) = arguments.name
+  package_name <- sub("/$","",package_name)
+  inst_path <- file.path(package_name, "inst")
+  if(!dir.exists(inst_path)){
+    dir.create(inst_path)
+  }
+  test_path <- file.path(inst_path,"testfiles")
+  packagename <- basename(package_name)
+  test.files <- Sys.glob(paste0(test_path,"/*"))
+    pkg.path <- test.files[[pkg.i]] 
+  for(pkg.i in seq_along(test.files)){
+    bin.path <- file.path(paste0(pkg.path,"/",basename(pkg.path),"_output"))
+    bin.files <- Sys.glob(paste0(bin.path,"/*"))
+    for(bin.i in seq_along(bin.files)){
+      bin.path.i <- bin.files[[bin.i]]
+      fun <- basename(pkg.path) 
+      exec <- paste0("./",fun,"_DeepState_TestHarness")
+      inputs.path <- Sys.glob(paste0(file.path(pkg.path,"inputs"),"/*"))
+      output_folder<-paste0(dirname(bin.path.i),"/log_",sub('\\..*', '',basename(bin.path.i)))
+      dir.create(output_folder,showWarnings = FALSE)
+      analyze_one <- paste0("valgrind --tool=memcheck --leak-check=yes ",exec," --input_test_file ",bin.path.i," > ",output_folder,"/valgrind_log"," 2>&1")
+      var <- paste("cd",pkg.path,";", analyze_one) 
+      print(var)
+      system(var)
+      file.copy(inputs.path,output_folder)
+      file.copy(bin.path.i,output_folder)
+      file.remove(bin.path.i)
+      RcppDeepState::deepstate_display(file.path(output_folder,"valgrind_log"))
     }
   }
-  return(arguments.list)
 }
+
+
+globalVariables(c("argument.name","funName","argument.type","calls"
+                  ,"code","funName",".","error.i","src.file.lines",
+                  "heapsum","file.line","arg.name","value",":=",".N","f","fun_name"
+                  ,"read.table","new.i.vec","download.file","result","inputs",
+                  "rest"))
+
+globalVariables(c("error.i","error.type","sanitizer","function.i",
+                  "src.file.lines","heapsum","file.line","arg.name",
+                  "value",".N",":=","prototype"))
+

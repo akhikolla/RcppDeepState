@@ -60,3 +60,6 @@ test_that("outputfolder files existence", {
   expect_true(all(dir.exists(outputfolder.list)))
 })
 
+
+deepstate_tests_fuzz(path)
+

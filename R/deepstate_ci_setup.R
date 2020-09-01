@@ -61,7 +61,7 @@ deepstate_ci_setup<-function(path){
   write_to_tests <-paste0(write_to_tests,"result <- RcppDeepState::deepstate_pkg_create(package_path)\n")
   write_to_tests <-paste0(write_to_tests,"test_that(@deepstate create TestHarness@,{\nexpect_equal(result,@Testharness created!!@)\n})\n")
   write_to_tests <-paste0(write_to_tests,"RcppDeepState::deepstate_harness_compile_run(package_path)\n")
-  log_files <- deepstate_list_log_files(path)
+  log_files <-  RcppDeepState::deepstate_list_log_files(path)
   for(log in log_files){
     write_to_tests <-paste0(write_to_tests,"error.list <- RcppDeepState::deepstate_user_error_display(@",log,"@)\n")
     write_to_tests <-paste0(write_to_tests,"test_that(@log files check@,{\nexpect_equal(")

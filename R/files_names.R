@@ -3,7 +3,7 @@
 ##' @return makefiles.list makefile list 
 ##' @export
 deepstate_harness_files <- function(path){
-  functions.list <- deepstate_get_function_body(path)
+  functions.list <-  RcppDeepState::deepstate_get_function_body(path)
   inst_path <- file.path(path, "inst")
   test_path <- file.path(inst_path,"testfiles")
   fun_names <- unique(functions.list$funName)
@@ -23,7 +23,7 @@ deepstate_harness_files <- function(path){
 ##' @return logfiles.list logfile path list
 ##' @export
 deepstate_list_log_files <- function(path){
-  functions.list <- deepstate_get_function_body(path)
+  functions.list <-  RcppDeepState::deepstate_get_function_body(path)
   inst_path <- file.path(path, "inst")
   test_path <- file.path(inst_path,"testfiles")
   fun_names <- unique(functions.list$funName)

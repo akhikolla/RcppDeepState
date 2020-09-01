@@ -2,7 +2,7 @@
 ##' @param package_name for the RcppExports file
 ##' @export
 deepstate_harness_save_passing_tests<-function(package_name){
-  functions.list  <- deepstate_get_function_body(package_name)
+  functions.list  <-  RcppDeepState::deepstate_get_function_body(package_name)
   fun_names <- unique(functions.list $funName)
   for(f in fun_names){
     functions.rows  <- functions.list [functions.list $funName == f,]
@@ -18,7 +18,7 @@ deepstate_harness_save_passing_tests<-function(package_name){
 ##' @param package_name for the RcppExports file
 ##' @export
 deep_harness_save_crash_tests<-function(package_name){
-  functions.list  <- deepstate_get_function_body(package_name)
+  functions.list  <-  RcppDeepState::deepstate_get_function_body(package_name)
   fun_names <- unique(functions.list $funName)
   for(f in fun_names){
     functions.rows  <- functions.list [functions.list$funName == f,]

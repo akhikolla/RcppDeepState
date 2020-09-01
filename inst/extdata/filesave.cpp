@@ -2,16 +2,12 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-void callFunction(Rcpp::NumericVector mat) {
- Environment env = Environment::global_env();
- Function foo = env["hapy"];
- foo(mat);
- Rcout <<"mat values: "<< mat;
+void callFunction(Rcpp::NumericMatrix mat) {
+  Environment base("package:base");
+  Function saveRDS = base["saveRDS"];
+  Function readRDS = base["readRDS"];
+  NumericMatrix xx(wrap(mat));
+  saveRDS(xx,Named("file","fun.RDs"));
+  readRDS("fun.RDs");
   }
 
-/*** R
-hapy <- function(x){
-  print("In happy")
-  saveRDS(x,"filex.RDs")
-}
-*/

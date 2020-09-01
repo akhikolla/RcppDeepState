@@ -9,10 +9,11 @@
 
 deepstate_display<-function(logfile){
   count.dt <- ""
+  package_name <- 
   if(length(logfile) > 0){
     display.dt <- nc::capture_all_str(
       logfile,
-      inputs="(?:[a-zA-Z ]+values:(?:.*\n)*?)inputends\n+",
+      inputs="(?:[a-zA-Z ]+values:(?:.*\n)*?)input ends\n+",
       errortrace="(?:.*\n)*?",
       "==[0-9]+== HEAP SUMMARY:",
       "\n",
@@ -25,7 +26,7 @@ deepstate_display<-function(logfile){
     files.list<-nc::capture_all_str(logfile,"Command: ./",
                                     file.name=".*",
                                     "_DeepState_TestHarness")
-    Testharness <- paste0("DeepState_Test_",basename(gsub("/inst.*","",logfile)),
+    Testharness <- paste0("DeepState_Test_",basename(gsub("/inst/testfiles/.*","",logfile)),
                           "_deepstate_test_",files.list$file.name,"_test")
 trace <- gsub("==[0-9]+== Warning:.*?\\n","",display.dt$errortrace)
 trace <- paste0(trace,display.dt$heapsum,display.dt$leaksum)

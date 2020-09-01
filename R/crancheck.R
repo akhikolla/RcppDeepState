@@ -1,5 +1,5 @@
 crancheck<-function(){
-pkg.name.vec <- dir("/home/akhila/Documents/checks/packages")
+pkg.name.vec <- dir("/home/akhila/Documents/packages")
 dir.create("/home/akhila/Documents/checks", showWarnings=FALSE)
 pkg.check.vec <- file.path("/home/akhila/Documents/checks/files", sub("_.*", "",basename(pkg.name.vec)))
 for(pkg.i in seq_along(pkg.name.vec)){
@@ -10,8 +10,16 @@ for(pkg.i in seq_along(pkg.name.vec)){
     pkg.name,
     ".html")
   pkg.check <- pkg.check.vec[[pkg.i]]
-  download.file(u, pkg.check)
+  tryCatch({
+    download.file(u, pkg.check)
+  }, error=function(e){
+    print(e)
+  })
 }
+
+
+
+
 
 memtests.pattern <- list(
   "<a href=\"https://www.stats.ox.ac.uk/pub/bdr/memtests/",
