@@ -6,7 +6,7 @@
 ##' @import RInside
 ##' @export
 deepstate_harness_analyze_one <- function(path){
-  package_name <- sub("/$","",package_name)
+  package_name <- sub("/$","",path)
   inst_path <- file.path(package_name, "inst")
   if(!dir.exists(inst_path)){
     dir.create(inst_path)
