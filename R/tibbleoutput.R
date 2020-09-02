@@ -57,6 +57,7 @@ deepstate_displays <- function(logfile){
   str(messages.parsed)
   for(message.i in 1:nrow(messages.parsed)){
     cat(sprintf("\nmessage=%d\n", message.i))
+    cat(sprintf("\ninputs=%s\n", messages.raw$inputs))
     #str(messages.parsed[["arguments"]][[message.i]])
     print(tibble::tibble(messages.parsed[["problems"]][[message.i]]))
     

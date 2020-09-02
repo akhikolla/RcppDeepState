@@ -7,7 +7,6 @@ INFO: Starting fuzzing
 WARNING: No seed provided; using 1591573220
 WARNING: No test specified, defaulting to first test defined (use_after_deallocate_random_datatypes_rcpp_use_after_deallocate_test)
 size values: 2049359586
-inputends
 ==7136== Warning: set address range perms: large range [0x59e43040, 0xd40aef22) (undefined)
 ==7136== Warning: set address range perms: large range [0x59e43028, 0xd40aef3a) (noaccess)
 ==7136== Invalid read of size 1
@@ -56,7 +55,6 @@ inputends
 ==7136== For counts of detected and suppressed errors, rerun with: -v
 ==7136== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 size values: 178490764
-inputends
 ==7144== Invalid read of size 1
 ==7144==    at 0x418604: rcpp_use_after_deallocate(int) (use_after_deallocate.cpp:7)
 ==7144==    by 0x4082AD: DeepState_Test_use_after_deallocate_random_datatypes_rcpp_use_after_deallocate_test() (use_after_deallocate_DeepState_TestHarness.cpp:16)
@@ -103,7 +101,6 @@ inputends
 ==7144== For counts of detected and suppressed errors, rerun with: -v
 ==7144== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 size values: -100326424
-inputends
 ==7153== Argument 'size' of function __builtin_vec_new has a fishy (possibly negative) value: -100326424
 ==7153==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 ==7153==    by 0x4185F8: rcpp_use_after_deallocate(int) (use_after_deallocate.cpp:5)
@@ -144,7 +141,6 @@ inputends
 ==7153== For counts of detected and suppressed errors, rerun with: -v
 ==7153== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 size values: 1340598344
-inputends
 ==7164== Warning: set address range perms: large range [0x59e43040, 0xa9cc1888) (undefined)
 ==7164== Warning: set address range perms: large range [0x59e43028, 0xa9cc18a0) (noaccess)
 ==7164== Invalid read of size 1
@@ -193,7 +189,6 @@ inputends
 ==7164== For counts of detected and suppressed errors, rerun with: -v
 ==7164== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 size values: 13283439
-inputends
 ==7169== Invalid read of size 1
 ==7169==    at 0x418604: rcpp_use_after_deallocate(int) (use_after_deallocate.cpp:7)
 ==7169==    by 0x4082AD: DeepState_Test_use_after_deallocate_random_datatypes_rcpp_use_after_deallocate_test() (use_after_deallocate_DeepState_TestHarness.cpp:16)
@@ -240,7 +235,6 @@ inputends
 ==7169== For counts of detected and suppressed errors, rerun with: -v
 ==7169== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 size values: -502893745
-inputends
 ==7174== Argument 'size' of function __builtin_vec_new has a fishy (possibly negative) value: -502893745
 ==7174==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 ==7174==    by 0x4185F8: rcpp_use_after_deallocate(int) (use_after_deallocate.cpp:5)
@@ -281,7 +275,6 @@ inputends
 ==7174== For counts of detected and suppressed errors, rerun with: -v
 ==7174== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 size values: -1648680631
-inputends
 ==7179== Argument 'size' of function __builtin_vec_new has a fishy (possibly negative) value: -1648680631
 ==7179==    at 0x4C3089F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
 ==7179==    by 0x4185F8: rcpp_use_after_deallocate(int) (use_after_deallocate.cpp:5)

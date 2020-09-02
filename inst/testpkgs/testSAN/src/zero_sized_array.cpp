@@ -1,5 +1,6 @@
 #include <Rcpp.h>
 using namespace std;
+
 // [[Rcpp::export]]
 int rcpp_zero_sized_array(int value){
   int size = 0;

@@ -38,6 +38,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_use_uninitialized
+int rcpp_use_uninitialized(int u_value);
+RcppExport SEXP _testSAN_rcpp_use_uninitialized(SEXP u_valueSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type u_value(u_valueSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_use_uninitialized(u_value));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_write_index_outofbound
 int rcpp_write_index_outofbound(int wbound);
 RcppExport SEXP _testSAN_rcpp_write_index_outofbound(SEXP wboundSEXP) {
@@ -65,6 +76,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_testSAN_rcpp_read_out_of_bound", (DL_FUNC) &_testSAN_rcpp_read_out_of_bound, 1},
     {"_testSAN_rcpp_use_after_deallocate", (DL_FUNC) &_testSAN_rcpp_use_after_deallocate, 1},
     {"_testSAN_rcpp_use_after_free", (DL_FUNC) &_testSAN_rcpp_use_after_free, 1},
+    {"_testSAN_rcpp_use_uninitialized", (DL_FUNC) &_testSAN_rcpp_use_uninitialized, 1},
     {"_testSAN_rcpp_write_index_outofbound", (DL_FUNC) &_testSAN_rcpp_write_index_outofbound, 1},
     {"_testSAN_rcpp_zero_sized_array", (DL_FUNC) &_testSAN_rcpp_zero_sized_array, 1},
     {NULL, NULL, 0}

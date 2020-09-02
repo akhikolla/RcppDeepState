@@ -7,7 +7,6 @@ INFO: Starting fuzzing
 WARNING: No seed provided; using 1591571071
 WARNING: No test specified, defaulting to first test defined (read_out_of_bound_random_datatypes_rcpp_read_out_of_bound_test)
 sizeofarray values: 1454661619
-inputends
 ==6735== Warning: set address range perms: large range [0x59e43040, 0x1b4b5b00c) (undefined)
 ==6735== Invalid read of size 4
 ==6735==    at 0x4185D3: rcpp_read_out_of_bound(int) (read_out_of_bound.cpp:9)
