@@ -92,7 +92,7 @@ Rcpp::NumericMatrix RcppDeepState_NumericMatrix(){
   int columns = DeepState_IntInRange(1,10);
   Rcpp::NumericMatrix rand_numericmatrix(rows,columns);
   for(int i = 0 ; i < rows*columns ; i++){
-    rand_numericmatrix[i] = DeepState_Double();
+    rand_numericmatrix[i] = DeepState_DoubleInRange(0,1.7E308);
   }
   return rand_numericmatrix;
 }

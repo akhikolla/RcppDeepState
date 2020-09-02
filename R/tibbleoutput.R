@@ -12,6 +12,12 @@ deepstate_displays <- function(logfile){
     rest="(?:.+\n)+")
   messages.raw[, message.i := 1:.N]
   
+  files.list<-nc::capture_all_str(logfile,"Command: ./",
+                                  file.name=".*",
+                                  "_DeepState_TestHarness")
+  Testharness <- paste0("DeepState_Test_",basename(gsub("/inst/testfiles/.*","",logfile)),
+                        "_deepstate_test_",files.list$file.name,"_test")
+  
   prefix <- function(after){
     list("==[0-9]+==", after)
   }
@@ -19,14 +25,18 @@ deepstate_displays <- function(logfile){
     prefix("    "),
     "(?:at|by).*\n",
     "+")
+  code.line <- function(pattern){
+    file.line.dt <- nc::capture_all_str(
+      pattern,
+      "==[0-9]+==","\\s*",
+      trace=".*\n",
+      ".*",
+      Testharness)
+    return(file.line.dt$trace)
+    }
   
+  rest <- gsub("==[0-9]+== Warning:.*?\\n","",messages.raw$rest)
   messages.parsed <- messages.raw[, {
-    values.dt <- nc::capture_all_str(
-      inputs,
-      variable=".*?",
-      " ",
-      nc::field("values", ": ", "(?:.*\n)*"))
-  
     problems.dt <- nc::capture_all_str(
       rest,
       prefix(" "),
@@ -37,15 +47,18 @@ deepstate_displays <- function(logfile){
       address=".*",
       "\n",
       address.trace=trace.pattern)
+    problems.dt$problem.trace = code.line(problems.dt$problem.trace)
+    problems.dt$address.trace = code.line(problems.dt$address.trace)
     data.table::data.table(
-      arguments=list(values.dt),
       problems=list(problems.dt))
   }, by=.(message.i)]
+  
   
   str(messages.parsed)
   for(message.i in 1:nrow(messages.parsed)){
     cat(sprintf("\nmessage=%d\n", message.i))
-    str(messages.parsed[["arguments"]][[message.i]])
+    #str(messages.parsed[["arguments"]][[message.i]])
     print(tibble::tibble(messages.parsed[["problems"]][[message.i]]))
+    
   }
 }

@@ -4,10 +4,12 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 void callFunction(Rcpp::NumericMatrix mat) {
   Environment base("package:base");
-  Function saveRDS = base["saveRDS"];
-  Function readRDS = base["readRDS"];
-  NumericMatrix xx(wrap(mat));
-  saveRDS(xx,Named("file","fun.RDs"));
-  readRDS("fun.RDs");
+  Function save = base["save"];
+  //Function unserialize = base["unserialize"];
+  //Function readRDS = base["readRDS"];
+  Rcpp::NumericMatrix m = mat;
+  //save(m,"mats.RData");
+  //unserialize(serialize(path,NULL));
+  //readRDS(path);
   }
 

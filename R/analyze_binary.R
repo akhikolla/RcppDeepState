@@ -14,8 +14,8 @@ deepstate_harness_analyze_one <- function(path){
   test_path <- file.path(inst_path,"testfiles")
   packagename <- basename(package_name)
   test.files <- Sys.glob(paste0(test_path,"/*"))
-    pkg.path <- test.files[[pkg.i]] 
   for(pkg.i in seq_along(test.files)){
+    pkg.path <- test.files[[pkg.i]] 
     bin.path <- file.path(paste0(pkg.path,"/",basename(pkg.path),"_output"))
     bin.files <- Sys.glob(paste0(bin.path,"/*"))
     for(bin.i in seq_along(bin.files)){
