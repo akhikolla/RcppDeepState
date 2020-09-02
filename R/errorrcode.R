@@ -31,7 +31,6 @@ deepstate_user_error_display<-function(logfile){
   error.dt[, error.i := 1:.N]
   trace <- gsub("==[0-9]+== Warning:.*?\\n","",error.dt$errortrace)
   trace <- paste0(trace,error.dt$heapsum,error.dt$leaksum)
-  print(trace)
   error.dt[, src.file.lines := {
     file.line.dt <- nc::capture_all_str(
       trace,

@@ -73,7 +73,7 @@ test_that("valgrind errors", {
 
 
 log_path <- system.file("extdata/use_after_deallocate_log", package = "RcppDeepState")
-user.display <- user_error_display(log_path)
+user.display <-deepstate_user_error_display(log_path)
 test_that("valgrind use after deallocate errors", {
   expect_match(user.display$arg.name,"size")
   expect_match(user.display$src.file.lines,"use_after_deallocate.cpp:7\nuse_after_deallocate.cpp:6\nuse_after_deallocate.cpp:5")

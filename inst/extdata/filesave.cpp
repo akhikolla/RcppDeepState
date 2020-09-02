@@ -2,7 +2,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-void callFunction(Rcpp::NumericMatrix mat) {
+void callFunction(Rcpp::NumericVector mat) {
   Environment base("package:base");
   //Function save = base["save"];
   Function saveRDS = base["saveRDS"];
