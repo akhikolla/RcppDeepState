@@ -63,8 +63,7 @@ test_that("outputfolder files existence", {
 
 #deepstate_tests_fuzz(path)
 log_path <- system.file("extdata/read_out_of_bound_log", package = "RcppDeepState")
-print(log_path)
-user.display <- user_error_display(log_path)
+user.display <- deepstate_user_error_display(log_path)
 test_that("valgrind errors", {
   expect_match(user.display$arg.name,"sizeofarray")
   expect_match(user.display$src.file.lines,"read_out_of_bound.cpp:9")
@@ -87,7 +86,7 @@ test_that("negative size array", {
   #expect_match(user.display$error.message[3],"Argument 'size' of function __builtin_vec_new has a function has a fishy value")
 })
 log_path <- system.file("extdata/write_index_outofbound_log", package = "RcppDeepState")
-user.display <- user_error_display(log_path)
+user.display <- deepstate_user_error_display(log_path)
 test_that("valgrind writing index out of bound", {
   expect_match(user.display$arg.name,"boundvalue")
   #expect_match(user.display$src.file.lines,"write_index_outofbound.cpp")
@@ -95,7 +94,7 @@ test_that("valgrind writing index out of bound", {
 })
 
 log_path <- system.file("extdata/zero_sized_array_log", package = "RcppDeepState")
-user.display <- user_error_display(log_path)
+user.display <- deepstate_user_error_display(log_path)
 test_that("valgrind writing index out of bound", {
   expect_match(user.display$arg.name,"vectorvalue")
   expect_match(user.display$src.file.lines,"zero_sized_array.cpp:11\nzero_sized_array.cpp:10\nzero_sized_array.cpp:12")
@@ -104,7 +103,7 @@ test_that("valgrind writing index out of bound", {
 
 
 log_path <- system.file("extdata/use_after_free_log", package = "RcppDeepState")
-user.display <- user_error_display(log_path)
+user.display <- deepstate_user_error_display(log_path)
 test_that("valgrind use after free check", {
   expect_match(user.display$arg.name,"size_free")
   expect_match(user.display$src.file.lines,"use_after_free.cpp")
