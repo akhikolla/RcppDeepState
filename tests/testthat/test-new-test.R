@@ -49,17 +49,18 @@ inputfolder.list <- file.path(funpath.list,"inputs")
 test_that("inputfolder files existence", {
   expect_true(all(dir.exists(inputfolder.list)))
 })
+
+outputfolder.list <- paste0(funpath.list,"/",funs.list,"_output")
+test_that("outputfolder files existence", {
+  expect_true(all(dir.exists(outputfolder.list)))
+})
+
 functions.list <- deepstate_get_function_body(path)
 args.list <- gsub(" ","",functions.list$argument.name)
 path.args.list <- file.path(funpath.list,"inputs",args.list)
 test_that("input files existence", {
   expect_true(all(file.exists(path.args.list)))
 })
-outputfolder.list <- paste0(funpath.list,"/",funs.list,"_output")
-test_that("outputfolder files existence", {
-  expect_true(all(dir.exists(outputfolder.list)))
-})
-
 
 #deepstate_tests_fuzz(path)
 log_path <- system.file("extdata/read_out_of_bound_log", package = "RcppDeepState")

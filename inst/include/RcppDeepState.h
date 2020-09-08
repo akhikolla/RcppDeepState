@@ -22,42 +22,52 @@ double RcppDeepState_double(){
   return rand_value;
 }
 
+Rcpp::NumericVector Missing_Ns() {
+  Rcpp::NumericVector v(4);
+  v[0] = R_NegInf; // -Inf
+  v[1] = NA_REAL; // NA
+  v[2] = R_PosInf; // Inf
+  v[3] = R_NaN;
+  return v;
+}
+
+Rcpp::IntegerVector Missing_Is() {
+  Rcpp::IntegerVector v(1);
+  v[0] = NA_INTEGER; // NA
+  return v;
+}
+
+
+
 Rcpp::NumericVector RcppDeepState_NumericVector(){
   rand_size = DeepState_IntInRange(0,100);
+  Rcpp::NumericVector v(4);
+  v[0] = R_NegInf; // -Inf
+  v[1] = NA_REAL; // NA
+  v[2] = R_PosInf; // Inf
+  v[3] = 42; //
+  LOG(TRACE) << "printing array:" << v[1] ;
+  
+  double missing_values[] = {DeepState_Double(),R_NaN,R_PosInf,R_NegInf,NA_REAL};
   Rcpp::NumericVector rand_numvec(rand_size);
   for(int i = 0 ; i < rand_size - 1 ;i++){      
-    OneOf(
-      [&] {
-        rand_numvec[i] = DeepState_Double();  
-      },
-      [&] {
-        rand_numvec[i] = R_NegInf;  
-      },
-      [&] {
-        rand_numvec[i] = R_PosInf;  
-      },
-      [&] {
-        rand_numvec[i] = R_NaN;  
-      },
-      [&] {
-        rand_numvec[i] = NA_REAL;
-      });
-    
+    rand_numvec[i] = DeepState_Double();  
+  }
+  for(int i = 0 ; i < 5 ; i++){
+    rand_numvec[DeepState_IntInRange(0,rand_size-1)] = NA_REAL;
   }
   return rand_numvec;
 }
 
 Rcpp::IntegerVector RcppDeepState_IntegerVector(){
-  int size = DeepState_IntInRange(0,100);
-  Rcpp::IntegerVector rand_intvec(size);
-  for(int i = 0 ; i < size ;i++){
-    OneOf(
-      [&] {
-        rand_intvec[i] = DeepState_Int();
-      },
-      [&] {
-        rand_intvec[i] = NA_INTEGER;
-      });
+  int rand_size = DeepState_IntInRange(0,100);
+  int missing_values[] = {NA_INTEGER};
+  Rcpp::IntegerVector rand_intvec(rand_size);
+  for(int i = 0 ; i < rand_size ;i++){
+        rand_intvec[i] = NA_INTEGER;//DeepState_Int();
+  }
+  for(int i = 0 ; i < 2 ; i++){
+    rand_intvec[DeepState_IntInRange(0,rand_size-1)] = OneOf(missing_values);
   }
   return rand_intvec;
 }
