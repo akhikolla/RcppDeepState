@@ -2,7 +2,7 @@
 % Please edit documentation in R/errorrcode.R
 \name{deepstate_user_error_display}
 \alias{deepstate_user_error_display}
-\title{deepstate_user_error_display}
+\title{user_error_display}
 \usage{
 deepstate_user_error_display(logfile)
 }
@@ -14,7 +14,7 @@ count.dt list with error messgae,inputs which caused the error,
   corresponding line and datavariable name
 }
 \description{
-deepstate_user_error_display
+user_error_display
 }
 \author{
 Akhila Chowdary Kolla
