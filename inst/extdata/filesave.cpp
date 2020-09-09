@@ -2,11 +2,11 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-Rcpp::NumericVector Missing_N() {
-  Rcpp::NumericVector v(4);
-  v[0] = R_NegInf; // -Inf
-  v[1] = NA_REAL; // NA
-  v[2] = R_PosInf; // Inf
-  v[3] = R_NaN;
-  return v;
-}
+Rcpp::NumericVector callFunction(Rcpp::NumericVector mat) {
+  Environment base("package:base");
+  Function saveRDS = base["saveRDS"];
+  saveRDS(mat,"mat.RDs");
+  Function readRDS = base["readRDS"];
+  Rcpp::NumericVector r= readRDS("mat.RDs");
+  return r;
+  }

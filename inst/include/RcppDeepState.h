@@ -13,7 +13,8 @@ using namespace deepstate;
 int rand_size;
 
 int RcppDeepState_int(){
-  int rand_value = DeepState_Int();
+
+  int rand_value = NA_INTEGER;//DeepState_Int();
   return rand_value;
 }
 
@@ -46,7 +47,7 @@ Rcpp::NumericVector RcppDeepState_NumericVector(){
   v[1] = NA_REAL; // NA
   v[2] = R_PosInf; // Inf
   v[3] = 42; //
-  LOG(TRACE) << "printing array:" << v[1] ;
+  //LOG(TRACE) << "printing array:" << v[1] ;
   
   double missing_values[] = {DeepState_Double(),R_NaN,R_PosInf,R_NegInf,NA_REAL};
   Rcpp::NumericVector rand_numvec(rand_size);
