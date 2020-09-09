@@ -14,7 +14,7 @@ int rand_size;
 
 int RcppDeepState_int(){
 
-  int rand_value = NA_INTEGER;//DeepState_Int();
+  int rand_value = DeepState_Int();
   return rand_value;
 }
 
@@ -42,13 +42,6 @@ Rcpp::IntegerVector Missing_Is() {
 
 Rcpp::NumericVector RcppDeepState_NumericVector(){
   rand_size = DeepState_IntInRange(0,100);
-  Rcpp::NumericVector v(4);
-  v[0] = R_NegInf; // -Inf
-  v[1] = NA_REAL; // NA
-  v[2] = R_PosInf; // Inf
-  v[3] = 42; //
-  //LOG(TRACE) << "printing array:" << v[1] ;
-  
   double missing_values[] = {DeepState_Double(),R_NaN,R_PosInf,R_NegInf,NA_REAL};
   Rcpp::NumericVector rand_numvec(rand_size);
   for(int i = 0 ; i < rand_size - 1 ;i++){      
@@ -62,10 +55,10 @@ Rcpp::NumericVector RcppDeepState_NumericVector(){
 
 Rcpp::IntegerVector RcppDeepState_IntegerVector(){
   int rand_size = DeepState_IntInRange(0,100);
-  int missing_values[] = {NA_INTEGER};
+  int missing_values[] = {DeepState_Int(),NA_INTEGER};
   Rcpp::IntegerVector rand_intvec(rand_size);
   for(int i = 0 ; i < rand_size ;i++){
-        rand_intvec[i] = NA_INTEGER;//DeepState_Int();
+        rand_intvec[i] = DeepState_Int();
   }
   for(int i = 0 ; i < 2 ; i++){
     rand_intvec[DeepState_IntInRange(0,rand_size-1)] = OneOf(missing_values);
