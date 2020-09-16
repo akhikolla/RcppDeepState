@@ -2,10 +2,14 @@
 ##' @param path to the package we are working on 
 ##' @export
 deepstate_allchecks <- function(path){
-log_files <-  RcppDeepState::deepstate_list_log_files(path)
+log_files <-  deepstate_list_log_files(path)
 for(log.i in log_files){
-  if(file.exists(log.i) && length(log.i) > 1 ){
+  print(log.i)
+  print(length(log.i))
+  if(file.exists(log.i) && length(log.i) >= 1 ){
+   
   msg <-   RcppDeepState::deepstate_displays(log.i)
+  print(msg)
   if(nrow(msg) >= 1){
     print("valgind checks doesn't detect any issue with the package")
     inst_path <- file.path(path, "inst")
@@ -34,7 +38,7 @@ for(log.i in log_files){
           print(asan_result)}
     }
   else{
-       print(result)
+      print(result)
       print("found a bug in package using valgrind!!")
     }
   }

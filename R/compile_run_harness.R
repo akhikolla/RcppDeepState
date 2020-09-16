@@ -2,6 +2,7 @@
 ##' @param package_name to the RcppExports file
 ##' @export
 deepstate_harness_compile_run <- function(package_name){
+  package_name <- normalizePath(package_name, mustWork=TRUE)
   inst_path <- file.path(package_name, "inst")
   test_path <- file.path(inst_path,"testfiles")
   uncompiled.code <- list()
@@ -17,7 +18,7 @@ deepstate_harness_compile_run <- function(package_name){
     if( RcppDeepState::deepstate_datatype_check(params) == 1){
     fun_path <- file.path(test_path,f)
     compile_line <-paste0("cd ",fun_path," && rm -f *.o && make")
-     print(paste0(fun_path,"/","Makefile"))
+    #print(paste0(fun_path,"/","Makefile"))
     #print(paste0(fun_path,"/",f,"_log"))
     #system(compile_line)
     if(file.exists(paste0(fun_path,"/",f,"_DeepState_TestHarness.cpp")) && 

@@ -1,12 +1,9 @@
+// [[Rcpp::depends(qs)]]
 #include <Rcpp.h>
+#include <qs.h>
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-Rcpp::NumericVector callFunction(Rcpp::NumericVector mat) {
-  Environment base("package:base");
-  Function saveRDS = base["saveRDS"];
-  saveRDS(mat,"mat.RDs");
-  Function readRDS = base["readRDS"];
-  Rcpp::NumericVector r= readRDS("mat.RDs");
-  return r;
-  }
+void test(Rcpp::NumericVector nv) {
+  qs::c_qsave(nv, "~/Music/myfiles.qs", "high", "zstd", 1, 15, true, 1);
+}
