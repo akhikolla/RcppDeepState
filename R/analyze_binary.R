@@ -32,6 +32,9 @@ deepstate_harness_analyze_one <- function(path){
       file.copy(inputs.path,output_folder)
       file.copy(bin.path.i,output_folder)
       file.remove(bin.path.i)
+      for(inputs.i in seq_along(inputs.path)){
+        qread(inputs.path[[inputs.i]])
+      }
       RcppDeepState::deepstate_display(file.path(output_folder,"valgrind_log"))
     }
   }
