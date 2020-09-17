@@ -46,3 +46,4 @@ deepstate_harness_compile_run <- function(package_name){
     return(paste0("Issue compiling the function - ",uncompiled.code))
 } 
 
+

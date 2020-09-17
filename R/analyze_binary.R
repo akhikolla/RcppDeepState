@@ -18,8 +18,10 @@ deepstate_harness_analyze_one <- function(path){
     pkg.path <- test.files[[pkg.i]] 
     bin.path <- file.path(paste0(pkg.path,"/",basename(pkg.path),"_output"))
     bin.files <- Sys.glob(paste0(bin.path,"/*"))
+    print(bin.files)
     for(bin.i in seq_along(bin.files)){
       bin.path.i <- bin.files[[bin.i]]
+      print(bin.path.i)
       fun <- basename(pkg.path) 
       exec <- paste0("./",fun,"_DeepState_TestHarness")
       inputs.path <- Sys.glob(paste0(file.path(pkg.path,"inputs"),"/*"))
@@ -27,15 +29,19 @@ deepstate_harness_analyze_one <- function(path){
       dir.create(output_folder,showWarnings = FALSE)
       analyze_one <- paste0("valgrind --tool=memcheck --leak-check=yes ",exec," --input_test_file ",bin.path.i," > ",output_folder,"/valgrind_log"," 2>&1")
       var <- paste("cd",pkg.path,";", analyze_one) 
-      print(var)
+      #print(var)
       system(var)
       file.copy(inputs.path,output_folder)
       file.copy(bin.path.i,output_folder)
-      file.remove(bin.path.i)
       for(inputs.i in seq_along(inputs.path)){
-        qread(inputs.path[[inputs.i]])
+        if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
+             vls <- qread(inputs.path[[inputs.i]])
+             print(vls)
+        }
+        else
+          print(scan(inputs.path[[inputs.i]]))
       }
-      RcppDeepState::deepstate_display(file.path(output_folder,"valgrind_log"))
+      deepstate_displays(file.path(output_folder,"valgrind_log"))
     }
   }
 }

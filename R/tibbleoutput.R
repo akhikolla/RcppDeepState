@@ -36,7 +36,9 @@ deepstate_displays <- function(logfile){
     }
   
   rest <- gsub("==[0-9]+== Warning:.*?\\n","",messages.raw$rest)
-  messages.parsed <- messages.raw[, {
+ 
+  if( length(rest) > 1){ 
+    messages.parsed <- messages.raw[, {
     problems.dt <- nc::capture_all_str(
       rest,
       prefix(" "),
@@ -52,14 +54,16 @@ deepstate_displays <- function(logfile){
     data.table::data.table(
       problems=list(problems.dt))
   }, by=.(message.i)]
+    str(messages.parsed)
+    for(message.i in 1:nrow(messages.parsed)){
+      #cat(sprintf("\nmessage=%d\n", message.i))
+      #cat(sprintf("\ninputs=%s\n", messages.raw$inputs))
+      #str(messages.parsed[["arguments"]][[message.i]])
+      print(tibble::tibble(messages.parsed[["problems"]][[message.i]]))
+    }
   
+}
+ else 
+   print(rest)
   
-  str(messages.parsed)
-  for(message.i in 1:nrow(messages.parsed)){
-    cat(sprintf("\nmessage=%d\n", message.i))
-    cat(sprintf("\ninputs=%s\n", messages.raw$inputs))
-    #str(messages.parsed[["arguments"]][[message.i]])
-    print(tibble::tibble(messages.parsed[["problems"]][[message.i]]))
-    
-  }
 }
