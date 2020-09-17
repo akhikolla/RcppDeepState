@@ -60,20 +60,33 @@ deepstate_pkg_create<-function(package_name){
           arg.name <- gsub(" ","",functions.rows [argument.i,argument.name])
           variable <- paste0(arg.type," ",arg.name)
           variable <- gsub("const","",variable)
-          name <- gsub("const","", arg.type)
-          name <-gsub("Rcpp::","",name)
-          name <-gsub("arma::","",name)
-          st_val <- paste0("= ","RcppDeepState_",(name),"()",";\n")
-          
+          type.arg <- gsub("const","", arg.type)
+          type.arg <-gsub("Rcpp::","",type.arg)
+          type.arg <-gsub("arma::","",type.arg)
+          st_val <- paste0("= ","RcppDeepState_",(type.arg),"()",";\n")
           inputs_path <- file.path(fun_path,"inputs")
           if(!dir.exists(inputs_path)){
             dir.create(inputs_path)
           }
+          if(type.arg == "int" || type.arg == "double" || type.arg == "std::string"){print("yes")
+            write_to_file<-paste0(write_to_file,indent,"std::ofstream ",
+                                    gsub(" ","",arg.name),"_stream",";\n")
+            input.vals <- file.path(inputs_path,arg.name)
+            file_open <- gsub("# ","\"",paste0(arg.name,"_stream.open(#",input.vals,"# );","\n",indent,
+                                               arg.name,"_stream << ", 
+                                               arg.name,";","\n",indent,
+                                               "std::cout << ","#",arg.name,
+                                               " values: ","#"," << ",arg.name,
+                                               " << std::endl;","\n",indent,
+                                               arg.name,"_stream.close();","\n"))
+          }
+          else{
           arg.file <- paste0(arg.name,".qs")
           input.vals <- file.path(inputs_path,arg.file)
           file_open <- gsub("# ","\"",paste0("qs::c_qsave(",arg.name,",#",input.vals,"#,\n","\t\t#high#, #zstd#, 1, 15, true, 1);\n",indent,
                                              "std::cout << ","#",arg.name," values: ","#"," << ",arg.name,
                                              " << std::endl;","\n"))
+          }
           proto_args <- gsub(" ","",paste0(proto_args,arg.name))
           if(argument.i < nrow(functions.rows)) proto_args <- paste0(proto_args,",")
           write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
