@@ -7,7 +7,6 @@ for(log.i in log_files){
   print(log.i)
   print(length(log.i))
   if(file.exists(log.i) && length(log.i) >= 1 ){
-   
   msg <-   RcppDeepState::deepstate_displays(log.i)
   print(msg)
   if(nrow(msg) >= 1){

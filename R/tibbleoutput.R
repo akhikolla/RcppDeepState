@@ -36,8 +36,9 @@ deepstate_displays <- function(logfile){
     }
   
   rest <- gsub("==[0-9]+== Warning:.*?\\n","",messages.raw$rest)
- 
-  if( length(rest) > 1){ 
+#print(rest)
+  if( length(rest) >= 1){ 
+    #print("in if")
     messages.parsed <- messages.raw[, {
     problems.dt <- nc::capture_all_str(
       rest,
@@ -61,9 +62,18 @@ deepstate_displays <- function(logfile){
       #str(messages.parsed[["arguments"]][[message.i]])
       print(tibble::tibble(messages.parsed[["problems"]][[message.i]]))
     }
+    
+  }
   
-}
- else 
-   print(rest)
-  
+  else{
+    file.line.dt <- nc::capture_all_str(
+      rest,
+      "==[0-9]+==",
+      val="(?:(?!at|by).)*\n",
+      "==[0-9]+== ","\\s*",
+      data=".*\n",
+      ".*",
+      Testharness)
+    print(file.line.dt)   
+  }
 }
