@@ -41,7 +41,7 @@ deepstate_harness_analyze_one <- function(path){
         else
           print(scan(inputs.path[[inputs.i]]))
       }
-      deepstate_displays(file.path(output_folder,"valgrind_log"))
+      #deepstate_displays(file.path(output_folder,"valgrind_log"))
     }
   }
 }

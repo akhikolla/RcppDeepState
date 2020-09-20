@@ -2,9 +2,9 @@
 ##' @export
 deepstate_getRcppExports <- function(){
   packages <- file.path(system.file("extdata",package="RcppDeepState"),"packages")
-  cA.dir <- file.path(system.file("extdata",package="RcppDeepState"),"compileAttributes")
+  cA.dir <- file.path(system.file("inst",package="RcppDeepState"),"compileAttributes")
   dir.create(cA.dir, showWarnings=FALSE)
-  root.path <- system.file("extdata",package="RcppDeepState")
+  root.path <- system.file("inst",package="RcppDeepState")
   zip.path <- cA.dir
   tgz.vec <- Sys.glob(paste0(packages,"/*.tar.gz"))
   untestable_pkgs <- file.path(root.path,"untestable_pkgscheck")
@@ -29,7 +29,7 @@ deepstate_getRcppExports <- function(){
       deepstate_allchecks(file.path(zip.path,pkg.name))
     }
     else{
-    file.copy(file.path(paste0(zip.path,pkg.name)),untestable_pkgs,overwrite = TRUE, 
+    file.copy(file.path(zip.path,pkg.name),untestable_pkgs,overwrite = TRUE, 
               recursive = TRUE, 
               copy.mode = TRUE)
     unlink(file.path(paste0(zip.path,pkg.name)), recursive = TRUE)

@@ -68,7 +68,7 @@ deepstate_pkg_create<-function(package_name){
           if(!dir.exists(inputs_path)){
             dir.create(inputs_path)
           }
-          if(type.arg == "int" || type.arg == "double" || type.arg == "std::string"){print("yes")
+          if(type.arg == "int" || type.arg == "double" || type.arg == "std::string"){
             write_to_file<-paste0(write_to_file,indent,"std::ofstream ",
                                     gsub(" ","",arg.name),"_stream",";\n")
             input.vals <- file.path(inputs_path,arg.name)
