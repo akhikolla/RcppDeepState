@@ -18,6 +18,7 @@ deepstate_getRcppExports <- function(){
     pkg.name <- sub("_.*", "", basename(pkg.tar.gz))
     print(pkg.name)
     untar(pkg.tar.gz,exdir=folder)
+    unlink(pkg.tar.gz)
     RcppExports.cpp <- file.path(zip.path,pkg.name, "src/RcppExports.cpp")
     generated <- if(file.exists(RcppExports.cpp)){
       result <-  deepstate_pkg_create(file.path(zip.path,pkg.name))
@@ -25,7 +26,7 @@ deepstate_getRcppExports <- function(){
       if(result == "success"){
         #devtools::install(file.path(paste0(zip.path,pkg.name)),upgrade="always")
         deepstate_harness_compile_run(file.path(zip.path,pkg.name))  
-        deepstate_harness_analyze_one(file.path(zip.path,pkg.name))
+        #deepstate_harness_analyze_one(file.path(zip.path,pkg.name))
         #deepstate_allchecks(file.path(zip.path,pkg.name))
       }
       else{

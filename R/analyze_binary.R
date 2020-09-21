@@ -29,7 +29,7 @@ deepstate_harness_analyze_one <- function(path){
       dir.create(output_folder,showWarnings = FALSE)
       analyze_one <- paste0("valgrind --tool=memcheck --leak-check=yes ",exec," --input_test_file ",bin.path.i," > ",output_folder,"/valgrind_log"," 2>&1")
       var <- paste("cd",pkg.path,";", analyze_one) 
-      #print(var)
+      print(var)
       system(var)
       file.copy(inputs.path,output_folder)
       file.copy(bin.path.i,output_folder)

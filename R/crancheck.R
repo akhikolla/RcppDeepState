@@ -17,10 +17,6 @@ for(pkg.i in seq_along(pkg.name.vec)){
   })
 }
 
-
-
-
-
 memtests.pattern <- list(
   "<a href=\"https://www.stats.ox.ac.uk/pub/bdr/memtests/",
   type=".*?",
@@ -38,7 +34,7 @@ link.pattern <- list(
   type=".*?",
   "</span></a>")
 
-check.file.vec <- Sys.glob("/home/akhila/Documents/checks/files/*")
+check.file.vec <- Sys.glob("/home/akhila/Documents/checks/ftest/*")
 type.dt.list <- list()
 issue.dt.list <- list()
 for(pkg.i in seq_along(check.file.vec)){

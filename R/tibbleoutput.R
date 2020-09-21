@@ -21,10 +21,14 @@ deepstate_displays <- function(logfile){
   prefix <- function(after){
     list("==[0-9]+==", after)
   }
-  trace.pattern <- nc::quantifier(
-    prefix("    "),
-    "(?:at|by).*\n",
-    "+")
+  trace.pattern <- nc::capture_all_str(
+    ress,
+    val="(?:at|by).*\n"
+    )
+  trace.pattern <- nc::capture_all_str(
+    ress,
+    val="[^(?:(?:at|by).*\n)+]"
+  )
   code.line <- function(pattern){
     file.line.dt <- nc::capture_all_str(
       pattern,
