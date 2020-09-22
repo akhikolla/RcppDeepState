@@ -39,16 +39,20 @@ if(nrow(traces)){
     if(length(stack.rows)){
       if(any(grep("<auxwhat>",stack.rows,fixed = TRUE))){
         stack.msg <- nc::capture_first_vec(stack.rows,trace)
+        if(nrow(stack.msg)){
         err.trace=paste0(stack.msg$file," : ",stack.msg$line)
+        }
         address.msg <- nc::capture_all_str(stack.rows,address.trace)
         address=address.msg$address
-        stack.msg=nc::capture_all_str(address.msg$stack,trace)
-        add.trace=paste0(stack.msg$file," : ",stack.msg$line)
+        stack.msg<-nc::capture_all_str(address.msg$stack,trace)
+        if(nrow(stack.msg)){
+          add.trace=paste0(stack.msg$file," : ",stack.msg$line)
+        }
       }else{
         address="No address trace found"
         add.trace="NA"
-        err.trace<- nc::capture_all_str(stack.rows,trace)
-        err.trace=paste0(stack.msg$file," : ",stack.msg$line)
+        stack.msg<- nc::capture_all_str(stack.rows,trace)
+        err.trace<-paste0(stack.msg$file," : ",stack.msg$line)
       }
     }
     issue.dt.list[[i]] <- data.table(kind=kind$kinds,
