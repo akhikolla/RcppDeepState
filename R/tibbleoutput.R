@@ -1,5 +1,5 @@
 ##' @title deepstate_displays
-##' 
+##' @import data.table
 ##' @author Akhila Chowdary Kolla
 ##' @param logfile path to the logfile
 ##' @export

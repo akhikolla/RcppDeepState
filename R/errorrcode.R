@@ -6,7 +6,6 @@
 ##' @author Akhila Chowdary Kolla
 ##' 
 ##' @param logfile path to the logfile
-##' @import data.table
 ##' @export
 
 deepstate_user_error_display<-function(logfile){

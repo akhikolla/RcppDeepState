@@ -4,11 +4,11 @@
 deepstate_allchecks <- function(path){
 log_files <-  deepstate_list_log_files(path)
 for(log.i in log_files){
-  print(log.i)
-  print(length(log.i))
+  #print(log.i)
+  #print(length(log.i))
   if(file.exists(log.i) && length(log.i) >= 1 ){
-  msg <-deepstate_displays(log.i)
-  print(msg)
+  msg <-deepstate_logtest(log.i)
+  #print(msg)
   if(nrow(msg) >= 1){
     print("valgind checks doesn't detect any issue with the package")
     inst_path <- file.path(path, "inst")
