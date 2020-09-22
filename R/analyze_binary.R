@@ -28,7 +28,7 @@ deepstate_harness_analyze_one <- function(path){
       inputs.path <- Sys.glob(paste0(file.path(pkg.path,"inputs"),"/*"))
       output_folder<-paste0(dirname(bin.path.i),"/log_",sub('\\..*', '',basename(bin.path.i)))
       dir.create(output_folder,showWarnings = FALSE)
-      analyze_one <- paste0("valgrind --tool=memcheck --leak-check=yes ",exec," --input_test_file ",bin.path.i," > ",output_folder,"/valgrind_log"," 2>&1")
+      analyze_one <- paste0("valgrind --xml=yes --xml-file=",output_folder,"/valgrind_log " ,"--tool=memcheck --leak-check=yes ",exec," --input_test_file ",bin.path.i," > ",output_folder,"/valgrind_log_text"," 2>&1")
       var <- paste("cd",pkg.path,";", analyze_one) 
       print(var)
       system(var)
