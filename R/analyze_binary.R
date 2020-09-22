@@ -36,13 +36,14 @@ deepstate_harness_analyze_one <- function(path){
       file.copy(bin.path.i,output_folder)
       for(inputs.i in seq_along(inputs.path)){
         if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
-          cat(sprintf("Input parameter - %s\n",gsub(".qs","",basename(inputs.path[[inputs.i]]))))
+          cat(sprintf("Input parameter from qs - %s\n",gsub(".qs","",basename(inputs.path[[inputs.i]]))))
           vls <- qread(inputs.path[[inputs.i]])
           print(vls)   
         }
-        else
+        else{
           cat(sprintf("Input parameter - %s\n",basename(inputs.path[[inputs.i]])))
           print(scan(inputs.path[[inputs.i]]))
+        }
       }
       deepstate_logtest(file.path(output_folder,"valgrind_log"))
     }
