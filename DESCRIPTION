@@ -10,7 +10,6 @@ Description: One paragraph description of what the package does as one or more f
 License: GPL (>= 2)
 Imports: RcppArmadillo,RInside,data.table,Rcpp,methods,tibble,qs,nc
 Suggests: testthat,
-    nc,
     here,
     devtools,
     knitr,

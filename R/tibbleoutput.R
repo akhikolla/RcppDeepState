@@ -22,11 +22,11 @@ deepstate_displays <- function(logfile){
     list("==[0-9]+==", after)
   }
   trace.pattern <- nc::capture_all_str(
-    ress,
+    rest,
     val="(?:at|by).*\n"
     )
   trace.pattern <- nc::capture_all_str(
-    ress,
+    rest,
     val="[^(?:(?:at|by).*\n)+]"
   )
   code.line <- function(pattern){

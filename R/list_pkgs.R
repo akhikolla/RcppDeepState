@@ -30,10 +30,10 @@ deepstate_getRcppExports <- function(){
         #deepstate_allchecks(file.path(zip.path,pkg.name))
       }
       else{
-        file.copy(file.path(paste0(zip.path,pkg.name)),untestable_pkgs,overwrite = TRUE, 
+        file.copy(file.path(zip.path,pkg.name),untestable_pkgs,overwrite = TRUE, 
                   recursive = TRUE, 
                   copy.mode = TRUE)
-        unlink(file.path(paste0(zip.path,pkg.name)), recursive = TRUE)
+        unlink(file.path(zip.path,pkg.name), recursive = TRUE)
         print("Package cannot be tested using RcppDeepState!!")
       }
       
