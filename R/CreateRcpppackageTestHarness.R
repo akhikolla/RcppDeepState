@@ -156,7 +156,7 @@ deepstate_create_makefile <-function(package,fun_name){
                   " -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",deepstate.build,
                   " -Wl,-rpath=",deepstate.build," -lR -lRInside -ldeepstate")
   write_to_file<-paste0(write_to_file,flags,"\n")
-  log_file_path <- paste0(fun_path,"/",fun_name,"_log ")
+  log_file_path <- paste0(fun_path,"/",fun_name,"_log")
   write_to_file<-paste0(write_to_file,"\n",fun_path,"/",fun_name,"_log"," : ",test_harness_path)
   write_to_file<-paste0(write_to_file,"\n\t","cd ",fun_path," && ","valgrind --xml=yes --xml-file=",log_file_path," --tool=memcheck --leak-check=yes --track-origins=yes ","./",test_harness,
                         " --fuzz --output_test_dir ",fun_path,"/",fun_name,"_output"," > ",paste0(log_file_path,"_text "),
