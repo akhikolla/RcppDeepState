@@ -35,32 +35,31 @@ devtools::install_github("akhikolla/RcppDeepState")
 
 To test your package using RcppDeepState follow the steps below:
 
-(a) **make_run**: This function gets the latest deepstate build and makes a call to the respective cmake and make and generates a deepstate static library which is necessary to compile and run the testharness for the test package.
+```
+
+(a) **deepstate_pkg_create**: This function creates the TestHarnesses for all the functions in the test package with the corresponding makefiles.This function makes a call to deepstate_make_run.
+
+**deepstate_make_run**: This function gets the latest deepstate build and makes a call to the respective cmake and make and generates a deepstate static library which is necessary to compile and run the testharness for the test package.
 
 This is the first thing we need to do before creating the testharness.
 
 ```R
 library(RcppDeepState)
-RcppDeepState::deepstate_make_run()
-```
-
-(b) **deepstate_pkg_create**: This function creates the TestHarnesses for all the functions in the test package with the corresponding makefiles.
-
-```R
 RcppDeepState::deepstate_pkg_create(pathtotestpackage)
 ```
 All these files generated are stored in inst/testfiles in your test package.
 
-(c) **deep_harness_compile_run**: This function compiles and runs all the TestHarnesses that are created above and test your code for errors/bugs and stores the results in logfiles.
+(c) **deepstate_harness_compile_run**: This function compiles and runs all the TestHarnesses that are created above and test your code for errors/bugs and stores the results in logfiles.
 
 ```R
 RcppDeepState::deepstate_harness_compile_run(pathtotestpackage)
 ```
 
-(d) **user_error_display**: This function lists out the error messages, line numbers where the error occurred, and inputs that are passed on to the functions taking the log files as input. The generated log files are stored in the same folder as testharness i.e inst/testfiles
+(d) **deepstate_harness_analyze_one**: This function analyzes each binary crash/fail file generated and provides a log of error messages if there are any and also displays the inputs passed on to the function to generate the crash.
+This function lists out the error messages, line numbers where the error occurred, and inputs that are passed on to the functions taking the log files as input. The generated log files are stored in the respective crash file folder along with the inputs i.e inst/function/12abc.crash/valgrind_log
 
 ```R
-RcppDeepState::deepstate_user_error_display(testpackage/inst/testfiles/funname_log)
+RcppDeepState::deepstate_harness_analyze_one(testpackage/inst/testfiles/funname_log)
 ```
 Now RcppDeepState makes it easy to use RcppDeepState on Travis-CI. 
 
