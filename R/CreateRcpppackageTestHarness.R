@@ -3,6 +3,7 @@
 ##' @import RcppArmadillo
 ##' @export
 deepstate_pkg_create<-function(package_name){
+  package_name <-normalizePath(package_name, mustWork=TRUE)
   package_name <- sub("/$","",package_name)
   inst_path <- file.path(package_name, "inst")
   if(!dir.exists(inst_path)){
@@ -11,7 +12,7 @@ deepstate_pkg_create<-function(package_name){
   test_path <- file.path(inst_path,"testfiles")
   packagename <- basename(package_name)
   unlink(test_path, recursive = TRUE)
-  system(paste0("R CMD INSTALL ",package_name))
+  system(paste0("R CMD INSTALL ",package_name),intern = FALSE,ignore.stderr =TRUE,ignore.stdout = TRUE)
   if(!(file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate32.a") &&
        file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate.a")))
   {

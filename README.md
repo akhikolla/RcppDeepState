@@ -35,31 +35,57 @@ devtools::install_github("akhikolla/RcppDeepState")
 
 To test your package using RcppDeepState follow the steps below:
 
-```
+(a)**deepstate_pkg_create**: This function creates the TestHarnesses for all the functions in the test package with the corresponding makefiles.
 
-(a) **deepstate_pkg_create**: This function creates the TestHarnesses for all the functions in the test package with the corresponding makefiles.This function makes a call to deepstate_make_run.
-
-**deepstate_make_run**: This function gets the latest deepstate build and makes a call to the respective cmake and make and generates a deepstate static library which is necessary to compile and run the testharness for the test package.
-
-This is the first thing we need to do before creating the testharness.
+This is the first function we need to make a call to create the testharness, create a deepstate library, and install the test package.
 
 ```R
-library(RcppDeepState)
-RcppDeepState::deepstate_pkg_create(pathtotestpackage)
+> library(RcppDeepState)
+> RcppDeepState::deepstate_pkg_create("~/R/RcppDeepState/inst/testpkgs/testSAN")
+Testharness created for 6 functions in the package
+ [1] "success"
 ```
-All these files generated are stored in inst/testfiles in your test package.
+All these files generated are stored in inst/test files in your test package.
 
-(c) **deepstate_harness_compile_run**: This function compiles and runs all the TestHarnesses that are created above and test your code for errors/bugs and stores the results in logfiles.
+(b) **deepstate_harness_compile_run**: This function compiles and runs all the TestHarnesses that are created above and test your code for errors/bugs and stores the results in logfiles.
 
 ```R
-RcppDeepState::deepstate_harness_compile_run(pathtotestpackage)
+RcppDeepState::deepstate_harness_compile_run("~/R/RcppDeepState/inst/testpkgs/testSAN")
+
+```
+If all the function in the package are successfully compiled it gives the following message:
+
+```R
+>[1] "Compiled all the functions in the package successfully"
 ```
 
-(d) **deepstate_harness_analyze_one**: This function analyzes each binary crash/fail file generated and provides a log of error messages if there are any and also displays the inputs passed on to the function to generate the crash.
+(c) **deepstate_harness_analyze_one**: This function analyzes each binary crash/fail file generated and provides a log of error messages if there are any and also displays the inputs passed on to the function to generate the crash.
 This function lists out the error messages, line numbers where the error occurred, and inputs that are passed on to the functions taking the log files as input. The generated log files are stored in the respective crash file folder along with the inputs i.e inst/function/12abc.crash/valgrind_log
 
 ```R
-RcppDeepState::deepstate_harness_analyze_one(testpackage/inst/testfiles/funname_log)
+RcppDeepState::deepstate_harness_analyze_one("~/R/RcppDeepState/inst/testpkgs/testSAN")
+```
+
+Example Output for function src/read_out_of_bound.cpp:
+
+```R
+Input parameter - rbound
+Read 1 item
+[1] 318916283
+[[1]]
+          kind                    msg                    errortrace
+1: InvalidRead Invalid read of size 4 src/read_out_of_bound.cpp : 7
+                  address trace
+1: No address trace found    NA
+
+[[2]]
+                kind
+1: Leak_PossiblyLost
+                                                                               msg
+1: 1,275,665,132 bytes in 1 blocks are possibly lost in loss record 1,279 of 1,279
+                      errortrace                address trace
+1: src/read_out_of_bound.cpp : 6 No address trace found    NA
+
 ```
 Now RcppDeepState makes it easy to use RcppDeepState on Travis-CI. 
 

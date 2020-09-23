@@ -7,6 +7,7 @@
 ##' @import qs
 ##' @export
 deepstate_harness_analyze_one <- function(path){
+  path <-normalizePath(path, mustWork=TRUE)
   package_name <- sub("/$","",path)
   inst_path <- file.path(package_name, "inst")
   if(!dir.exists(inst_path)){
