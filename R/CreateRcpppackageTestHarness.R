@@ -20,6 +20,7 @@ deepstate_pkg_create<-function(package_name){
   }
   dir.create(test_path,showWarnings = FALSE)
   Rcpp::compileAttributes(package_name)
+  harness <- list()
   functions.list <-  RcppDeepState::deepstate_get_function_body(package_name)
   if(!is.null(functions.list) && length(functions.list) > 1){
     functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
@@ -40,6 +41,7 @@ deepstate_pkg_create<-function(package_name){
         pt <- prototypes_calls[prototypes_calls$funName == function_name.i,]
         fun_name <-function_name.i
         filename <-paste0(fun_name,"_DeepState_TestHarness",".cpp")
+        harness <- c(harness,filename)
         fun_path <- file.path(test_path,fun_name)
         if(!dir.exists(fun_path)){
           dir.create(fun_path)
@@ -106,13 +108,9 @@ deepstate_pkg_create<-function(package_name){
         cat(sprintf("We can't test the function - %s - due to  datatypes fall out of the specified list\n", function_name.i))
       }
     }
-    #print(match_count)
-    #print(mismatch_count)
     if(match_count != 0 && match_count == length(fun_names) || mismatch_count > 1){
-      #print(match_count)
       cat(sprintf("Testharness created for %d functions in the package\n ",match_count))
-      #print("Testharness created for function in the package!!")
-      return("success")
+      return(as.character(harness))
     }
     else if(mismatch_count == length(fun_names)){
       cat(sprintf("Testharness cannot be created for the package!!"))

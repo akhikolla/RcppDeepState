@@ -31,22 +31,27 @@ deepstate_harness_analyze_one <- function(path){
       dir.create(output_folder,showWarnings = FALSE)
       analyze_one <- paste0("valgrind --xml=yes --xml-file=",output_folder,"/valgrind_log " ,"--tool=memcheck --leak-check=yes ",exec," --input_test_file ",bin.path.i," > ",output_folder,"/valgrind_log_text"," 2>&1")
       var <- paste("cd",pkg.path,";", analyze_one) 
-      print(var)
+      #print(var)
       system(var)
       file.copy(inputs.path,output_folder)
       file.copy(bin.path.i,output_folder)
+      logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
+      if(length(logtable) > 1 && !is.null(logtable)){
       for(inputs.i in seq_along(inputs.path)){
         if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
-          cat(sprintf("Input parameter from qs - %s\n",gsub(".qs","",basename(inputs.path[[inputs.i]]))))
-          vls <- qread(inputs.path[[inputs.i]])
-          print(vls)   
+          cat(sprintf("\nInput parameter from qs - %s\n",gsub(".qs","",basename(inputs.path[[inputs.i]]))))
+          qread.data <- qread(inputs.path[[inputs.i]])
+          print(qread.data)   
         }
         else{
-          cat(sprintf("Input parameter - %s\n",basename(inputs.path[[inputs.i]])))
+          cat(sprintf("\nInput parameter - %s\n",basename(inputs.path[[inputs.i]])))
           print(scan(inputs.path[[inputs.i]]))
         }
       }
-      deepstate_logtest(file.path(output_folder,"valgrind_log"))
+      }else{
+      cat(sprintf("\nanalyzed binary - found no issues\n"))
+    }
+      
     }
   }
 }
