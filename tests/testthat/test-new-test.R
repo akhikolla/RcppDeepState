@@ -13,9 +13,10 @@ test_that("compile run before create pkg", {
   expect_identical(dhcr,paste0("Issue compiling the function - ", funs.list))
 })
 
-res<-deepstate_pkg_create(path)
+harness.vec <- paste0(funs.list,"_DeepState_TestHarness.cpp")
+result<-deepstate_pkg_create(path)
 test_that("create files testSAN package", {
-  expect_identical(res,"success")
+  expect_identical(result,harness.vec)
 })
 
 
