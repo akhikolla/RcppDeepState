@@ -30,7 +30,7 @@ for(log.i in log_files){
         compile_line <-paste0("rm -f *.o && make -f ",makefile.asan)
         #print(compile_line) 
         system(compile_line)
-        asan_result <-  RcppDeepState::deepstate_user_asan_error_display(asan_log)
+        asan_result <-  deepstate_user_error_display(asan_log)
         if(asan_result$count == 0) print("no error detected using asan")
         else {
           print("detected error using asan")

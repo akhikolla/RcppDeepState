@@ -62,7 +62,7 @@ globalVariables(c("argument.name","funName","argument.type","calls"
                   ,"code","funName",".","error.i","src.file.lines",
                   "heapsum","file.line","arg.name","value",":=",".N","f","fun_name"
                   ,"read.table","new.i.vec","download.file","result","inputs",
-                  "rest"))
+                  "rest","status","fun"))
 
 globalVariables(c("error.i","error.type","sanitizer","function.i",
                   "src.file.lines","heapsum","file.line","arg.name",

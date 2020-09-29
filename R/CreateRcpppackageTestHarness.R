@@ -114,7 +114,7 @@ deepstate_pkg_create<-function(package_name){
       return(harness)
     }
     else if(mismatch_count == length(fun_names)){
-      cat(sprintf("Testharness cannot be created for the package!!"))
+      message(sprintf("Testharness cannot be created for the package!!"))
       return(0)
     }
     else return(-1)

@@ -28,7 +28,7 @@ deepstate_harness_compile_run <- function(package_name){
          system(compile_line)
     }
     else {
-      cat(sprintf("TestHarness and makefile doesn't exist for - %s\n",f))
+      message(sprintf("TestHarness and makefile doesn't exist for - %s\n",f))
     }
     if(!file.exists(paste0(fun_path,"/",f,"_DeepState_TestHarness"))){
        uncompiled_count  = uncompiled_count + 1
