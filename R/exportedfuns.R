@@ -23,7 +23,7 @@ deepstate_test<- function(){
     #cat(sprintf("Function List : %s\n ",str(fun.lists)))    
     if(length(intersect(export_list, fun.lists)) > 1){
     cat(sprintf(" %d . Package name : %s\n ",pkg.i,basename(vec[[pkg.i]])))
-    cat(sprintf("Matched functions : %s\n ",str(intersect(export_list, fun.lists))))
+    cat(sprintf("Matched functions : %s\n ",intersect(export_list, fun.lists)))
     }
       }
     }
