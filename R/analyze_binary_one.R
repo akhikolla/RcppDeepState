@@ -1,7 +1,7 @@
 ##' @title  compile the  for one function 
 ##' @param fun_path function path to run
 ##' @export
-deepstate_compile_one<-function(fun_path){
+deepstate_compile_fun<-function(fun_path){
   compile_line <-paste0("cd ",fun_path," && rm -f *.o && make\n")
   f <- basename(fun_path)
   if(file.exists(paste0(fun_path,"/",f,"_DeepState_TestHarness.cpp")) && 
@@ -17,7 +17,7 @@ deepstate_compile_one<-function(fun_path){
 ##' @title  analyze the binary for one function 
 ##' @param fun_path function path to run
 ##' @export
-deepstate_analyze_one<-function(fun_path){
+deepstate_analyze_fun<-function(fun_path){
     pkg.path <- fun_path
     bin.path <- file.path(paste0(pkg.path,"/",basename(pkg.path),"_output"))
     bin.files <- Sys.glob(paste0(bin.path,"/*"))

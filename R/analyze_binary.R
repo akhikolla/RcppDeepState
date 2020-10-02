@@ -6,7 +6,7 @@
 ##' @import RInside
 ##' @import qs
 ##' @export
-deepstate_harness_analyze_one <- function(path){
+deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
   path <-normalizePath(path, mustWork=TRUE)
   package_name <- sub("/$","",path)
   inst_path <- file.path(package_name, "inst")
@@ -20,6 +20,9 @@ deepstate_harness_analyze_one <- function(path){
     pkg.path <- test.files[[pkg.i]] 
     bin.path <- file.path(paste0(pkg.path,"/",basename(pkg.path),"_output"))
     bin.files <- Sys.glob(paste0(bin.path,"/*"))
+    if(max_inputs != "all" && max_inputs <= length(bin.files)){
+      bin.files <- bin.files[1:max_inputs]
+    } 
     print(bin.files)
     for(bin.i in seq_along(bin.files)){
       bin.path.i <- bin.files[[bin.i]]
@@ -36,6 +39,7 @@ deepstate_harness_analyze_one <- function(path){
       file.copy(bin.path.i,output_folder)
       logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
       if(length(logtable) > 1 && !is.null(logtable)){
+        print(logtable)
       for(inputs.i in seq_along(inputs.path)){
         file.copy(inputs.path[[inputs.i]],output_folder)
         if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){

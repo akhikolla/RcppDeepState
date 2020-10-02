@@ -60,5 +60,9 @@ test_that("outputfolder files existence", {
   expect_true(all(dir.exists(outputfolder.list)))
 })
 
+print(Sys.getenv('TRAVIS'))
+if(identical(Sys.getenv('TRAVIS'), 'true'))
+max_inputs=1 else max_input="all"
+deepstate_harness_analyze_pkg(path,max_inputs)
 ##deepstate_harness_analyze_one(path)
 ##deepstate_tests_fuzz(path)
