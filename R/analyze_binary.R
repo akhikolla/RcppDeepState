@@ -20,7 +20,7 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
     pkg.path <- test.files[[pkg.i]] 
     bin.path <- file.path(paste0(pkg.path,"/",basename(pkg.path),"_output"))
     bin.files <- Sys.glob(paste0(bin.path,"/*"))
-    if(max_inputs != "all" && max_inputs <= length(bin.files)){
+    if(max_inputs != "all" && max_inputs <= length(bin.files) && length(bin.files) > 0){
       bin.files <- bin.files[1:max_inputs]
     } 
     print(bin.files)

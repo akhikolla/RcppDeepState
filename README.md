@@ -1,4 +1,6 @@
-## RcppDeepState
+# RcppDeepState <a href="http://r-datatable.com"><img src="https://github.com/akhikolla/RcppDeepState/tree/master/inst/graphics/logo.jpg" align="right" height="140" /></a>
+
+/home/akhila/R/RcppDeepState/inst/graphics/logo.jpg
 
 [![Build Status](https://travis-ci.org/akhikolla/RcppDeepState.svg?branch=master)](https://travis-ci.org/akhikolla/RcppDeepState)
 
