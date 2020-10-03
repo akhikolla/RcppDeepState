@@ -16,6 +16,9 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
   test_path <- file.path(inst_path,"testfiles")
   packagename <- basename(package_name)
   test.files <- Sys.glob(paste0(test_path,"/*"))
+  if(max_inputs != "all" && max_inputs <= length(bin.files) && length(bin.files) > 0){
+ test.files <- test.files[1:max_inputs]
+  } 
   for(pkg.i in seq_along(test.files)){
     pkg.path <- test.files[[pkg.i]] 
     bin.path <- file.path(paste0(pkg.path,"/",basename(pkg.path),"_output"))
@@ -24,6 +27,10 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
       bin.files <- bin.files[1:max_inputs]
     } 
     print(bin.files)
+    crash.count <- length(gsub(".crash","",basename(bin.files))) 
+    if(crash.count > 5){ 
+      bin.files <- bin.files[1:5]
+    }
     for(bin.i in seq_along(bin.files)){
       bin.path.i <- bin.files[[bin.i]]
       print(bin.path.i)
