@@ -8,6 +8,8 @@ deepstate_harness_analyze_pkg(path, max_inputs = "all")
 }
 \arguments{
 \item{path}{to test}
+
+\item{max_inputs}{no of bin files to analyze}
 }
 \value{
 returns a list of all the param values of the arguments of function

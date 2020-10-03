@@ -4,10 +4,12 @@
 \alias{deepstate_harness_compile_run}
 \title{compiles the code for created testharness in package}
 \usage{
-deepstate_harness_compile_run(package_name)
+deepstate_harness_compile_run(package_name, max_inputs = "all")
 }
 \arguments{
 \item{package_name}{to the RcppExports file}
+
+\item{max_inputs}{number of bin files to analyze}
 }
 \description{
 compiles the code for created testharness in package

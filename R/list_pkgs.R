@@ -26,7 +26,7 @@ deepstate_getRcppExports <- function(){
       if(length(result) > 0){
         #devtools::install(file.path(paste0(zip.path,pkg.name)),upgrade="always")
         deepstate_harness_compile_run(file.path(zip.path,pkg.name))  
-        deepstate_harness_analyze_one(file.path(zip.path,pkg.name))
+        #deepstate_harness_analyze_one(file.path(zip.path,pkg.name))
         #deepstate_allchecks(file.path(zip.path,pkg.name))
       }
       else{

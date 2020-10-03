@@ -35,7 +35,8 @@ test_that("harness files and makefiles exist for testSAN", {
 
 print(Sys.getenv('TRAVIS'))
 if(identical(Sys.getenv('TRAVIS'), 'true'))
-  max_inputs=1 else max_input="all"
+{  max_inputs=1 
+}else{max_inputs="all"}
 cat("Max_inputs",max_inputs)
 dhcr<-deepstate_harness_compile_run(path,max_inputs)
 

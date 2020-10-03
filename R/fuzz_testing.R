@@ -8,5 +8,5 @@ deepstate_tests_fuzz <- function(package_path){
   #compiles and runs the test harness
   deepstate_harness_compile_run(package_path)
   #read each binary file and generates log of the errors
-  deepstate_harness_analyze_one(package_path)
+  #deepstate_harness_analyze_one(package_path)
 }
