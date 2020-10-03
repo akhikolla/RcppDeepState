@@ -1,7 +1,8 @@
 ##' @title compiles the code for created testharness in package
 ##' @param package_name to the RcppExports file
+##' @param max_inputs number of bin files to analyze
 ##' @export
-deepstate_harness_compile_run <- function(package_name){
+deepstate_harness_compile_run <- function(package_name,max_inputs="all"){
   package_name <- normalizePath(package_name, mustWork=TRUE)
   package_name <- sub("/$","",package_name)
   inst_path <- file.path(package_name, "inst")
@@ -41,7 +42,7 @@ deepstate_harness_compile_run <- function(package_name){
     }
   }
   }
-  deepstate_harness_analyze_pkg(package_name)
+  deepstate_harness_analyze_pkg(package_name,max_inputs)
   if(uncompiled_count == 0 && log_count == length(fun_names) ) 
     return("Compiled all the functions in the package successfully")
   else

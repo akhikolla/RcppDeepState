@@ -1,4 +1,4 @@
-## RcppDeepState
+# RcppDeepState <a href="https://akhikolla.github.io./"><img src="https://github.com/akhikolla/RcppDeepState/blob/master/inst/graphics/logo.jpg" align="right" height="140" /></a>
 
 [![Build Status](https://travis-ci.org/akhikolla/RcppDeepState.svg?branch=master)](https://travis-ci.org/akhikolla/RcppDeepState)
 
