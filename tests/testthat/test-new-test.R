@@ -67,4 +67,3 @@ outputfolder.list <- paste0(funpath.list,"/",funs.list,"_output")
 test_that("outputfolder files existence", {
   expect_true(all(dir.exists(outputfolder.list)))
 })
-
