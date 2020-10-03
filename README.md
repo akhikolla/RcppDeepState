@@ -1,4 +1,5 @@
-# RcppDeepState <a href="http://r-datatable.com"><img src="https://github.com/akhikolla/RcppDeepState/tree/master/inst/graphics/logo.jpg" align="right" height="140" /></a>
+# RcppDeepState <a href="https://akhikolla.github.io./"><img src="https://github.com/akhikolla/RcppDeepState/blob/master/inst/graphics/logo.jpg" align="right" height="140" /></a>
+
 
 /home/akhila/R/RcppDeepState/inst/graphics/logo.jpg
 
