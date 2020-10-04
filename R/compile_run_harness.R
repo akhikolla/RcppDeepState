@@ -44,7 +44,7 @@ deepstate_harness_compile_run <- function(package_name,max_inputs="all"){
   }
   }
   deepstate_harness_analyze_pkg(package_name,max_inputs)
-}
+ }
     if(uncompiled_count == 0 && log_count == length(fun_names) ) 
     return("Compiled all the functions in the package successfully")
   else
