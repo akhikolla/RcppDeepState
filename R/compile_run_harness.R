@@ -10,6 +10,7 @@ deepstate_harness_compile_run <- function(package_name,max_inputs="all"){
   uncompiled.code <- list()
   functions.list  <-  RcppDeepState::deepstate_get_function_body(package_name)
   #create_testpkgs_objects()
+  if(!is.null(functions.list) && length(functions.list) > 1){
   functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
   fun_names <- unique(functions.list$funName)
   uncompiled_count = 0
@@ -43,10 +44,13 @@ deepstate_harness_compile_run <- function(package_name,max_inputs="all"){
   }
   }
   deepstate_harness_analyze_pkg(package_name,max_inputs)
-  if(uncompiled_count == 0 && log_count == length(fun_names) ) 
+}
+    if(uncompiled_count == 0 && log_count == length(fun_names) ) 
     return("Compiled all the functions in the package successfully")
   else
-    return(paste0("Issue compiling the function - ",uncompiled.code))
-} 
+    return(paste0("Issue compiling the functions ",uncompiled.code))
+  
+
+}
 
 

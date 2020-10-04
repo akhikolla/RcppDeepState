@@ -18,7 +18,7 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
   packagename <- basename(package_name)
   test.files <- Sys.glob(paste0(test_path,"/*"))
   if(max_inputs != "all"){
- test.files <- test.files[1:max_inputs]
+    test.files <- test.files[1:max_inputs]
   } 
   for(pkg.i in seq_along(test.files)){
     pkg.path <- test.files[[pkg.i]] 
@@ -27,14 +27,14 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
     if(max_inputs != "all" && max_inputs <= length(bin.files) && length(bin.files) > 0){
       bin.files <- bin.files[1:max_inputs]
     } 
-    print(bin.files)
+    #print(bin.files)
     crash.count <- length(gsub(".crash","",basename(bin.files))) 
     if(crash.count > 5){ 
       bin.files <- bin.files[1:5]
     }
     for(bin.i in seq_along(bin.files)){
       bin.path.i <- bin.files[[bin.i]]
-      print(bin.path.i)
+      #print(bin.path.i)
       fun <- basename(pkg.path) 
       exec <- paste0("./",fun,"_DeepState_TestHarness")
       inputs.path <- Sys.glob(paste0(file.path(pkg.path,"inputs"),"/*"))
@@ -47,7 +47,6 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
       file.copy(bin.path.i,output_folder)
       logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
       if(length(logtable) > 1 && !is.null(logtable)){
-        print(logtable)
       for(inputs.i in seq_along(inputs.path)){
         file.copy(inputs.path[[inputs.i]],output_folder)
         if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
@@ -61,6 +60,7 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
           print(scan(inputs.path[[inputs.i]]))
         }
       }
+       print(logtable)
       }else{
       cat(sprintf("\nanalyzed binary - found no issues\n"))
     }
