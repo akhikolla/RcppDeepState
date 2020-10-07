@@ -27,10 +27,11 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
     if(max_inputs != "all" && max_inputs <= length(bin.files) && length(bin.files) > 0){
       bin.files <- bin.files[1:max_inputs]
     } 
-    #print(bin.files)
+    else{
     crash.count <- length(gsub(".crash","",basename(bin.files))) 
-    if(crash.count > 5){ 
-      bin.files <- bin.files[1:5]
+    if(crash.count > 3){ 
+      bin.files <- bin.files[1:3]
+    }
     }
     for(bin.i in seq_along(bin.files)){
       bin.path.i <- bin.files[[bin.i]]

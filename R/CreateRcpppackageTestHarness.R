@@ -159,7 +159,7 @@ deepstate_create_makefile <-function(package,fun_name){
   log_file_path <- paste0(fun_path,"/",fun_name,"_log")
   write_to_file<-paste0(write_to_file,"\n",fun_path,"/",fun_name,"_log"," : ",test_harness_path)
   write_to_file<-paste0(write_to_file,"\n\t","cd ",fun_path," && ","valgrind --xml=yes --xml-file=",log_file_path," --tool=memcheck --leak-check=yes --track-origins=yes ","./",test_harness,
-                        " --fuzz --output_test_dir ",fun_path,"/",fun_name,"_output"," > ",paste0(log_file_path,"_text "),
+                        " --fuzz --fuzz_save_passing --output_test_dir ",fun_path,"/",fun_name,"_output"," > ",paste0(log_file_path,"_text "),
                         "2>&1 ; head ", paste0(log_file_path,"_text")," > /dev/null")
   write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
   compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${COMMON_FLAGS} ","-I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",deepstate.header," ")
