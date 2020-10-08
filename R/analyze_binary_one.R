@@ -42,8 +42,8 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
       #print(var)
       system(var)
       file.copy(bin.path.i,output_folder)
-      logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
-      print(logtable)
+      #logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
+      #print(logtable)
       if(length(logtable) > 1 && !is.null(logtable)){
         for(inputs.i in seq_along(inputs.path)){
           file.copy(inputs.path[[inputs.i]],output_folder)
