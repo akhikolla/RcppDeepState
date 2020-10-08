@@ -14,7 +14,7 @@ funs.list <- c("rcpp_read_out_of_bound","rcpp_use_after_deallocate","rcpp_use_af
 dhcr<-deepstate_harness_compile_run(path)
 print(dhcr)
 test_that("compile run before create pkg", {
-  expect_identical(dhcr,paste0("Issue compiling the functions ", funs.list))
+  expect_identical(dhcr,-1)
 })
 
 harness.vec <- paste0(funs.list,"_DeepState_TestHarness.cpp")
@@ -40,7 +40,7 @@ if(identical(Sys.getenv('TRAVIS'), 'true'))
 cat("Max_inputs",max_inputs)
 dhcr<-deepstate_harness_compile_run(path,max_inputs)
 test_that("compile run after create pkg", {
-  expect_identical(dhcr,"Compiled all the functions in the package successfully")
+  expect_identical(dhcr,as.character(funs.list))
 })
 
 

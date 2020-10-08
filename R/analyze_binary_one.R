@@ -1,27 +1,34 @@
 ##' @title  compile the  for one function 
 ##' @param fun_path function path to run
 ##' @export
-deepstate_compile_fun<-function(fun_path){
+deepstate_compile_fun<-function(fun_path,max_inputs="all"){
   compile_line <-paste0("cd ",fun_path," && rm -f *.o && make\n")
-  f <- basename(fun_path)
-  if(file.exists(paste0(fun_path,"/",f,"_DeepState_TestHarness.cpp")) && 
-     file.exists(paste0(fun_path,"/","Makefile"))){
+  if(file.exists(file.path(fun_path,paste0(basename(fun_path),"_DeepState_TestHarness.cpp"))) && 
+     file.exists(file.path(fun_path,"Makefile"))){
     cat(sprintf("executing .. \n%s\n",compile_line))
     system(compile_line)
+    if(file.exists(file.path(fun_path, paste0(basename(fun_path), "_DeepState_TestHarness")))){
+      deepstate_analyze_fun(fun_path,max_inputs)
+      return(basename(fun_path))
+    }
+    else{
+      return("failed")
+    } 
   }
-  else {
-    message(sprintf("TestHarness and makefile doesn't exist for - %s\n",f))
-  }
+  
 }
 
 ##' @title  analyze the binary for one function 
 ##' @param fun_path function path to run
 ##' @export
-deepstate_analyze_fun<-function(fun_path){
+deepstate_analyze_fun<-function(fun_path,max_inputs){
     pkg.path <- fun_path
     bin.path <- file.path(paste0(pkg.path,"/",basename(pkg.path),"_output"))
     bin.files <- Sys.glob(paste0(bin.path,"/*"))
     print(bin.files)
+    if(max_inputs != "all" && max_inputs <= length(bin.files) && length(bin.files) > 0){
+      bin.files <- bin.files[1:max_inputs]
+    } 
     for(bin.i in seq_along(bin.files)){
       bin.path.i <- bin.files[[bin.i]]
       print(bin.path.i)

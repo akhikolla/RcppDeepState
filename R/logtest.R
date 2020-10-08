@@ -9,7 +9,7 @@ deepstate_logtest <- function(log){
                 "<fn>",".*","</fn>\n\\s*",
                 "<dir>",".*","</dir>\n\\s*",
                 "<file>",file="src.*","</file>\n\\s*",
-                "<line>",line=".*","</line>\n\\s*","</frame>\n")
+                "<line>",line=".*","</line>\n\\s*","</frame>\n",nomatch.error=FALSE)
   
   
   address.trace <- list("<auxwhat>",address=".*","</auxwhat>\n\\s*",
