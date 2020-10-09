@@ -11,18 +11,12 @@ print(path)
 
 funs.list <- c("rcpp_read_out_of_bound","rcpp_use_after_deallocate","rcpp_use_after_free",
                "rcpp_use_uninitialized","rcpp_write_index_outofbound","rcpp_zero_sized_array")
-dhcr<-deepstate_harness_compile_run(path)
-print(dhcr)
-test_that("compile run before create pkg", {
-  expect_identical(dhcr,-1)
-})
 
 harness.vec <- paste0(funs.list,"_DeepState_TestHarness.cpp")
 result<-deepstate_pkg_create(path)
 test_that("create files testSAN package", {
   expect_identical(result,harness.vec)
 })
-
 
 funpath.list <- paste0(system.file("testpkgs/testSAN/inst/testfiles",
                                    package="RcppDeepState"),"/",funs.list)
@@ -33,16 +27,18 @@ test_that("harness files and makefiles exist for testSAN", {
   expect_true(all(file.exists(makefile.list)))
 })
 
+
+dhcr<-deepstate_harness_compile_run(path)
+test_that("compile run after create pkg", {
+  expect_identical(dhcr,as.character(funs.list))
+})
+
 print(Sys.getenv('TRAVIS'))
 if(identical(Sys.getenv('TRAVIS'), 'true'))
 {  max_inputs=1 
 }else{max_inputs="all"}
 cat("Max_inputs",max_inputs)
-dhcr<-deepstate_harness_compile_run(path,max_inputs)
-test_that("compile run after create pkg", {
-  expect_identical(dhcr,as.character(funs.list))
-})
-
+dhcr<-deepstate_harness_analyze_pkg(path)
 
 object.list <- paste0(funpath.list,"/",funs.list,"_DeepState_TestHarness.o")
 test_that("object files existence", {
@@ -52,10 +48,7 @@ executable.list <-paste0(funpath.list,"/",funs.list,"_DeepState_TestHarness")
 test_that("executable files existence", {
   expect_true(all(file.exists(executable.list)))
 })
-logfile.list <- paste0(funpath.list,"/",funs.list,"_log")
-test_that("logfile files existence", {
-  expect_true(all(file.exists(logfile.list)))
-})
+
 inputfolder.list <- file.path(funpath.list,"inputs")
 test_that("inputfolder files existence", {
   expect_true(all(dir.exists(inputfolder.list)))

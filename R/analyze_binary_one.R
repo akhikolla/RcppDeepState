@@ -8,7 +8,7 @@ deepstate_compile_fun<-function(fun_path,max_inputs="all"){
     cat(sprintf("executing .. \n%s\n",compile_line))
     system(compile_line)
     if(file.exists(file.path(fun_path, paste0(basename(fun_path), "_DeepState_TestHarness")))){
-      deepstate_analyze_fun(fun_path,max_inputs)
+      #deepstate_analyze_fun(fun_path,max_inputs)
       return(basename(fun_path))
     }
     else{
@@ -25,13 +25,18 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
     pkg.path <- fun_path
     bin.path <- file.path(paste0(pkg.path,"/",basename(pkg.path),"_output"))
     bin.files <- Sys.glob(paste0(bin.path,"/*"))
-    print(bin.files)
+    #print(bin.files)
     if(max_inputs != "all" && max_inputs <= length(bin.files) && length(bin.files) > 0){
       bin.files <- bin.files[1:max_inputs]
-    } 
+    }
+    else{
+      if(length(bin.files) > 3){ 
+        bin.files <- bin.files[1:3]
+      }
+    }
     for(bin.i in seq_along(bin.files)){
       bin.path.i <- bin.files[[bin.i]]
-      print(bin.path.i)
+      #print(bin.path.i)
       fun <- basename(pkg.path) 
       exec <- paste0("./",fun,"_DeepState_TestHarness")
       inputs.path <- Sys.glob(paste0(file.path(pkg.path,"inputs"),"/*"))
@@ -42,8 +47,8 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
       #print(var)
       system(var)
       file.copy(bin.path.i,output_folder)
-      #logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
-      #print(logtable)
+      logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
+      print(logtable)
       if(length(logtable) > 1 && !is.null(logtable)){
         for(inputs.i in seq_along(inputs.path)){
           file.copy(inputs.path[[inputs.i]],output_folder)

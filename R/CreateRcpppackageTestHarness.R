@@ -21,6 +21,7 @@ deepstate_pkg_create<-function(package_name){
   dir.create(test_path,showWarnings = FALSE)
   Rcpp::compileAttributes(package_name)
   harness <- list()
+  failed.harness <- list()
   functions.list <-  RcppDeepState::deepstate_get_function_body(package_name)
   if(!is.null(functions.list) && length(functions.list) > 1){
     functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
@@ -93,9 +94,8 @@ deepstate_pkg_create<-function(package_name){
           }
           proto_args <- gsub(" ","",paste0(proto_args,arg.name))
           if(argument.i < nrow(functions.rows)) proto_args <- paste0(proto_args,",")
-          write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
+            write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
         }
-        #write_to_file<-paste0(write_to_file,indent,"try{\n")
         write_to_file<-paste0(write_to_file,indent,"std::cout << #input ends# << std::endl;\n",indent,"try{\n")
         write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,");\n")
         write_to_file<-gsub("#","\"",paste0(write_to_file,indent,"}\n",indent,"catch(Rcpp::exception& e){\n",indent,indent,"std::cout<<#Exception Handled#<<std::endl;\n",indent,"}"))
@@ -105,22 +105,30 @@ deepstate_pkg_create<-function(package_name){
       else if(deepstate_datatype_check(params) == 0)
       {
         mismatch_count = mismatch_count + 1
-        cat(sprintf("We can't test the function - %s - due to  datatypes fall out of the specified list\n", function_name.i))
+        failed.harness <- c(failed.harness,function_name.i)
+        #cat(sprintf("We can't test the function - %s - due to  datatypes fall out of the specified list\n", function_name.i))
       }
     }
-    if(match_count != 0 && match_count == length(fun_names) || mismatch_count > 1){
-      cat(sprintf("Testharness created for %d functions in the package\n",match_count))
-      harness <- as.character(harness)
-      return(harness)
+    
+    if(match_count > 0 && match_count == length(fun_names)){
+          cat(sprintf("Testharness created for %d functions in the package\n",match_count))
+          return(as.character(harness))
+       }
+       else{
+         if(mismatch_count < length(fun_names) && length(failed.harness) > 0 && match_count != 0){
+           message(sprintf("Failed to create testharness for %d functions in the package - %s\n",mismatch_count,failed.harness))
+           cat(sprintf("Testharness created for %d functions in the package\n",match_count))
+           return(as.character(harness))
+         }  
+      }
+    if(mismatch_count == length(fun_names)){
+      message(sprintf("Testharnesses cannot be created for the package - datatypes fall out of specified list!!"))
+      return(as.character(failed.harness))
     }
-    else if(mismatch_count == length(fun_names)){
-      message(sprintf("Testharness cannot be created for the package!!"))
-      return(0)
-    }
-    else return(-1)
   }
-  else return("failed")
-  
+  else{
+    message(sprintf("No Rcpp Functions to test in the package"))
+  }
 }   
 ##' @title  creates makefiles for above created testharness in package
 ##' @param package to the RcppExports file*
@@ -158,7 +166,7 @@ deepstate_create_makefile <-function(package,fun_name){
   write_to_file<-paste0(write_to_file,flags,"\n")
   log_file_path <- paste0(fun_path,"/",fun_name,"_log")
   write_to_file<-paste0(write_to_file,"\n",fun_path,"/",fun_name,"_log"," : ",test_harness_path)
-  write_to_file<-paste0(write_to_file,"\n\t","cd ",fun_path," && ","valgrind --xml=yes --xml-file=",log_file_path," --tool=memcheck --leak-check=yes --track-origins=yes ","./",test_harness,
+  write_to_file<-paste0(write_to_file,"\n\t","cd ",fun_path," && ","./",test_harness,
                         " --fuzz --fuzz_save_passing --output_test_dir ",fun_path,"/",fun_name,"_output"," > ",paste0(log_file_path,"_text "),
                         "2>&1 ; head ", paste0(log_file_path,"_text")," > /dev/null")
   write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
