@@ -47,7 +47,7 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
       system(var)
       file.copy(bin.path.i,output_folder)
       logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
-      if(length(logtable) > 1 && !is.null(logtable)){
+      if(length(logtable) > 0 && !is.null(logtable)){
       for(inputs.i in seq_along(inputs.path)){
         file.copy(inputs.path[[inputs.i]],output_folder)
         if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){

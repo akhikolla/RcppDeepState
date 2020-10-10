@@ -14,7 +14,7 @@ deepstate_harness_compile_run <- function(package_name){
   print(testharness)
   functions.list <- Sys.glob(file.path(test_path,"*"))
   print(basename(functions.list))
-  if(testharness == basename(functions.list) && !is.null(functions.list) && length(functions.list) > 0){
+  if(testharness == basename(functions.list) && length(functions.list) >= 1){
     uncompiled_count = 0
     log_count = 0
     for(fun.path in functions.list){
@@ -27,6 +27,9 @@ deepstate_harness_compile_run <- function(package_name){
           }
     }
     return(as.character(compiled.code))
+  }
+  else{
+    print("failed")
   }
   
 }
