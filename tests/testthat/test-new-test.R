@@ -33,12 +33,7 @@ test_that("compile run after create pkg", {
   expect_identical(dhcr,as.character(funs.list))
 })
 
-print(Sys.getenv('TRAVIS'))
-if(identical(Sys.getenv('TRAVIS'), 'true'))
-{  max_inputs=1 
-}else{max_inputs="all"}
-cat("Max_inputs",max_inputs)
-dhcr<-deepstate_harness_analyze_pkg(path)
+
 
 object.list <- paste0(funpath.list,"/",funs.list,"_DeepState_TestHarness.o")
 test_that("object files existence", {
