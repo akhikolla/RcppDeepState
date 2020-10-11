@@ -33,7 +33,13 @@ test_that("compile run after create pkg", {
   expect_identical(dhcr,as.character(funs.list))
 })
 
+print(Sys.getenv('TRAVIS'))
+if(identical(Sys.getenv('TRAVIS'), 'true'))
+{  max_inputs=1 
+}else{max_inputs="all"}
+cat("Max_inputs",max_inputs)
 
+#dhcr<-deepstate_harness_analyze_pkg(path)
 
 object.list <- paste0(funpath.list,"/",funs.list,"_DeepState_TestHarness.o")
 test_that("object files existence", {
@@ -60,3 +66,17 @@ outputfolder.list <- paste0(funpath.list,"/",funs.list,"_output")
 test_that("outputfolder files existence", {
   expect_true(all(dir.exists(outputfolder.list)))
 })
+
+
+list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
+exec<-file.path(dirname(dirname(list.crashes[1])),gsub("_output","_DeepState_TestHarness",basename(dirname(list.crashes[1]))))
+
+analyze_one <- paste0("valgrind --xml=yes --xml-file=",path,"/valgrind_log " ,
+                      "--tool=memcheck --leak-check=yes ",exec," --input_test_file ",
+                      list.crashes[1]," > ",path,"/valgrind_log_text"," 2>&1")
+system(analyze_one)
+readLines(file.path(path,"valgrind_log"))
+print("txt log------------------------")
+readLines(file.path(path,"valgrind_log_text"))
+list.crashes[1]
+
