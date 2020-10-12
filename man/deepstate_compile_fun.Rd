@@ -4,10 +4,12 @@
 \alias{deepstate_compile_fun}
 \title{compile the  for one function}
 \usage{
-deepstate_compile_fun(fun_path)
+deepstate_compile_fun(fun_path, max_inputs = "all")
 }
 \arguments{
 \item{fun_path}{function path to run}
+
+\item{max_inputs}{input arguments}
 }
 \description{
 compile the  for one function

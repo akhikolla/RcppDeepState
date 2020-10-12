@@ -1,5 +1,6 @@
 ##' @title  compile the  for one function 
 ##' @param fun_path function path to run
+##' @param max_inputs input arguments
 ##' @export
 deepstate_compile_fun<-function(fun_path,max_inputs="all"){
   compile_line <-paste0("cd ",fun_path," && rm -f *.o && make\n")
@@ -20,6 +21,7 @@ deepstate_compile_fun<-function(fun_path,max_inputs="all"){
 
 ##' @title  analyze the binary for one function 
 ##' @param fun_path function path to run
+##' @param max_inputs input arguments
 ##' @export
 deepstate_analyze_fun<-function(fun_path,max_inputs){
     pkg.path <- fun_path

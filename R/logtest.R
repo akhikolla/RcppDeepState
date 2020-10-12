@@ -7,14 +7,12 @@ deepstate_logtest <- function(log){
     trace <- list("<frame>\n\\s*","<ip>",".*","</ip>\n\\s*",
                 "<obj>",".*","</obj>\n\\s*",
                 "<fn>",".*","</fn>\n\\s*",
-                "<dir>",".*","</dir>\n\\s*",
-                "<file>",file="src.*","</file>\n\\s*",
+                "<dir>",path=".*.src","</dir>\n\\s*",
+                "<file>",file=".*","</file>\n\\s*",
                 "<line>",line=".*","</line>\n\\s*","</frame>\n",nomatch.error=FALSE)
-  
-  
+    
   address.trace <- list("<auxwhat>",address=".*","</auxwhat>\n\\s*",
                         "<stack>\n\\s*",stack="(?:.+\n)+")
-  
   
   traces <- nc::capture_all_str(log,"<error>\n\\s{2}",
                                 trace="(?:.+\n)+",
@@ -27,8 +25,7 @@ deepstate_logtest <- function(log){
       if(any(grep("<xwhat>",error.row,fixed = TRUE))){
         kind <- nc::capture_all_str(error.row,"<kind>",kinds=".*","</kind>\n\\s*","<xwhat>\n\\s*",
                                     "<text>",msg=".*","</text>\n")
-      }
-      else{
+      }else{
         kind <- nc::capture_all_str(error.row,"<kind>",kinds=".*","</kind>\n\\s*",
                                     msg=".*","\n")
       }
@@ -37,22 +34,47 @@ deepstate_logtest <- function(log){
                                               "\\s*</stack>")
       stack.rows <- log.stack.traces$st
       add.trace="NA"
+      address="NA"
+      #print(stack.rows)
       if(length(stack.rows)){
-        if(any(grep("<auxwhat>",stack.rows,fixed = TRUE))){
-          stack.msg <- nc::capture_first_vec(stack.rows,trace)
+        if(any(grep("<auxwhat>",error.row,fixed = TRUE))){
+          #print("in auxwhat")
+          stack.msg <- nc::capture_all_str(stack.rows,"<frame>\n\\s*","<ip>",".*","</ip>\n\\s*",
+                                           "<obj>",".*","</obj>\n\\s*",
+                                           "<fn>",".*","</fn>\n\\s*",
+                                            "<dir>",path=".*.src","</dir>\n\\s*",
+                                           "<file>",file=".*","</file>\n\\s*",
+                                           "<line>",line=".*","</line>\n\\s*","</frame>\n")
           if(nrow(stack.msg)){
             err.trace=paste0(stack.msg$file," : ",stack.msg$line)
+          }else{err.trace="NA"}
+          address.msg <- nc::capture_all_str(error.row,"<auxwhat>",address=".*?","</auxwhat>\n",
+                                             "<stack>\n\\s*?",stack="(?:.+\n)*?")
+          #print(address.msg)
+          #address=address.msg$address
+          #print("address")
+          #print(address.msg$address)
+          print(length(address.msg$stack))
+          if(length(address.msg$stack) > 0){
+          stack.msg<-nc::capture_all_str(address.msg$stack,"<frame>\n\\s*","<ip>",".*","</ip>\n\\s*",
+                                         "<obj>",".*","</obj>\n\\s*",
+                                        "<fn>",".*","</fn>\n\\s*",
+                                       "<dir>",path=".*.src","</dir>\n\\s*",
+                                       "<file>",file=".*","</file>\n\\s*",
+                                       "<line>",line=".*","</line>\n\\s*","</frame>\n")
           }
-          else{err.trace="NA"}
-          address.msg <- nc::capture_all_str(stack.rows,address.trace)
-          address=address.msg$address
-          stack.msg<-nc::capture_all_str(address.msg$stack,trace)
           if(nrow(stack.msg)){
             add.trace=paste0(stack.msg$file," : ",stack.msg$line)
           }
         }else{
+          #print("not in auxwhat")
           address="No address trace found"
-          stack.msg<- nc::capture_all_str(stack.rows,trace)
+          stack.msg<- nc::capture_first_vec(stack.rows,"<frame>\n\\s*","<ip>",".*","</ip>\n\\s*",
+                "<obj>",".*","</obj>\n\\s*",
+                "<fn>",".*","</fn>\n\\s*",
+                "<dir>",path=".*.src","</dir>\n\\s*",
+                "<file>",file=".*","</file>\n\\s*",
+                "<line>",line=".*","</line>\n\\s*","</frame>\n",nomatch.error=FALSE)
           err.trace<-paste0(stack.msg$file," : ",stack.msg$line)
         }
       }
@@ -64,7 +86,6 @@ deepstate_logtest <- function(log){
       
       
     }  
-    #print(issue.dt.list)
   }else{  
     log_text <- paste0(log,"_text")
     issue.dt.list<-nc::capture_all_str(log_text,"ERROR: ",err.msg=".*")

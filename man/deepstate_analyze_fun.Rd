@@ -4,10 +4,12 @@
 \alias{deepstate_analyze_fun}
 \title{analyze the binary for one function}
 \usage{
-deepstate_analyze_fun(fun_path)
+deepstate_analyze_fun(fun_path, max_inputs)
 }
 \arguments{
 \item{fun_path}{function path to run}
+
+\item{max_inputs}{input arguments}
 }
 \description{
 analyze the binary for one function

@@ -1,6 +1,5 @@
 ##' @title compiles the code for created testharness in package
 ##' @param package_name to the RcppExports file
-##' @param max_inputs number of bin files to analyze
 ##' @export
 deepstate_harness_compile_run <- function(package_name){
   package_name <- normalizePath(package_name, mustWork=TRUE)
