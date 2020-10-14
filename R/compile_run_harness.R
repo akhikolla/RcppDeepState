@@ -17,12 +17,13 @@ deepstate_harness_compile_run <- function(package_name){
     uncompiled_count = 0
     log_count = 0
     for(fun.path in functions.list){
-        compile.res <- deepstate_compile_fun(fun.path,max_inputs)
+        compile.res <- deepstate_compile_fun(fun.path)
         if(compile.res == basename(fun.path)){
           compiled.code <-c(compiled.code,compile.res)
         }
         else{
            uncompiled.code <- c(uncompiled.code,basename(fun.path))
+           message(sprintf("%s\n",compile.res))
           }
     }
     return(as.character(compiled.code))

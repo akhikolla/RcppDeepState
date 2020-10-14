@@ -15,5 +15,8 @@ deepstate_compile_fun<-function(fun_path){
       return("failed")
     } 
   }
+  else{
+    return("TestHarness and makefile doesn't exists. Please use deepstate_pkg_create() to create them")
+  }
   
 }

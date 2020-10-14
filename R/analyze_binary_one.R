@@ -3,9 +3,9 @@
 ##' @param max_inputs input arguments
 ##' @export
 deepstate_analyze_fun<-function(fun_path,max_inputs){
-    pkg.path <- fun_path
-    bin.path <- file.path(paste0(pkg.path,"/",basename(pkg.path),"_output"))
-    bin.files <- Sys.glob(paste0(bin.path,"/*"))
+    pkg.path <-normalizePath(fun_path, mustWork=TRUE) 
+    bin.path <- file.path(pkg.path,paste0(basename(pkg.path),"_output"))
+    bin.files <- Sys.glob(file.path(bin.path,"*"))
     #print(bin.files)
     if(max_inputs != "all" && max_inputs <= length(bin.files) && length(bin.files) > 0){
       bin.files <- bin.files[1:max_inputs]
@@ -20,7 +20,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
       #print(bin.path.i)
       fun <- basename(pkg.path) 
       exec <- paste0("./",fun,"_DeepState_TestHarness")
-      inputs.path <- Sys.glob(paste0(file.path(pkg.path,"inputs"),"/*"))
+      inputs.path <- Sys.glob(file.path(pkg.path,"inputs/*"))
       output_folder<-paste0(dirname(bin.path.i),"/log_",sub('\\..*', '',basename(bin.path.i)))
       dir.create(output_folder,showWarnings = FALSE)
       analyze_one <- paste0("valgrind --xml=yes --xml-file=",output_folder,"/valgrind_log " ,"--tool=memcheck --leak-check=yes ",exec," --input_test_file ",bin.path.i," > ",output_folder,"/valgrind_log_text"," 2>&1")
@@ -29,8 +29,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
       system(var)
       file.copy(bin.path.i,output_folder)
       logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
-      print(logtable)
-      if(length(logtable) > 1 && !is.null(logtable)){
+      if(length(logtable) > 0 && !is.null(logtable)){
         for(inputs.i in seq_along(inputs.path)){
           file.copy(inputs.path[[inputs.i]],output_folder)
           if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
@@ -43,6 +42,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
             print(scan(inputs.path[[inputs.i]]))
           }
         }
+        print(logtable)
       }else{
         message(sprintf("\nanalyzed binary - found no issues\n"))
       }
