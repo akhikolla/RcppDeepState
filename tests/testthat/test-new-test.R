@@ -74,8 +74,8 @@ analyze_one <- paste0("valgrind --xml=yes --xml-file=",path,"/valgrind_log " ,
                       "--tool=memcheck --leak-check=yes ",exec," --input_test_file ",
                       list.crashes[1]," > ",path,"/valgrind_log_text"," 2>&1")
 system(analyze_one)
-print(readLines(file.path(path,"valgrind_log")))
-print("txt log------------------------")
-print(readLines(file.path(path,"valgrind_log_text")))
+#print(readLines(file.path(path,"valgrind_log")))
+#print("txt log------------------------")
+#print(readLines(file.path(path,"valgrind_log_text")))
 
 

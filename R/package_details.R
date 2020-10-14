@@ -30,7 +30,7 @@ deepstate_get_package_details <- function(path){
 ##' @param package_name to the RcppExports file
 ##' @export
 deepstate_get_function_body<-function(package_name){
-  funs <-  deepstate_get_package_details(package_name) 
+  funs <-  RcppDeepState::deepstate_get_package_details(package_name) 
   function.list <-""
   if(nrow(funs) > 0){
     function.list <- funs[,{
@@ -50,7 +50,7 @@ deepstate_get_function_body<-function(package_name){
 ##' @param package_name to the RcppExports file
 ##' @export
 deepstate_get_prototype_calls <-function(package_name){
-  funs <-  deepstate_get_package_details(package_name) 
+  funs <-  RcppDeepState::deepstate_get_package_details(package_name) 
   codes <- funs[,{nc::capture_all_str(code,"::wrap",calls ="(?:.*)")},by=funName]
   prototypes <-funs[,.(funName,prototype,calls=codes$calls)]
   return(prototypes)
