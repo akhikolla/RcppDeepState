@@ -35,7 +35,7 @@ test_that("compile run after create pkg", {
 
 print(Sys.getenv('TRAVIS'))
 if(identical(Sys.getenv('TRAVIS'), 'true'))
-{  max_inputs=2
+{  max_inputs=1
 }else{max_inputs="all"}
 cat("Max_inputs",max_inputs)
 deepstate_harness_analyze_pkg(path,max_inputs)
