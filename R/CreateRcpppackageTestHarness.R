@@ -37,7 +37,7 @@ deepstate_pkg_create<-function(package_name){
       write_to_file <- ""
       functions.rows  <- functions.list [functions.list$funName == function_name.i,]
       params <- c(functions.rows$argument.type)
-      if( RcppDeepState::deepstate_datatype_check(params) == 1){
+      if(RcppDeepState::deepstate_datatype_check(params) == 1){
         match_count = match_count + 1
         pt <- prototypes_calls[prototypes_calls$funName == function_name.i,]
         fun_name <-function_name.i
@@ -153,7 +153,7 @@ deepstate_create_makefile <-function(package,fun_name){
   path <-paste("R_HOME=",dirname(R.home('include')))
   write_to_file<-paste0(write_to_file,path,"\n")
   insts.path <- "${HOME}"
-  deepstate.path <- paste0(insts.path,"/.RcppDeepState")
+  deepstate.path <- file.path(insts.path,".RcppDeepState")
   master <- file.path(deepstate.path,"deepstate-master")
   deepstate.build <- file.path(master,"build")
   deepstate.header <- file.path(master,"src/include")
@@ -164,16 +164,16 @@ deepstate_create_makefile <-function(package,fun_name){
                   " -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",deepstate.build,
                   " -Wl,-rpath=",deepstate.build," -lR -lRInside -ldeepstate")
   write_to_file<-paste0(write_to_file,flags,"\n")
-  log_file_path <- paste0(fun_path,"/",fun_name,"_log")
-  write_to_file<-paste0(write_to_file,"\n",fun_path,"/",fun_name,"_log"," : ",test_harness_path)
+  log_file_path <- file.path(fun_path,paste0(fun_name,"_log"))
+  write_to_file<-paste0(write_to_file,"\n",log_file_path," : ",test_harness_path)
   write_to_file<-paste0(write_to_file,"\n\t","cd ",fun_path," && ","./",test_harness,
-                        " --fuzz --fuzz_save_passing --output_test_dir ",fun_path,"/",fun_name,"_output"," > ",paste0(log_file_path,"_text "),
+                        " --fuzz --fuzz_save_passing --output_test_dir ",file.path(fun_path,paste0(fun_name,"_output"))," > ",paste0(log_file_path,"_text "),
                         "2>&1 ; head ", paste0(log_file_path,"_text")," > /dev/null")
   write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
   compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${COMMON_FLAGS} ","-I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",deepstate.header," ")
-  obj.file.path<-gsub(" ","",paste0(package,"/src/*.o"))
+  obj.file.path<-gsub(" ","",file.path(package,"src/*.o"))
   write_to_file<-paste0(write_to_file,compile.line,obj.file.path)
-  dir.create(paste0(fun_path,"/",fun_name,"_output"), showWarnings = FALSE)
+  dir.create(file.path(fun_path,paste0(fun_name,"_output")), showWarnings = FALSE)
   #write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/home/",p$val,"testfiles","/",p$packagename)," && ","./",test_harness," --fuzz")
   write_to_file<-paste0(write_to_file,"\n\n",makefile.o_path," : ",makefile.cpp_path)
   write_to_file<-paste0(write_to_file,"\n\t","clang++ -g -I${R_HOME}/include -I", system.file("include", package="Rcpp"),

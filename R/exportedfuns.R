@@ -4,6 +4,7 @@ deepstate_test<- function(){
   vec<-Sys.glob(file.path("/home/akolla/R/x86_64-pc-linux-gnu-library/3.6/RcppDeepState/extdata/compileAttributes","*"))
   pkg.execlist <- list() 
   pkg.unexlist <- list()
+  pkgss<-list()
   i = 0
   funs = 0
   for(pkg.i in seq_along(vec)){
@@ -34,12 +35,14 @@ deepstate_test<- function(){
     #print(fun.list)
     exelist <- list()
     unexelist <- list()
-    for(fun.i in fun.list){
+   
+        for(fun.i in fun.list){
       harness <-file.path(fun.i,paste0(basename(fun.i),"_DeepState_TestHarness.cpp"))
       obj <- file.path(fun.i,paste0(basename(fun.i),"_DeepState_TestHarness.o"))
       exec <-file.path(fun.i,paste0(basename(fun.i),"_DeepState_TestHarness"))
       if(file.exists(harness) && file.exists(obj) && file.exists(exec)){
         exelist<- c(exelist,basename(fun.i))
+        pkgss <- c(pkgss,fun.i)
       }
       else{
         unexelist<-c(unexelist,basename(fun.i))
@@ -56,4 +59,15 @@ deepstate_test<- function(){
   print("Unexecuted package:\n")
   print(pkg.unexlist)
   cat(sprintf("Total number of exported functions :%d\n",funs))
+  print(pkgss)
+  for(i in pkgss){
+   log <- paste0(basename(i),"_output")
+   
+   path <- file.path(i,log)
+   print(path)
+   if(file.exists(path)){
+   log.result <- deepstate_logtest(path)
+   print(log.result)
+   }
+   }
   }

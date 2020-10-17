@@ -10,9 +10,9 @@ deepstate_harness_compile_run <- function(package_name){
   compiled.code <- list()
   testharness<-deepstate_pkg_create(package_name)
   testharness <- gsub("_DeepState_TestHarness.cpp","",testharness)
-  print(testharness)
+  #print(testharness)
   functions.list <- Sys.glob(file.path(test_path,"*"))
-  print(basename(functions.list))
+  #print(basename(functions.list))
   if(testharness == basename(functions.list) && length(functions.list) >= 1){
     uncompiled_count = 0
     log_count = 0
