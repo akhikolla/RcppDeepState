@@ -53,6 +53,7 @@ inputfolder.list <- file.path(funpath.list,"inputs")
 test_that("inputfolder files existence", {
   expect_true(all(dir.exists(inputfolder.list)))
 })
+
 functions.list <- deepstate_get_function_body(path)
 args.list <- gsub(" ","",functions.list$argument.name)
 path.args.list <- file.path(funpath.list,"inputs",paste0(args.list))
@@ -67,15 +68,9 @@ test_that("outputfolder files existence", {
 })
 
 
-#list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
-#exec<-file.path(dirname(dirname(list.crashes[1])),gsub("_output","_DeepState_TestHarness",basename(dirname(list.crashes[1]))))
+list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
+log.result <- deepstate_analyze_fun(list.crashes[1])
+print(log.result)
 
-#analyze_one <- paste0("valgrind --xml=yes --xml-file=",path,"/valgrind_log " ,
- #                     "--tool=memcheck --leak-check=yes ",exec," --input_test_file ",
-  #                    list.crashes[1]," > ",path,"/valgrind_log_text"," 2>&1")
-#system(analyze_one)
-#print(readLines(file.path(path,"valgrind_log")))
-#print("txt log------------------------")
-#print(readLines(file.path(path,"valgrind_log_text")))
 
 

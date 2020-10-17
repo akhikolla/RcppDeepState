@@ -12,7 +12,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
     }
     else{
       if(length(bin.files) > 3){ 
-        bin.files <- bin.files[1:3]
+        bin.files <- bin.files[1:3] 
       }
     }
     for(bin.i in seq_along(bin.files)){
@@ -23,7 +23,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
       inputs.path <- Sys.glob(file.path(pkg.path,"inputs/*"))
       output_folder<-paste0(dirname(bin.path.i),"/log_",sub('\\..*', '',basename(bin.path.i)))
       dir.create(output_folder,showWarnings = FALSE)
-      analyze_one <- paste0("valgrind --xml=yes --xml-file=",output_folder,"/valgrind_log " ,"--tool=memcheck --leak-check=yes ",exec," --input_test_file ",bin.path.i," > ",output_folder,"/valgrind_log_text"," 2>&1")
+      analyze_one <- paste0("valgrind --xml=yes --xml-file=",file.path(output_folder,"valgrind_log") ," --tool=memcheck --leak-check=yes ",exec," --input_test_file ",bin.path.i," > ",output_folder,"/valgrind_log_text"," 2>&1")
       var <- paste("cd",pkg.path,";", analyze_one) 
       #print(var)
       system(var)
@@ -51,4 +51,23 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
 }
 
 
+
+##' @title  analyze the binary for one function 
+##' @param file.path file to analyze
+##' @export
+deepstate_analyze_fun<-function(file.path){
+  file.path <-normalizePath(file.path, mustWork=TRUE)
+  #print(file.path)
+  exec <- paste0("./",gsub("_output","_DeepState_TestHarness",basename(dirname(file.path)))) 
+  output_folder<-paste0(dirname(file.path),"/log_",sub('\\..*', '',basename(file.path)))
+  dir.create(output_folder,showWarnings = FALSE)
+  valgrind.log <- file.path(output_folder,"valgrind_log")
+  valgrind.log.text <- file.path(output_folder,"valgrind_log_text")
+  analyze_one <- paste0("valgrind --xml=yes --xml-file=",valgrind.log," --tool=memcheck --leak-check=yes ",exec," --input_test_file ",file.path," > ",valgrind.log.text," 2>&1")
+  var <- paste("cd",dirname(dirname(file.path)),";", analyze_one) 
+  #print(var)
+  system(var)
+  logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
+  return(logtable)
+}  
 
