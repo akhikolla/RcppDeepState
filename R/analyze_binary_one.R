@@ -25,7 +25,6 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
       dir.create(output_folder,showWarnings = FALSE)
       analyze_one <- paste0("valgrind --xml=yes --xml-file=",file.path(output_folder,"valgrind_log") ," --tool=memcheck --leak-check=yes ",exec," --input_test_file ",bin.path.i," > ",output_folder,"/valgrind_log_text"," 2>&1")
       var <- paste("cd",pkg.path,";", analyze_one) 
-      #print(var)
       system(var)
       file.copy(bin.path.i,output_folder)
       logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
@@ -37,7 +36,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
             qread.data <- qread(inputs.path[[inputs.i]])
             print(qread.data)   
           }
-          else{
+         else{
             cat(sprintf("\nInput parameter - %s\n",basename(inputs.path[[inputs.i]])))
             print(scan(inputs.path[[inputs.i]]))
           }
@@ -51,13 +50,11 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
 }
 
 
-
 ##' @title  analyze the binary for one function 
 ##' @param file.path file to analyze
 ##' @export
-deepstate_analyze_fun<-function(file.path){
+deepstate_analyze_file<-function(file.path){
   file.path <-normalizePath(file.path, mustWork=TRUE)
-  #print(file.path)
   exec <- paste0("./",gsub("_output","_DeepState_TestHarness",basename(dirname(file.path)))) 
   output_folder<-paste0(dirname(file.path),"/log_",sub('\\..*', '',basename(file.path)))
   dir.create(output_folder,showWarnings = FALSE)
@@ -65,7 +62,6 @@ deepstate_analyze_fun<-function(file.path){
   valgrind.log.text <- file.path(output_folder,"valgrind_log_text")
   analyze_one <- paste0("valgrind --xml=yes --xml-file=",valgrind.log," --tool=memcheck --leak-check=yes ",exec," --input_test_file ",file.path," > ",valgrind.log.text," 2>&1")
   var <- paste("cd",dirname(dirname(file.path)),";", analyze_one) 
-  #print(var)
   system(var)
   logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
   return(logtable)

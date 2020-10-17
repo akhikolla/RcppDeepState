@@ -4,6 +4,24 @@
 ##' @export
 deepstate_logtest <- function(log){
      issue.dt.list <- list()
+     if(length(logtable) > 0 && !is.null(logtable)){
+       for(inputs.i in seq_along(inputs.path)){
+         file.copy(inputs.path[[inputs.i]],output_folder)
+         if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
+           cat(sprintf("\nInput parameter from qs - %s\n",gsub(".qs","",basename(inputs.path[[inputs.i]]))))
+           qread.data <- qread(inputs.path[[inputs.i]])
+           print(qread.data)   
+         }
+         else{
+           cat(sprintf("\nInput parameter - %s\n",basename(inputs.path[[inputs.i]])))
+           print(scan(inputs.path[[inputs.i]]))
+         }
+       }
+       print(logtable)
+     }else{
+       message(sprintf("\nanalyzed binary - found no issues\n"))
+     }
+     
     if(length(grep("<file>src/",readLines(log)))){
        trace <- list("<frame>\n\\s*","<ip>",".*","</ip>\n\\s*",
                      "<obj>",".*","</obj>\n\\s*",

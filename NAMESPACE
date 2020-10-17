@@ -2,6 +2,7 @@
 
 export(deepstate_afl_make)
 export(deepstate_allchecks)
+export(deepstate_analyze_file)
 export(deepstate_analyze_fun)
 export(deepstate_binary_log_read)
 export(deepstate_ci_setup)
