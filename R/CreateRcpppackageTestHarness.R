@@ -58,7 +58,7 @@ deepstate_pkg_create<-function(package_name){
         #write(obj,filename,append = TRUE)
         indent <- "  "
         write_to_file<-paste0(write_to_file,indent,"RInside R;\n",indent,"std::cout << #input starts# << std::endl;\n")
-        RcppDeepState::deepstate_create_makefile(package_name,fun_name) 
+        deepstate_create_makefile(package_name,fun_name) 
         proto_args <-""
         for(argument.i in 1:nrow(functions.rows)){
           arg.type <- gsub(" ","",functions.rows [argument.i,argument.type])
