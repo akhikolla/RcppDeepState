@@ -4,10 +4,10 @@
 \alias{deepstate_analyze_file}
 \title{analyze the binary for one function}
 \usage{
-deepstate_analyze_file(file.path)
+deepstate_analyze_file(files.path)
 }
 \arguments{
-\item{file.path}{file to analyze}
+\item{files.path}{file to analyze}
 }
 \description{
 analyze the binary for one function
