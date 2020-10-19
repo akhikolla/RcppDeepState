@@ -81,6 +81,9 @@ deepstate_logtest <- function(log){
     if(nrow(issue.dt.list)){
       return(issue.dt.list)
     }
+    else{
+      issue.dt.list <- list()
+    }
   }
   return(issue.dt.list)
 }
