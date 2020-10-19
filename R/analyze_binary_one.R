@@ -19,6 +19,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
       bin.path.i <- bin.files[[bin.i]]
       #print(bin.path.i)
       inputs.path <- Sys.glob(file.path(pkg.path,"inputs/*"))
+      output_folder<-file.path(dirname(bin.path.i),paste0("log_",sub('\\..*', '',basename(bin.path.i))))
       logtable <-  deepstate_analyze_file(pkg.path)
       if(length(logtable) > 0 && !is.null(logtable)){
         for(inputs.i in seq_along(inputs.path)){
@@ -55,7 +56,7 @@ deepstate_analyze_file<-function(files.path){
   analyze_one <- paste0("valgrind --xml=yes --xml-file=",valgrind.log," --tool=memcheck --leak-check=yes ",exec," --input_test_file ",file.path," > ",valgrind.log.text," 2>&1")
   var <- paste("cd ",dirname(dirname(file.path)),";", analyze_one) 
   print(var)
-  #system(var)
+  system(var)
   logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
   return(logtable)
 }  
