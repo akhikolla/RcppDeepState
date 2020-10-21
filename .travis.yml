@@ -21,7 +21,7 @@ r_packages:
   - roxygen2
 
 after_success:
-  - Rscript -e 'devtools::install();devtools::test()'
+  - Rscript -e 'devtools::load_all();devtools::install();devtools::test()'
   
 r_check_args: '--as-cran --use-valgrind'
 

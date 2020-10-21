@@ -64,22 +64,33 @@ Error_files_test <- function(){
 
 functions.list.check <- function(){
   test.files <- list()
+  dtest.files<-list()
   nons <- 0
   untestable <- Sys.glob(file.path("~/R/x86_64-pc-linux-gnu-library/3.6/RcppDeepState/extdata/untestable_pkgscheck","*"))
   cat(sprintf("untestable files -%d\n",length(untestable)))
   for(i in untestable){
   functions.list <-  RcppDeepState::deepstate_get_function_body(i)
   if(!is.null(functions.list) && length(functions.list) > 1){
-    test.files[[basename(i)]] <- functions.list
+    dtest.files[[basename(i)]] <- functions.list
+    functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
+    fun_names <- unique(functions.list$funName)
+    for(function_name.i in fun_names){
+      write_to_file <- ""
+      functions.rows  <- functions.list [functions.list$funName == function_name.i,]
+      params <- c(functions.rows$argument.type)
+      if(RcppDeepState::deepstate_datatype_check(params) == 1){
+         test.files[[basename(i)]] <- functions.list
+      }
+    }
   }else{
     nons = nons + 1
     cat(sprintf("no test functions returned - %s\n",basename(i)))
-    #cat(sprintf("test files returned - %s\n",functions.list))
   }
  }
   print(test.files)
   cat(sprintf("test files not returned -%d\n",nons))
-  cat(sprintf("test files returned -%d\n",length(test.files)))
+  cat(sprintf("test files returned -%d\n",length(list(intersect(test.files,dtest.files)))))
+  cat(sprintf("intersect - %s\n",list(intersect(test.files,dtest.files))))
 }
 
 
