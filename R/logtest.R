@@ -58,7 +58,7 @@ deepstate_logtest <- function(log){
           address=address.trace$address
           if(nrow(address.trace)){
             address.msg <- nc::capture_first_vec(error.row,"<auxwhat>",address=".*","</auxwhat>\n\\s*",
-                                                 "<stack>\n\\s*",stack="(?:.*\n)+","\\s*</stack>")
+                                                 "<stack>\n\\s*",stack="(?:.*\n)*?","\\s*</stack>")
           }
           if(length(address.msg$stack) > 0){
           add.stack.msg<-nc::capture_first_vec(address.msg$stack,trace)

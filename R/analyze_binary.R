@@ -10,7 +10,7 @@
 deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
   path <-normalizePath(path, mustWork=TRUE)
   package_name <- sub("/$","",path)
-  testfiles.res <- list()
+  list_testfiles <- list()
   inst_path <- file.path(package_name, "inst")
   if(!dir.exists(inst_path)){
     dir.create(inst_path)
@@ -23,11 +23,11 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
     test.files <- test.files[1:max_inputs]
   } 
   for(pkg.i in seq_along(test.files)){
-    testfiles.res(test.files[[pkg.i]]) <- deepstate_analyze_fun(test.files[[pkg.i]],max_inputs)
-  }
-  testfiles.res <- do.call(rbind,testfiles.res)
-  print(testfiles.res)
-  return(testfiles.res)
+    list_testfiles[basename(test.files[[pkg.i]])] <- list(deepstate_analyze_fun(test.files[[pkg.i]],max_inputs))
+   }
+  list_testfiles <- do.call(rbind,list_testfiles)
+  print(list_testfiles)
+  return(list_testfiles)
   }
   else{
     message(sprintf("Please make a call to deepstate_harness_compile_run()"))
