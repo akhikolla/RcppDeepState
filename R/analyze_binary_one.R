@@ -2,7 +2,7 @@
 ##' @param fun_path function path to run
 ##' @param max_inputs input arguments
 ##' @export
-deepstate_analyze_fun<-function(fun_path,max_inputs){
+deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
     pkg.path <-normalizePath(fun_path, mustWork=TRUE)
     bin.path <- file.path(pkg.path,paste0(basename(pkg.path),"_output"))
     bin.files <- Sys.glob(file.path(bin.path,"*"))

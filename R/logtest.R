@@ -88,6 +88,7 @@ deepstate_logtest <- function(log){
     log_text <- paste0(log,"_text")
     issue.dt.list<-nc::capture_all_str(log_text,"ERROR: ",err.msg=".*")
     if(nrow(issue.dt.list)){
+      issue.dt.list <- do.call(rbind,issue.dt.list)
       return(issue.dt.list)
     }
     else{
