@@ -62,6 +62,10 @@ Error_files_test <- function(){
  print(pkg.unexlist)
 }
 
+functions.list.check <- function(){
+  untestable <- Sys.glob(file.path("~/R/x86_64-pc-linux-gnu-library/3.6/RcppDeepState/extdata/untestable_pkgscheck","*"))
+}
+
 
 total_counts <- function(){
 pkgs <- Sys.glob(file.path("/home/akolla/R/x86_64-pc-linux-gnu-library/3.6/RcppDeepState/extdata/compileAttributes","*"))
@@ -91,12 +95,17 @@ for(pkg.i in pkgs){
     }
   }
 }
+untestable <- Sys.glob(file.path("~/R/x86_64-pc-linux-gnu-library/3.6/RcppDeepState/extdata/untestable_pkgscheck","*"))
 print(pkg.lists)
-cat(sprintf("Total functions evaluated : %d\n", tot.fun.count))
-cat(sprintf("Total packages evaluated : %d\n", pkg.count))
-cat(sprintf("empty testfiles packages : %d\n",non.test.total))
-cat(sprintf("empty testfiles packages : %s\n",list(non.test.list)))
-cat(sprintf("No Rcpp exports file for pkg - %s\n",list(pkg.exlist)))
-cat(sprintf("Count No Rcpp exports file - %d\n",pkg.exports))
+cat(sprintf("Total functions evaluated :\n%d\n", tot.fun.count))
+cat(sprintf("Total packages evaluated : \n%d\n", pkg.count))
+cat(sprintf("empty testfiles packages : \n%d\n",non.test.total))
+cat(sprintf("empty testfiles packages : \n%s\n",list(non.test.list)))
+cat(sprintf("length of untestable packages : \n%d\n",length(untestable)))
+cat(sprintf("empty testfiles packages and untestable : \n%s\n",list(intersect(non.test.list,basename(untestable)))))
+cat(sprintf("length of the files empty testfiles packages and untestable: \n%d\n",length(list(intersect(non.test.list,basename(untestable))))))
+cat(sprintf("No Rcpp exports file for pkg - \n%s\n",list(pkg.exlist)))
+cat(sprintf("Count No Rcpp exports file - \n%d\n",pkg.exports))
+
 }
 
