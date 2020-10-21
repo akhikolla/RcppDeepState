@@ -10,7 +10,6 @@ download.packages(Rcpp.LinkingTo.pkgs, packages, type="source")
 ##' @title  deepstate_datatype_check
 ##' @param params.list to the package test file
 ##' @export
-
 deepstate_datatype_check <- function(params.list){
   params.list <- gsub("const","",params.list)
   params.list <-gsub("Rcpp::","",params.list)

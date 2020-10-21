@@ -4,7 +4,6 @@
 ##' @export
 deepstate_analyze_fun<-function(fun_path,max_inputs){
     pkg.path <-normalizePath(fun_path, mustWork=TRUE)
-    final_table=list()
     bin.path <- file.path(pkg.path,paste0(basename(pkg.path),"_output"))
     bin.files <- Sys.glob(file.path(bin.path,"*"))
     #print(bin.files)
@@ -15,19 +14,16 @@ deepstate_analyze_fun<-function(fun_path,max_inputs){
         bin.files <- bin.files[1:3] 
       }
     }
+    final_table=list()
     for(bin.i in seq_along(bin.files)){
+      current.list <- list()
       bin.path.i <- bin.files[[bin.i]]
-      #print(bin.path.i)
-      inputs.path <- Sys.glob(file.path(pkg.path,"inputs/*"))
-      output_folder<-file.path(dirname(bin.path.i),paste0("log_",sub('\\..*', '',basename(bin.path.i))))
-      final_table <-  deepstate_analyze_file(bin.path.i)
-      if(!is.null(final_table$logtable[[1]])){
-        print(final_table)
-        return(final_table)
-      }else{
-        message(sprintf("\nanalyzed binary - found no issues\n"))
-      }
+      current.list <-  deepstate_analyze_file(bin.path.i)
+      final_table[[bin.path.i]] <- current.list 
     }
+    final_table <- do.call(rbind,final_table)
+    print(final_table)
+    return(final_table)
 }
 
 
@@ -49,7 +45,7 @@ deepstate_analyze_file<-function(files.path){
   system(var)
   inputs.path <- Sys.glob(file.path(dirname(dirname(files.path)),"inputs/*"))
   logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
-  if(length(logtable) > 0 && !is.null(logtable)){
+  #if(length(logtable) > 0 && !is.null(logtable)){
     for(inputs.i in seq_along(inputs.path)){
       file.copy(inputs.path[[inputs.i]],output_folder)
       if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
@@ -65,9 +61,14 @@ deepstate_analyze_file<-function(files.path){
         #inputs_list <- list(inputs_list,input)
         #print(scan(inputs.path[[inputs.i]]))
       }
-    }
+    #}
   }
-  final_table <- data.table(binaryfile=files.path,inputs=list(inputs_list),logtable=logtable)
+  if(length(logtable)){
+  final_table <- data.table(binaryfile=files.path,inputs=list(inputs_list),logtable=list(logtable))
+  }
+  else{
+    final_table <- data.table(binaryfile=files.path,inputs=list(inputs_list),logtable="No Issues Found")
+  }
   return(final_table)
 }  
 
