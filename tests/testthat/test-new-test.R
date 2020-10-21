@@ -38,7 +38,7 @@ if(identical(Sys.getenv('TRAVIS'), 'true'))
 {  max_inputs=1
 }else{max_inputs="all"}
 cat("Max_inputs",max_inputs)
-#deepstate_harness_analyze_pkg(path,max_inputs)
+deepstate_harness_analyze_pkg(path,max_inputs)
 
 object.list <- paste0(funpath.list,"/",funs.list,"_DeepState_TestHarness.o")
 test_that("object files existence", {
