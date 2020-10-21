@@ -4,6 +4,7 @@
 ##' @export
 deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
     pkg.path <-normalizePath(fun_path, mustWork=TRUE)
+    if(file.exists(fun_path)){
     bin.path <- file.path(pkg.path,paste0(basename(pkg.path),"_output"))
     bin.files <- Sys.glob(file.path(bin.path,"*"))
     #print(bin.files)
@@ -24,6 +25,10 @@ deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
     final_table <- do.call(rbind,final_table)
     print(final_table)
     return(final_table)
+    }
+    else{
+      return(message(sprintf("Testharness doesn't exists for %s\n:",fun_path)))
+    }
 }
 
 
@@ -33,6 +38,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
 deepstate_analyze_file<-function(files.path){
   inputs_list<- list()
   final_table <- list()
+  if(file.exists(files.path)){
   files.path <-normalizePath(files.path, mustWork=TRUE)
   exec <- paste0("./",gsub("_output","_DeepState_TestHarness",basename(dirname(files.path)))) 
   output_folder<-file.path(dirname(files.path),paste0("log_",sub('\\..*', '',basename(files.path))))
@@ -70,5 +76,9 @@ deepstate_analyze_file<-function(files.path){
     final_table <- data.table(binaryfile=files.path,inputs=list(inputs_list),logtable="No Issues Found")
   }
   return(final_table)
+  }
+  else{
+    return(message(sprintf("Provided binary file doesn't exists for %s\n:",files.path)))
+  }
 }  
 
