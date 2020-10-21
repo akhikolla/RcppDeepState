@@ -10,9 +10,11 @@ deepstate_harness_compile_run <- function(package_name){
   compiled.code <- list()
   testharness<-deepstate_pkg_create(package_name)
   testharness <- gsub("_DeepState_TestHarness.cpp","",testharness)
-  #print(testharness)
+  print(length(testharness))
+  print(testharness)
   functions.list <- Sys.glob(file.path(test_path,"*"))
-  #print(basename(functions.list))
+  print(length(basename(functions.list)))
+  print(functions.list)
   if(length(testharness) == length(basename(functions.list))){
     #if(length(functions.list) >= 1){
     uncompiled_count = 0
@@ -26,9 +28,9 @@ deepstate_harness_compile_run <- function(package_name){
            uncompiled.code <- c(uncompiled.code,basename(fun.path))
            message(sprintf("%s\n",compile.res))
           }
-    #}
-    return(as.character(compiled.code))
     }
+    return(as.character(compiled.code))
+    #}
 }
   else{
     print("failed")
