@@ -56,11 +56,14 @@ deepstate_logtest <- function(log){
           }else{err.trace="NA"}
           address.trace <- nc::capture_first_vec(error.row,"<auxwhat>",address=".*","</auxwhat>\n")
           address=address.trace$address
-          if(nrow(address.trace)){
+          if(any(grep("</auxwhat>\n\\s*<stack>\n\\s*",error.row,fixed = TRUE))){
             address.msg <- nc::capture_first_vec(error.row,"<auxwhat>",address=".*","</auxwhat>\n\\s*",
                                                  "<stack>\n\\s*",stack="(?:.*\n)*?","\\s*</stack>")
+          }else{
+            address.msg="NA"
           }
-          if(length(address.msg$stack) > 0){
+          
+          if(address.msg != "NA"){
           add.stack.msg<-nc::capture_first_vec(address.msg$stack,trace)
           if(nrow(add.stack.msg)){
             add.trace=paste0(add.stack.msg$file," : ",add.stack.msg$line)
