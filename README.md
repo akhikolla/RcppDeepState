@@ -35,24 +35,14 @@ devtools::install_github("akhikolla/RcppDeepState")
 
 To test your package using RcppDeepState follow the steps below:
 
-(a)**deepstate_pkg_create**: This function creates the TestHarnesses for all the functions in the test package with the corresponding makefiles.
-
-This is the first function we need to make a call to create the testharness, create a deepstate library, and install the test package.
-
-```R
-> library(RcppDeepState)
-> RcppDeepState::deepstate_pkg_create("~/R/RcppDeepState/inst/testpkgs/testSAN")
-Testharness created for 6 functions in the package
- [1] "success"
-```
 All these files generated are stored in inst/test files in your test package.
 
-(b) **deepstate_harness_compile_run**: This function compiles and runs all the TestHarnesses that are created above and test your code for errors/bugs and stores the results in logfiles.
+(a) **deepstate_harness_compile_run**: This function creates the TestHarnesses for all the functions in the test package with the corresponding makefiles. This function compiles and runs all those TestHarnesses that are created above and test your code for errors/bugs and stores the results in logfiles.
 
 ```R
 RcppDeepState::deepstate_harness_compile_run("~/R/RcppDeepState/inst/testpkgs/testSAN")
-
 ```
+
 If all the function in the package are successfully compiled it gives the following message:
 
 ```R

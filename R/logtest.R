@@ -29,7 +29,7 @@ deepstate_logtest <- function(log){
   if(nrow(traces)){
     for(i in 1:length(traces$trace)) {
       error.row <- traces$trace[i]
-      p#rint(error.row)
+      #print(error.row)
       if(any(grep("<xwhat>",error.row,fixed = TRUE))){
         kind <- nc::capture_all_str(error.row,"<kind>",kinds=".*","</kind>\n\\s*","<xwhat>\n\\s*",
                                     "<text>",msg=".*","</text>\n")
