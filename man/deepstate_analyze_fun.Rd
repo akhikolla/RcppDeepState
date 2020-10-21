@@ -4,7 +4,7 @@
 \alias{deepstate_analyze_fun}
 \title{analyze the binary for one function}
 \usage{
-deepstate_analyze_fun(fun_path, max_inputs)
+deepstate_analyze_fun(fun_path, max_inputs = "all")
 }
 \arguments{
 \item{fun_path}{function path to run}

@@ -7,6 +7,10 @@ deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
     if(file.exists(fun_path)){
     bin.path <- file.path(pkg.path,paste0(basename(pkg.path),"_output"))
     bin.files <- Sys.glob(file.path(bin.path,"*"))
+    
+    if(length(bin.files) == 0){
+      return(message(sprintf("No bin files exists for function %s\n",basename(fun_path))))
+    }
     #print(bin.files)
     if(max_inputs != "all" && max_inputs <= length(bin.files) && length(bin.files) > 0){
       bin.files <- bin.files[1:max_inputs]
@@ -23,7 +27,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
       final_table[[bin.path.i]] <- current.list 
     }
     final_table <- do.call(rbind,final_table)
-    print(final_table)
+    #print(final_table)
     return(final_table)
     }
     else{

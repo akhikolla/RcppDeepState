@@ -1,13 +1,14 @@
 ##' @title  analyze the binary file 
 ##' @param path to test
 ##' @param max_inputs no of bin files to analyze
+##' @param testfiles no of test files to test
 ##' @return returns a list of all the param values of the arguments of function
 ##' @import methods
 ##' @import Rcpp
 ##' @import RInside
 ##' @import qs
 ##' @export
-deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
+deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all"){
   path <-normalizePath(path, mustWork=TRUE)
   package_name <- sub("/$","",path)
   list_testfiles <- list()
@@ -19,14 +20,14 @@ deepstate_harness_analyze_pkg <- function(path,max_inputs="all"){
   if(file.exists(test_path)){
   packagename <- basename(package_name)
   test.files <- Sys.glob(paste0(test_path,"/*"))
-  if(max_inputs != "all"){
-    test.files <- test.files[1:max_inputs]
-  } 
+  if(testfiles != "all"){
+    test.files <- test.files[1:testfiles]
+  }
   for(pkg.i in seq_along(test.files)){
     list_testfiles[basename(test.files[[pkg.i]])] <- list(deepstate_analyze_fun(test.files[[pkg.i]],max_inputs))
    }
   list_testfiles <- do.call(rbind,list_testfiles)
-  print(list_testfiles)
+ # print(list_testfiles)
   return(list_testfiles)
   }
   else{

@@ -4,10 +4,12 @@
 \alias{deepstate_harness_analyze_pkg}
 \title{analyze the binary file}
 \usage{
-deepstate_harness_analyze_pkg(path, max_inputs = "all")
+deepstate_harness_analyze_pkg(path, testfiles = "all", max_inputs = "all")
 }
 \arguments{
 \item{path}{to test}
+
+\item{testfiles}{no of test files to test}
 
 \item{max_inputs}{no of bin files to analyze}
 }
