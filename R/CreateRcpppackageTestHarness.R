@@ -172,9 +172,9 @@ deepstate_create_makefile <-function(package,fun_name){
   write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
   compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${COMMON_FLAGS} ","-I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",deepstate.header," ")
   
-  obj.file.path<-file.path(system.file(package=package),"src/*.o")
+  obj.file.path<-file.path(package,"src/*.o")
   if(!file.exists(obj.file.path)){
-    obj.file.path<-file.path(system.file(package=package),"src/*.cpp")  
+    obj.file.path<-file.path(package,"src/*.cpp")  
   }
   objs.add <-file.path(package,paste0("src/",fun_name,".o"))
   write_to_file<-paste0(write_to_file,compile.line,obj.file.path)#," ",objs.add)
