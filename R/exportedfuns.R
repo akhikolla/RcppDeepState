@@ -60,14 +60,5 @@ deepstate_test<- function(){
   print(pkg.unexlist)
   cat(sprintf("Total number of exported functions :%d\n",funs))
   print(pkgss)
-  for(i in pkgss){
-   log <- paste0(basename(i),"_output")
-   
-   path <- file.path(i,log)
-   print(path)
-   if(file.exists(path)){
-   log.result <- deepstate_logtest(path)
-   print(log.result)
-   }
-   }
+  
   }
