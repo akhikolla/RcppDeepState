@@ -38,13 +38,16 @@ deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all")
 }
 
 
-globalVariables(c("argument.name","funName","argument.type","calls"
-                  ,"code","funName",".","error.i","src.file.lines",
-                  "heapsum","file.line","arg.name","value",":=",".N","f","fun_name"
-                  ,"read.table","new.i.vec","download.file","result","inputs",
-                  "rest","status","fun","max_inputs","pkg.list","testfiles.res"))
-
-globalVariables(c("error.i","error.type","sanitizer","function.i",
-                  "src.file.lines","heapsum","file.line","arg.name",
-                  "value",".N",":=","prototype"))
-
+##' @title  analyze the binary file 
+##' @param test_function path of the test package
+##' @param seed input seed to pass on the executable
+##' @param time.limit.seconds duration to run the code
+##' @export
+rcppdeepstate_compile_run_analyze<- function(test_function,seed,time.limit.seconds) {
+  test_function <- normalizePath(test_function,mustWork = TRUE)
+  log_file <- file.path(test_function,paste0(seed,"_log"))
+  system(paste0("valgrind --xml=yes --xml-file=",log_file," --tool=memcheck --leak-check=yes --track-origins=yes ",
+         "./",basename(test_function),"_DeepState_TestHarness --seed=",seed," --timeout=",time.limit.seconds," --fuzz"))
+  seed_log_analyze=deepstate_logtest(log_file)
+  return(seed_log_analyze)
+}
