@@ -4,22 +4,29 @@
 ##' @export
 deepstate_logtest <- function(log){
      issue.dt.list <- list()
-    if(length(grep("<file>src/",readLines(log)))){
+     print(log)
+     Testharness <- basename(gsub("/inst/testfiles/.*","",log))
+     src.dir <-file.path(sub(paste0(Testharness,".*"),Testharness,log),"src")
+    if(length(grep(src.dir,readLines(log)))){
+      pattern <- src.dir
        trace <- list("\\s*<frame>\n\\s*","<ip>",".*","</ip>\n\\s*",
                      "<obj>",".*","</obj>\n\\s*",
                      "<fn>",".*","</fn>\n\\s*",
-                     "<dir>",path=".*","</dir>\n\\s*",
-                     "<file>","src/",file=".*","</file>\n\\s*",
-                     "<line>",line=".*","</line>\n\\s*","</frame>\n\\s*")
-     }else{
-       trace <- list("\\s*<frame>\n\\s*","<ip>",".*","</ip>\n\\s*",
-                     "<obj>",".*","</obj>\n\\s*",
-                     "<fn>",".*","</fn>\n\\s*",
-                     "<dir>",path=".*.src","</dir>\n\\s*",
+                     "<dir>",path=src.dir,"</dir>\n\\s*",
                      "<file>",file=".*","</file>\n\\s*",
                      "<line>",line=".*","</line>\n\\s*","</frame>\n\\s*")
+     }else if(length(grep("<file>src/",readLines(log)))){
+       pattern<-"<file>src/"
+       src.dir <- dirname(src.dir)
+       trace <- list("\\s*<frame>\n\\s*","<ip>",".*","</ip>\n\\s*",
+                     "<obj>",".*","</obj>\n\\s*",
+                     "<fn>",".*","</fn>\n\\s*",
+                     "<dir>",path=src.dir,"</dir>\n\\s*",
+                     "<file>",file="src.*","</file>\n\\s*",
+                     "<line>",line=".*","</line>\n\\s*","</frame>\n\\s*")
+     }else{
+       return("No source trace found")
      }
-
   address.trace <- list("<auxwhat>",address=".*","</auxwhat>\n\\s*",
                         "<stack>\n\\s*",stack="(?:.+\n)+")
   traces <- nc::capture_all_str(log,"<error>\n\\s{2}",
@@ -42,39 +49,48 @@ deepstate_logtest <- function(log){
       
       stack.rows <- log.stack.traces$st
       #print(stack.rows)
-      #stack.msg <- nc::capture_all_str(stack.rows,trace)
+      #stack.msg <- nc::capture_first_vec(stack.rows,trace)
       #print(stack.msg)
       add.trace="NA"
       address="NA"
+      stack.msg="NA"
       if(length(stack.rows)){
         if(any(grep("<auxwhat>",error.row,fixed = TRUE))){
-          stack.msg <- nc::capture_all_str(stack.rows,trace)
+          #print("try")
+          if(length(grep(pattern,stack.rows))){
+          stack.msg <- nc::capture_first_vec(stack.rows,trace)
+          }
           #print(stack.msg)
           #print(nrow(stack))
           if(length(stack.msg)){
             #print(stack.msg$file)
             err.trace=paste0(stack.msg$file," : ",stack.msg$line)
           }else{err.trace="NA"}
+          #print("address")
           address.trace <- nc::capture_first_vec(error.row,"<auxwhat>",address=".*","</auxwhat>\n")
           address=address.trace$address
           if(any(grep("</auxwhat>\n  <stack>",error.row,fixed = TRUE))){
             address.msg <- nc::capture_first_vec(error.row,"<auxwhat>",address=".*","</auxwhat>\n\\s*",
                                                  "<stack>\n\\s*",stack="(?:.*\n)*?","\\s*</stack>")
+            if(length(grep(pattern,address.msg$stack,trace))){
+              print("In address")
+              print(address.msg$stack.trace)
+              add.stack.msg<-nc::capture_first_vec(address.msg$stack,trace)
+              if(length(add.stack.msg)){
+                add.trace=paste0(add.stack.msg$file," : ",add.stack.msg$line)
+              }
+            }
           }else{
             address.msg=""
           }
-          if(length(address.msg) > 1){
-          add.stack.msg<-nc::capture_first_vec(address.msg$stack,trace)
-          print(length(add.stack.msg))
-          if(length(add.stack.msg)){
-            add.trace=paste0(add.stack.msg$file," : ",add.stack.msg$line)
-          }
-          }
+         
         }else{
           address="No address trace found"
-          stack.msg<- nc::capture_first_vec(stack.rows,trace)
+          if(length(grep(pattern,stack.rows))){
+            stack.msg <- nc::capture_first_vec(stack.rows,trace)
           if(nrow(stack.msg)){
           err.trace<-paste0(stack.msg$file," : ",stack.msg$line)
+          }
           }
         }
       }

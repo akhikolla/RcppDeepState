@@ -61,8 +61,10 @@ deepstate_analyze_file<-function(files.path){
       if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
         #cat(sprintf("\nInput parameter from qs - %s\n",gsub(".qs","",basename(inputs.path[[inputs.i]]))))
         #gsub(".qs","",basename(inputs.path[[inputs.i]]))=
+        sink("/dev/null") 
         inputs_list[[gsub(".qs","",basename(inputs.path[[inputs.i]]))]] <- qread(inputs.path[[inputs.i]])
-        #print(qread.data)   
+        #print(qread.data)
+        sink()
       }else{
         #cat(sprintf("\nInput parameter - %s\n",))
         #basename(inputs.path[[inputs.i]])=

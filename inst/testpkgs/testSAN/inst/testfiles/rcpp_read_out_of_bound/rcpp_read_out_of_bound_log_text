@@ -1,0 +1,10 @@
+INFO: Starting fuzzing
+WARNING: No seed provided; using 1601853544
+WARNING: No test specified, defaulting to first test defined (testSAN_deepstate_test_rcpp_read_out_of_bound_test)
+input starts
+rbound values: -1311539682
+input ends
+input starts
+rbound values: 441406706
+input ends
+INFO: Done fuzzing! Ran 2 tests (0 tests/second) with 1 failed/1 passed/0 abandoned tests
