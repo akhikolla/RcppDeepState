@@ -72,7 +72,7 @@ list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
 log.result <- deepstate_analyze_file(list.crashes[1])
 print(log.result)
 
-fun_path <- file.path(path,"rcpp_read_out_of_bound") 
+fun_path <- file.path(path,"inst/testfiles/rcpp_read_out_of_bound") 
 seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603403173,1)
 print(seed_analyze)
 test_that("seed output check", {

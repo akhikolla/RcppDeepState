@@ -19,6 +19,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
         bin.files <- bin.files[1:3] 
       }
     }
+    
     final_table=list()
     for(bin.i in seq_along(bin.files)){
       current.list <- list()
@@ -61,15 +62,15 @@ deepstate_analyze_file<-function(files.path){
       if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
         #cat(sprintf("\nInput parameter from qs - %s\n",gsub(".qs","",basename(inputs.path[[inputs.i]]))))
         #gsub(".qs","",basename(inputs.path[[inputs.i]]))=
-        sink("/dev/null") 
+        #sink("/dev/null") 
         inputs_list[[gsub(".qs","",basename(inputs.path[[inputs.i]]))]] <- qread(inputs.path[[inputs.i]])
         #print(qread.data)
-        sink()
+        #sink()
       }else{
         #cat(sprintf("\nInput parameter - %s\n",))
         #basename(inputs.path[[inputs.i]])=
         #input=scan(inputs.path[[inputs.i]])
-        inputs_list[[basename(inputs.path[[inputs.i]])]] <-scan(inputs.path[[inputs.i]])
+        inputs_list[[basename(inputs.path[[inputs.i]])]] <-scan(inputs.path[[inputs.i]],quiet = TRUE)
         #inputs_list <- list(inputs_list,input)
         #print(scan(inputs.path[[inputs.i]]))
       }

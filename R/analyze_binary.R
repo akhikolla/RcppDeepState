@@ -46,7 +46,7 @@ deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all")
 rcppdeepstate_compile_run_analyze<- function(test_function,seed,time.limit.seconds) {
   test_function <- normalizePath(test_function,mustWork = TRUE)
   log_file <- file.path(test_function,paste0(seed,"_log"))
-  system(paste0("valgrind --xml=yes --xml-file=",log_file," --tool=memcheck --leak-check=yes --track-origins=yes ",
+  system(paste0("cd ",test_function," && valgrind --xml=yes --xml-file=",log_file," --tool=memcheck --leak-check=yes --track-origins=yes ",
          "./",basename(test_function),"_DeepState_TestHarness --seed=",seed," --timeout=",time.limit.seconds," --fuzz"))
   seed_log_analyze=deepstate_logtest(log_file)
   return(seed_log_analyze)

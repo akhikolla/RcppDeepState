@@ -48,7 +48,7 @@ Rcpp::NumericVector RcppDeepState_NumericVector(){
     rand_numvec[i] = DeepState_Double();  
   }
   for(int i = 0 ; i < 5 ; i++){
-    rand_numvec[DeepState_IntInRange(0,rand_size-1)] = NA_REAL;
+    rand_numvec[DeepState_IntInRange(0,rand_size-1)] =OneOf(missing_values);
   }
   return rand_numvec;
 }
