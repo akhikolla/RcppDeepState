@@ -72,13 +72,16 @@ list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
 log.result <- deepstate_analyze_file(list.crashes[1])
 print(log.result)
 
+
 fun_path <- file.path(path,"inst/testfiles/rcpp_read_out_of_bound") 
 seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603403173,5)
 print(seed_analyze)
+
+.f = function() {
 test_that("seed output check", {
   expect_identical(seed_analyze$kind,"InvalidRead")
   expect_identical(seed_analyze$msg,"Invalid read of size 4")
   expect_identical(seed_analyze$errortrace,"src/read_out_of_bound.cpp : 7")
 })
-
+}
 
