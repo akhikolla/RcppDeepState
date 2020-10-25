@@ -4,7 +4,7 @@
 ##' @export
 deepstate_logtest <- function(log){
      issue.dt.list <- list()
-     print(log)
+     #print(log)
      Testharness <- basename(gsub("/inst/testfiles/.*","",log))
      src.dir <-file.path(sub(paste0(Testharness,".*"),Testharness,log),"src")
     if(length(grep(src.dir,readLines(log)))){
@@ -36,7 +36,7 @@ deepstate_logtest <- function(log){
   if(nrow(traces)){
     for(i in 1:length(traces$trace)) {
       error.row <- traces$trace[i]
-      #print(error.row)
+      print(error.row)
       if(any(grep("<xwhat>",error.row,fixed = TRUE))){
         kind <- nc::capture_all_str(error.row,"<kind>",kinds=".*","</kind>\n\\s*","<xwhat>\n\\s*",
                                     "<text>",msg=".*","</text>\n")

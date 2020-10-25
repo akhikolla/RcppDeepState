@@ -73,8 +73,8 @@ log.result <- deepstate_analyze_file(list.crashes[1])
 print(log.result)
 
 
-fun_path <- file.path(path,"inst/testfiles/rcpp_read_out_of_bound") 
-seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603403173,5)
+fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
+seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603403708,5)
 print(seed_analyze)
 
 .f = function() {
