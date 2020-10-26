@@ -77,11 +77,10 @@ fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound")
 seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603403708,5)
 print(seed_analyze)
 
-.f = function() {
+#.f = function() {
 test_that("seed output check", {
-  expect_identical(seed_analyze$kind,"InvalidRead")
-  expect_identical(seed_analyze$msg,"Invalid read of size 4")
-  expect_identical(seed_analyze$errortrace,"src/read_out_of_bound.cpp : 7")
+  expect_identical(seed_analyze$kind,"InvalidWrite")
+  expect_identical(seed_analyze$msg,"Invalid write of size 4")
+  expect_identical(seed_analyze$errortrace,"write_index_outofbound.cpp : 8")
 })
-}
-
+#}

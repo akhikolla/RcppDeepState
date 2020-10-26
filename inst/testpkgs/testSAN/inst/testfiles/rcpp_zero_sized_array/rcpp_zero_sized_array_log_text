@@ -1,0 +1,13 @@
+INFO: Starting fuzzing
+WARNING: No seed provided; using 1601854518
+WARNING: No test specified, defaulting to first test defined (testSAN_deepstate_test_rcpp_zero_sized_array_test)
+input starts
+value values: 742706961
+input ends
+input starts
+value values: 299833423
+input ends
+input starts
+value values: 2128245714
+input ends
+INFO: Done fuzzing! Ran 3 tests (0 tests/second) with 0 failed/3 passed/0 abandoned tests
