@@ -38,8 +38,6 @@ Rcpp::IntegerVector Missing_Is() {
   return v;
 }
 
-
-
 Rcpp::NumericVector RcppDeepState_NumericVector(){
   rand_size = DeepState_IntInRange(0,100);
   double missing_values[] = {DeepState_Double(),R_NaN,R_PosInf,R_NegInf,NA_REAL};
