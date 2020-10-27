@@ -1,6 +1,5 @@
-##' @title  analyze the binary for one function 
-##' @param fun_path function path to run
-##' @param max_inputs input arguments
+##' @title  return datatable for parse xml data 
+##' @param log the input log file path
 ##' @import xml2
 ##' @export
 deepstate_xmlog <- function(log){
@@ -12,10 +11,20 @@ stack.trace <- function(s.node,src.dir.xpath){
   first.frame <- xml2::xml_parent(first.dir)
   first.file <- get_string(first.frame, "file")
   first.line <- get_string(first.frame, "line")
-  return(paste0(first.file, ':', first.line))
+  if(length(first.line) > 0 && length(first.file) >0){
+  return(paste0(first.file, ' : ', first.line))
+  }else{return("NA")}
 }
-for(f.xml in c(log)){
-  xml.lines <- readLines(f.xml)
+address.trace<-function(err.node){
+  childs <- as_list(err.node)
+  names.list <- c(names(childs))
+  if(any(names.list=="auxwhat")){
+  vals <- which(names.list=="auxwhat")
+  if(names.list[vals+1] == "stack")
+  return(1)
+  }else{ return(0)}
+} 
+  xml.lines <- readLines(log)
   out.i <- grep("</valgrindoutput>", xml.lines)
   xml.lines.some <- if(1 < length(out.i)){
     xml.lines[ -out.i[1] ]
@@ -24,9 +33,21 @@ for(f.xml in c(log)){
   }
   xml.tree <- xml2::read_xml(paste(xml.lines.some, collapse = "\n"))
 src.function <- xml_text(xml_find_all(xml.tree,".//argv//exe"))
-src.function <- nc::capture_all_str(src.function,"./",
-                                    file=".*","_DeepState_TestHarness")
-src.dir.xpath <- sprintf(".//fn[contains(text(),'%s')]", src.function$file)
+arg.file <- sprintf(".//arg[contains(text(),'%s')]", "--xml-file")
+logs <- xml_text(xml_find_all(xml.tree,arg.file))
+#print("xml fil")
+#print(logs)
+path.to.find <- nc::capture_first_vec(logs,"--xml-file=",
+                                    file=".*","/inst/testfiles/.*")
+src.dir <- paste0(path.to.find$file,"/src")
+if(length(grep(src.dir,readLines(log)))){
+  src.dir.xpath <- sprintf(".//dir[text()='%s']", src.dir)
+}else if(length(grep("<file>src/",readLines(log)))){
+  src.dir.xpath <- sprintf(".//file[contains(text(),'%s')]", "src/")
+}else{
+  return("No source trace found")
+}
+
 line.num.dt.list <- list()
 error.nodes <- xml2::xml_find_all(xml.tree, "//error")
   for(err.node in error.nodes){
@@ -38,32 +59,37 @@ error.nodes <- xml2::xml_find_all(xml.tree, "//error")
       msg <- get_string(err.node,"what")  
     }
     stack.nodes <- xml2::xml_find_all(err.node, ".//stack")
+    #print(length(stack.nodes))
+    #print(stack.nodes[2])
+    add.ret="No Address Trace found"
     address <- xml_text(xml_find_first(err.node,".//auxwhat"))
     if(!is.na(address)){
       rs <- xml_child(err.node,".//auxwhat")
-      stack.nodes.rs <- xml2::xml_find_all(stack.nodes[length(stack.nodes)], ".//stack")
-      add.ret = stack.trace(stack.nodes.rs,src.dir.xpath)
-    }else{address="No address found"}
-    
+      add.ret=address.trace(err.node)
+      if(add.ret==1){
+        add.ret = stack.trace(stack.nodes[length(stack.nodes)],src.dir.xpath)
+      }
+      }else{address="No Address found"}
     stack.nodes <- xml2::xml_find_all(err.node, ".//stack")
     count = 0
+    ret="NA"
     for(s.node in stack.nodes){
         ret = stack.trace(s.node,src.dir.xpath)
      if(length(ret)){
        count = count + 1
      }
         #if(gsub(" ","",add.ret) == ":"){address.trace="No address trace found"}
+       
       line.num.dt.list[[length(line.num.dt.list)+1]] <- data.table(
         problem=kind,
         message=msg,
-        file.line=paste0(ret),
+        file.line=ret,
         address.msg=address,
         address.trace=add.ret)
       if(count == 1){break}
     }
     
   }
-}
 (line.num.dt <- do.call(rbind, line.num.dt.list))
 line.num.dt<-unique(line.num.dt, incomparables = FALSE)
 return(line.num.dt)

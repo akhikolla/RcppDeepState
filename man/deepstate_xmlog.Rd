@@ -2,15 +2,13 @@
 % Please edit documentation in R/xml_log.R
 \name{deepstate_xmlog}
 \alias{deepstate_xmlog}
-\title{analyze the binary for one function}
+\title{return datatable for parse xml data}
 \usage{
 deepstate_xmlog(log)
 }
 \arguments{
-\item{fun_path}{function path to run}
-
-\item{max_inputs}{input arguments}
+\item{log}{the input log file path}
 }
 \description{
-analyze the binary for one function
+return datatable for parse xml data
 }
