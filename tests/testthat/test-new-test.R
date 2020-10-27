@@ -75,7 +75,7 @@ print(log.result)
 
 fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
 seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603403708,5)
-#print(seed_analyze)
+print(seed_analyze)
 
 #.f = function() {
 test_that("seed output check", {
