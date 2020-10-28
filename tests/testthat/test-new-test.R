@@ -79,8 +79,8 @@ print(seed_analyze)
 
 #.f = function() {
 test_that("seed output check", {
-  expect_identical(seed_analyze$kind,"InvalidWrite")
-  expect_identical(seed_analyze$msg,"Invalid write of size 4")
-  expect_identical(seed_analyze$errortrace,"write_index_outofbound.cpp : 8")
+  expect_identical(seed_analyze$err.kind,"InvalidWrite")
+  expect_identical(seed_analyze$message,"Invalid write of size 4")
+  expect_identical(seed_analyze$file.line,"write_index_outofbound.cpp : 8")
 })
 #}
