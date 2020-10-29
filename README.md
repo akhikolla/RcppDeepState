@@ -124,7 +124,7 @@ The logtable has the data table with a list of errors:
 
 Before testing your package using RcppDeepState, we need to make sure that RcppDeepState is working correctly. To do so please make sure to check if RcppDeepState::compile_run_analyze() produces the same results as expected. 
 
-For suppose when we run the function:
+For example, when we run the function rcpp_write_index_outofbound:
 
 ```R
 fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
@@ -133,7 +133,7 @@ print(seed_analyze)
 
 ```
 
-Expected results 
+Expected results: 
 
 ```R
 problem                 message                      file.line

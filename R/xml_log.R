@@ -23,7 +23,7 @@ deepstate_read_valgrind_xml <- function(xml.file){
   }else if(length(grep("<file>src/",readLines(xml.file)))){
     sprintf(".//file[contains(text(),'%s')]", "src/")
   }else{
-    return(setNames(data.table(matrix(nrow = 0, ncol = 5)), c("err.kind", "message", "file.line","address.msg","address.trace")))
+    return(data.table(err.kind=character(), message=character(), file.line=character(), address.msg=character(),address.msg=character()))
   }
   
   line.num.dt.list <- list()
@@ -67,33 +67,30 @@ deepstate_read_valgrind_xml <- function(xml.file){
 ##' @param s.node stack frame
 ##' @param src.dir.xpath gives path to the src file
 ##' @return trace with the error
-##' @export
 stack.trace <- function(s.node,src.dir.xpath){
   first.dir <- xml2::xml_find_first(s.node, src.dir.xpath)
   first.frame <- xml2::xml_parent(first.dir)
   first.file <- get_string(first.frame, "file")
   first.line <- get_string(first.frame, "line")
   trace <- if(length(first.line) > 0 && length(first.file) >0){
-    line.trace <- paste0(first.file, ' : ', first.line)
+     paste0(first.file, ' : ', first.line)
   }else{
-    line.trace <- NA_character_
+      NA_character_
   }
 }
 
 ##' @title identify the address trace with error
 ##' @param err.node error node
 ##' @return stack if stack trace found else the aux  
-##' @export
 address.trace<-function(err.node){
   childs <- as_list(err.node)
-  names.list <- c(names(childs))
-  if(any(names.list=="auxwhat")){
-    vals <- which(names.list=="auxwhat")
-    val = (names.list[vals+1] == "stack")
-    output <- if(!is.na(val) && val == TRUE)
-      val <- "stack"
+  if(any(names(childs)=="auxwhat")){
+    aux.val <- which(names(childs)=="auxwhat")
+    stack.val = names(childs)[aux.val+1] == "stack"
+    output <- if(!is.na(stack.val) && stack.val == TRUE)
+     "stack"
   }else{
-    val <- "aux"
+    NA_character_
   }
 } 
 
@@ -101,7 +98,6 @@ address.trace<-function(err.node){
 ##' @title get child node contents
 ##' @param node with the child
 ##' @param child node
-##' @export
 get_string <- function(node, child){
   paste(xml2::xml_contents(xml2::xml_child(node, child)))
 }
