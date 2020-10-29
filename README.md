@@ -6,6 +6,10 @@ RcppDeepState, a simple way to fuzz test compiled code in Rcpp packages. This pa
 
 **Note:** RcppDeepState is currently supported on Linux and macOS, with windows support in progress.
 
+## See Also
+
+The [RcppDeepState blog](https://akhikolla.github.io./) to know more about the working of RcppDeepState. 
+
 ## Dependencies
 
 First, make sure to install the following dependencies on your local machine.
@@ -59,7 +63,7 @@ result = RcppDeepState::deepstate_harness_analyze_pkg("~/R/RcppDeepState/inst/te
 result
 ```
 
-The result contains a data table with three colums: binary.file,inputs,logtable
+The result contains a data table with three columns: binary.file,inputs,logtable
 
 ```R
 > head(rd,2)
@@ -87,7 +91,7 @@ The inputs column contains all the inputs that are passed:
 [1] -519122509
 
 ```
-The logtable has the data table with list of errors:
+The logtable has the data table with a list of errors:
 
 ```R
 > head(rd$logtable,2)
@@ -120,7 +124,7 @@ The logtable has the data table with list of errors:
 
 Before testing your package using RcppDeepState, we need to make sure that RcppDeepState is working correctly. To do so please make sure to check if RcppDeepState::compile_run_analyze() produces the same results as expected. 
 
-For suppose when we run the the function:
+For suppose when we run the function:
 
 ```R
 fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
@@ -154,3 +158,5 @@ Now RcppDeepState makes it easy to use RcppDeepState on Travis-CI.
 ```R
 RcppDeepState::deepstate_ci_setup(pathtotestpackage)
 ```
+
+

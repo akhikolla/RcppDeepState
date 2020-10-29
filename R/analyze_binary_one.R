@@ -56,7 +56,7 @@ deepstate_analyze_file<-function(files.path){
   system(var)
   inputs.path <- Sys.glob(file.path(dirname(dirname(files.path)),"inputs/*"))
   #logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
-  logtable <- deepstate_xmlog(file.path(output_folder,"valgrind_log"))
+  logtable <- deepstate_read_valgrind_xml(file.path(output_folder,"valgrind_log"))
   #print(logtables)
   #if(length(logtable) > 0 && !is.null(logtable)){
     for(inputs.i in seq_along(inputs.path)){

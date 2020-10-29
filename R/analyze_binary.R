@@ -49,6 +49,6 @@ rcppdeepstate_compile_run_analyze<- function(test_function,seed,time.limit.secon
   valgrind.log.text <- file.path(test_function,"seed_valgrind_log_text")
   system(paste0("cd ",test_function," && valgrind --xml=yes --xml-file=",log_file," --tool=memcheck --leak-check=yes --track-origins=yes ",
          "./",basename(test_function),"_DeepState_TestHarness --seed=",seed," --timeout=",time.limit.seconds," --fuzz"," > ",valgrind.log.text," 2>&1"))
-  seed_log_analyze=deepstate_xmlog(log_file)
+  seed_log_analyze=deepstate_read_valgrind_xml(log_file)
   return(seed_log_analyze)
 }
