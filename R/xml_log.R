@@ -23,7 +23,7 @@ deepstate_read_valgrind_xml <- function(xml.file){
   }else if(length(grep("<file>src/",readLines(xml.file)))){
     sprintf(".//file[contains(text(),'%s')]", "src/")
   }else{
-    return(data.table(err.kind=character(), message=character(), file.line=character(), address.msg=character(),address.msg=character()))
+    return(data.table(err.kind=character(), message=character(), file.line=character(), address.msg=character(),address.trace=character()))
   }
   
   line.num.dt.list <- list()
@@ -37,16 +37,16 @@ deepstate_read_valgrind_xml <- function(xml.file){
       get_string(err.node,"what")  
     }
     stack.nodes <- xml2::xml_find_all(err.node, ".//stack")
-    add.ret="No Address Trace found"
+     add.ret="No Address Trace found"
     address <- xml_text(xml_find_first(err.node,".//auxwhat"))
     if(!is.na(address)){
       rs <- xml_child(err.node,".//auxwhat")
       add.ret<-address.trace(err.node)
       if(!is.null(add.ret) && add.ret == "stack"){
         add.ret = stack.trace(stack.nodes[length(stack.nodes)],src.dir.xpath)
+        stack.nodes <- stack.nodes[-length(stack.nodes)]
       }else{add.ret="No Address Trace found"}
     }else{address="No Address found"}
-    stack.nodes <- xml2::xml_find_all(err.node, ".//stack")
     for(s.node in stack.nodes){
       ret = stack.trace(s.node,src.dir.xpath)
       if(!is.na(ret)){
@@ -86,7 +86,7 @@ address.trace<-function(err.node){
   childs <- as_list(err.node)
   if(any(names(childs)=="auxwhat")){
     aux.val <- which(names(childs)=="auxwhat")
-    stack.val = names(childs)[aux.val+1] == "stack"
+    stack.val <- names(childs)[aux.val+1] == "stack"
     output <- if(!is.na(stack.val) && stack.val == TRUE)
      "stack"
   }else{
