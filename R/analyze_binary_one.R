@@ -78,12 +78,8 @@ deepstate_analyze_file<-function(files.path){
       }
     #}
   }
-  if(length(logtable)){
   final_table <- data.table(binaryfile=files.path,inputs=list(inputs_list),logtable=list(logtable))
-  }
-  else{
-    final_table <- data.table(binaryfile=files.path,inputs=list(inputs_list),logtable="No Issues Found")
-  }
+  #print(final_table)
   return(final_table)
   }
   else{

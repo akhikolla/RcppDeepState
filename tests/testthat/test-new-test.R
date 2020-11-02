@@ -70,29 +70,18 @@ test_that("outputfolder files existence", {
 list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
 log.result <- deepstate_analyze_file(list.crashes[1])
 print(log.result)
-test_that("No valgrind Issues check", {
-  expect_equal(nrow(log.result),0)
-})
 
-fun_path <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
-seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603839428,2)
-print(seed_analyze)
-test_that("seed output check", {
-  expect_identical(seed_analyze$err.kind,"UninitCondition")
-  expect_identical(seed_analyze$message,"Conditional jump or move depends on uninitialised value(s)")
-  expect_identical(seed_analyze$file.line,"use_uninitalized.cpp : 7")
-  expect_identical(seed_analyze$address.trace,"use_uninitalized.cpp : 5")
-  expect_identical(seed_analyze$address.msg,"Uninitialised value was created by a stack allocation")
-})
+
+#fun_path <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
+#seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603839428,5)
+#print(seed_analyze)
+
 
 fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
-seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603403708,5)
+seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603403708,5)
 print(seed_analyze)
-
-#.f = function() {
 test_that("seed output check", {
   expect_identical(seed_analyze$err.kind,"InvalidWrite")
   expect_identical(seed_analyze$message,"Invalid write of size 4")
   expect_identical(seed_analyze$file.line,"write_index_outofbound.cpp : 8")
 })
-#}
