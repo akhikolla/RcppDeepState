@@ -12,18 +12,31 @@ deepstate_compile_fun<-function(fun_path){
   }
 }
 
-##' @title  compile the  for one function 
-##' @param fun_path function path to run
+##' @title analyze the binary file 
+##' @param fun_path path of the test package function
+##' @param seed input seed to pass on the executable
+##' @param time.limit.seconds duration to run the code
 ##' @export
-deepstate_fuzz_fun<-function(fun_path){
+deepstate_fuzz_fun<-function(fun_path,seed=-1,time.limit.seconds=-1){
   fun_name <- basename(fun_path)
   log_file_path <- file.path(fun_path,paste0(fun_name,"_log"))
   test_harness.o <- file.path(fun_path, paste0(fun_name, "_DeepState_TestHarness.o"))
   test_harness_path <- file.path(fun_path,paste0(fun_name,"_DeepState_TestHarness"))
   test_harness <- paste0(fun_name,"_DeepState_TestHarness")
-  run.executable <- paste0("cd ",fun_path," && ","./",test_harness,
+  run.executable <-  if(seed == -1 && time.limit.seconds == -1){
+              paste0("cd ",fun_path," && ","./",test_harness,
                            " --fuzz --fuzz_save_passing --output_test_dir ",file.path(fun_path,paste0(fun_name,"_output")),
                            " > ",paste0(log_file_path,"_text "),"2>&1 ; head ", paste0(log_file_path,"_text")," > /dev/null")
+  }else if(seed == -1 && time.limit.seconds != -1){
+    paste0("cd ",fun_path," && ","./",test_harness," --timeout=",time.limit.seconds,
+           " --fuzz --fuzz_save_passing --output_test_dir ",file.path(fun_path,paste0(fun_name,"_output")),
+           " > ",paste0(log_file_path,"_text "),"2>&1 ; head ", paste0(log_file_path,"_text")," > /dev/null")
+  }else{
+    paste0("cd ",fun_path," && ","./",test_harness," --seed=",seed,"--timeout=",time.limit.seconds,
+           " --fuzz --fuzz_save_passing --output_test_dir ",file.path(fun_path,paste0(fun_name,"_output")),
+           " > ",paste0(log_file_path,"_text "),"2>&1 ; head ", paste0(log_file_path,"_text")," > /dev/null")
+  }
+  
   #print(run.executable)
   
   if(!file.exists(test_harness.o)){

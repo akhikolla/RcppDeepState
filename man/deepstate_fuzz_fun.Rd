@@ -2,13 +2,17 @@
 % Please edit documentation in R/analyze_compile_one.R
 \name{deepstate_fuzz_fun}
 \alias{deepstate_fuzz_fun}
-\title{compile the  for one function}
+\title{analyze the binary file}
 \usage{
-deepstate_fuzz_fun(fun_path)
+deepstate_fuzz_fun(fun_path, seed = -1, time.limit.seconds = -1)
 }
 \arguments{
-\item{fun_path}{function path to run}
+\item{fun_path}{path of the test package function}
+
+\item{seed}{input seed to pass on the executable}
+
+\item{time.limit.seconds}{duration to run the code}
 }
 \description{
-compile the  for one function
+analyze the binary file
 }

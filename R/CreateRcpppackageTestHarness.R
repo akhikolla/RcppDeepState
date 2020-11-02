@@ -94,7 +94,7 @@ deepstate_pkg_create<-function(package_name){
           }
           proto_args <- gsub(" ","",paste0(proto_args,arg.name))
           if(argument.i < nrow(functions.rows)) proto_args <- paste0(proto_args,",")
-            write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
+          write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
         }
         write_to_file<-paste0(write_to_file,indent,"std::cout << #input ends# << std::endl;\n",indent,"try{\n")
         write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,");\n")
@@ -111,16 +111,16 @@ deepstate_pkg_create<-function(package_name){
     }
     
     if(match_count > 0 && match_count == length(fun_names)){
-          cat(sprintf("Testharness created for %d functions in the package\n",match_count))
-          return(as.character(harness))
-       }
-       else{
-         if(mismatch_count < length(fun_names) && length(failed.harness) > 0 && match_count != 0){
-           message(sprintf("Failed to create testharness for %d functions in the package - %s\n",mismatch_count,failed.harness))
-           cat(sprintf("Testharness created for %d functions in the package\n",match_count))
-           return(as.character(harness))
-         }  
-      }
+      cat(sprintf("Testharness created for %d functions in the package\n",match_count))
+      return(as.character(harness))
+    }
+    else{
+      if(mismatch_count < length(fun_names) && length(failed.harness) > 0 && match_count != 0){
+        message(sprintf("Failed to create testharness for %d functions in the package - %s\n",mismatch_count,failed.harness))
+        cat(sprintf("Testharness created for %d functions in the package\n",match_count))
+        return(as.character(harness))
+      }  
+    }
     if(mismatch_count == length(fun_names)){
       message(sprintf("Testharnesses cannot be created for the package - datatypes fall out of specified list!!"))
       return(as.character(failed.harness))

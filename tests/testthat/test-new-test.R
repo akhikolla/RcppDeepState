@@ -76,7 +76,7 @@ print(log.result)
 #seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603839428,5)
 #print(seed_analyze)
 
-
+.f = function() {
 fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
 seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603403708,5)
 print(seed_analyze)
@@ -85,3 +85,4 @@ test_that("seed output check", {
   expect_identical(seed_analyze$message,"Invalid write of size 4")
   expect_identical(seed_analyze$file.line,"write_index_outofbound.cpp : 8")
 })
+}
