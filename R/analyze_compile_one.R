@@ -23,6 +23,11 @@ deepstate_fuzz_fun<-function(fun_path,seed=-1,time.limit.seconds=-1){
   test_harness.o <- file.path(fun_path, paste0(fun_name, "_DeepState_TestHarness.o"))
   test_harness_path <- file.path(fun_path,paste0(fun_name,"_DeepState_TestHarness"))
   test_harness <- paste0(fun_name,"_DeepState_TestHarness")
+  ## If time.limit.seconds is lessthan or equal to zero we return NULL
+  if(time.limit.seconds <= 0){
+    message(sprintf("time.limit.seconds should always be greater than zero"))
+    return(NULL) 
+  }
   run.executable <-  if(seed == -1 && time.limit.seconds == -1){
               paste0("cd ",fun_path," && ","./",test_harness,
                            " --fuzz --fuzz_save_passing --output_test_dir ",file.path(fun_path,paste0(fun_name,"_output")),
@@ -44,7 +49,7 @@ deepstate_fuzz_fun<-function(fun_path,seed=-1,time.limit.seconds=-1){
   }
   cat(sprintf("running the executable .. \n%s\n",run.executable))
   system(run.executable)
-  execution <- if(file.exists(test_harness_path)){
+  execution <- if(file.exists(test_harness.o) && file.exists(test_harness_path)){
     basename(fun_path)
   }else{
     "failed"

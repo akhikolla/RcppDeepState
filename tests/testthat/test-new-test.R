@@ -69,14 +69,16 @@ test_that("outputfolder files existence", {
 
 list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
 log.result <- deepstate_analyze_file(list.crashes[1])
-print(log.result)
-
+print(log.result$inputs)
+test_that("No valgrind issues", {
+  expect_equal(nrow(do.call(cbind,log.result$logtable)),0)
+})
 
 #fun_path <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
 #seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603839428,5)
 #print(seed_analyze)
 
-.f = function() {
+#.f = function() {
 fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
 seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603403708,5)
 print(seed_analyze)
@@ -85,4 +87,4 @@ test_that("seed output check", {
   expect_identical(seed_analyze$message,"Invalid write of size 4")
   expect_identical(seed_analyze$file.line,"write_index_outofbound.cpp : 8")
 })
-}
+#}
