@@ -43,7 +43,7 @@ deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all")
 ##' @param seed input seed to pass on the executable
 ##' @param time.limit.seconds duration to run the code
 ##' @export
-deepstate_fuzz_fun_seed<- function(test_function,seed=-1,time.limit.seconds) {
+deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) {
   test_function <- normalizePath(test_function,mustWork = TRUE)
   fun_name <- basename(test_function)
   test_harness.o <- file.path(test_function, paste0(fun_name, "_DeepState_TestHarness.o"))
@@ -68,5 +68,5 @@ deepstate_fuzz_fun_seed<- function(test_function,seed=-1,time.limit.seconds) {
   }
   system(run.executable)
   seed_log_analyze <- deepstate_read_valgrind_xml(log_file)
-  return(do.call(rbind,seed_log_analyze))
+  return(seed_log_analyze)
 }

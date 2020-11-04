@@ -1,6 +1,7 @@
 ##' @title return datatable for parse xml data 
 ##' @param xml.file the input log file path
 ##' @return line.num.dt list with error messgae,line number where the error ocuured
+##' @import data.table
 ##' @import xml2
 ##' @export
 deepstate_read_valgrind_xml <- function(xml.file){

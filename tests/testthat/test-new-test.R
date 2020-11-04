@@ -82,23 +82,23 @@ test_that("No valgrind issues", {
 #print(seed_analyze)
 
 #.f = function() {
-fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
-seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603403708,5)
-print(seed_analyze)
+fun_wob <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
+seed_analyze_wob<-deepstate_fuzz_fun_analyze(fun_wob,1603403708,5)
+print(seed_analyze_wob)
 test_that("seed output check", {
-  expect_identical(seed_analyze$err.kind,"InvalidWrite")
-  expect_identical(seed_analyze$message,"Invalid write of size 4")
-  expect_identical(seed_analyze$file.line,"write_index_outofbound.cpp : 8")
+  expect_identical(seed_analyze_wob$err.kind,"InvalidWrite")
+  expect_identical(seed_analyze_wob$message,"Invalid write of size 4")
+  expect_identical(gsub("src/","",seed_analyze_wob$file.line),"write_index_outofbound.cpp : 8")
 })
 #}
 
-fun_path <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
-seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603839428,5)
-print(seed_analyze)
+fun_uu <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
+seed_analyze_uu<-deepstate_fuzz_fun_analyze(fun_uu,1603839428,5)
+print(seed_analyze_uu)
 test_that("seed output check", {
-  expect_identical(seed_analyze$err.kind,"UninitCondition")
-  expect_identical(seed_analyze$message,"Conditional jump or move depends on uninitialised value(s)")
-  expect_identical(seed_analyze$file.line,"use_uninitalized.cpp : 7")
-  expect_identical(seed_analyze$address.trace,"use_uninitalized.cpp : 5")
-  expect_identical(seed_analyze$address.msg,"Uninitialised value was created by a stack allocation")
+  expect_identical(seed_analyze_uu$err.kind,"UninitCondition")
+  expect_identical(seed_analyze_uu$message,"Conditional jump or move depends on uninitialised value(s)")
+  expect_identical(gsub("src/","",seed_analyze_uu$file.line),"use_uninitalized.cpp : 7")
+  expect_identical(gsub("src/","",seed_analyze_uu$address.trace),"use_uninitalized.cpp : 5")
+  expect_identical(seed_analyze_uu$address.msg,"Uninitialised value was created by a stack allocation")
 })

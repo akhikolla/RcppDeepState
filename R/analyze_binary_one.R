@@ -11,7 +11,6 @@ deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
     if(length(bin.files) == 0){
       return(message(sprintf("No bin files exists for function %s\n",basename(fun_path))))
     }
-    #print(bin.files)
     if(max_inputs != "all" && max_inputs <= length(bin.files) && length(bin.files) > 0){
       bin.files <- bin.files[1:max_inputs]
     }else{
@@ -19,7 +18,6 @@ deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
         bin.files <- bin.files[1:3] 
       }
     }
-    
     final_table=list()
     for(bin.i in seq_along(bin.files)){
       current.list <- list()
@@ -28,7 +26,6 @@ deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
       final_table[[bin.path.i]] <- current.list 
     }
     final_table <- do.call(rbind,final_table)
-    #print(final_table)
     return(final_table)
     }
     else{
@@ -39,6 +36,7 @@ deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
 
 ##' @title  analyze the binary for one function 
 ##' @param files.path file to analyze
+##' @import data.table
 ##' @export
 deepstate_analyze_file<-function(files.path){
   inputs_list<- list()
@@ -55,31 +53,17 @@ deepstate_analyze_file<-function(files.path){
   print(var)
   system(var)
   inputs.path <- Sys.glob(file.path(dirname(dirname(files.path)),"inputs/*"))
-  #logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))
   logtable <- deepstate_read_valgrind_xml(file.path(output_folder,"valgrind_log"))
-  #print(logtables)
-  #if(length(logtable) > 0 && !is.null(logtable)){
     for(inputs.i in seq_along(inputs.path)){
       file.copy(inputs.path[[inputs.i]],output_folder)
       if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
-        #cat(sprintf("\nInput parameter from qs - %s\n",gsub(".qs","",basename(inputs.path[[inputs.i]]))))
-        #gsub(".qs","",basename(inputs.path[[inputs.i]]))=
-        #sink("/dev/null") 
         inputs_list[[gsub(".qs","",basename(inputs.path[[inputs.i]]))]] <- qread(inputs.path[[inputs.i]])
-        #print(qread.data)
-        #sink()
       }else{
-        #cat(sprintf("\nInput parameter - %s\n",))
-        #basename(inputs.path[[inputs.i]])=
-        #input=scan(inputs.path[[inputs.i]])
         inputs_list[[basename(inputs.path[[inputs.i]])]] <-scan(inputs.path[[inputs.i]],quiet = TRUE)
-        #inputs_list <- list(inputs_list,input)
-        #print(scan(inputs.path[[inputs.i]]))
       }
-    #}
   }
   final_table <- data.table(binaryfile=files.path,inputs=list(inputs_list),logtable=list(logtable))
-  #print(final_table)
+
   return(final_table)
   }
   else{

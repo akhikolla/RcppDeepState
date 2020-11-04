@@ -55,8 +55,7 @@ It gives a list of functions that are successfully compiled in the package:
 [5] "rcpp_write_index_outofbound" "rcpp_zero_sized_array"
 ```
 
-(b) **deepstate_harness_analyze_pkg**: This function analyzes each binary crash/fail file generated and provides a log of error messages if there are any and also displays the inputs passed on to the function to generate the crash.
-This function lists out the error messages, line numbers where the error occurred, and inputs that are passed on to the functions taking the log files as input. The generated log files are stored in the respective crash file folder along with the inputs i.e inst/function/12abc.crash/valgrind_log
+(b) **deepstate_harness_analyze_pkg**: This function analyzes each binary crash/fail file generated and provides a list of error messages and the inputs passed on to the function. The generated log files are stored in the respective crash file folder along with the inputs i.e inst/function/12abc.crash/valgrind_log
 
 ```R
 result = RcppDeepState::deepstate_harness_analyze_pkg("~/R/RcppDeepState/inst/testpkgs/testSAN")
@@ -72,44 +71,43 @@ The result contains a data table with three columns: binary.file,inputs,logtable
       inputs          logtable
 1: <list[1]> <data.table[2x5]>
 2: <list[1]> <data.table[1x5]>
-> 
-
 ```
 
 The inputs column contains all the inputs that are passed: 
 
 ```R
-> rd$inputs[[1]]
+> result$inputs[[1]]
 $rbound
 [1] 437585945
 ```
 The logtable has the data table with a list of errors:
 
 ```R
-> logtable
-              [,1]                                                               
-err.kind      "InvalidRead" 
-message       "Invalid read of size 4" 
-file.line     "src/read_out_of_bound.cpp : 7"
-address.msg   "Address 0x11eecf884 is not stack'd, malloc'd or (recently) free'd"
-address.trace "No Address Trace found"
-> 
+> result$logtable[[1]]
+
+      err.kind                message                     file.line
+1: InvalidRead Invalid read of size 4 src/read_out_of_bound.cpp : 7
+                                                         address.msg
+1: Address 0x11eecf884 is not stack'd, malloc'd or (recently) free'd
+            address.trace
+1: No Address Trace found
 ```
 
-Before testing your package using RcppDeepState, we need to make sure that RcppDeepState is working correctly. To do so please make sure to check if RcppDeepState::deepstate_fuzz_fun_seed() produces the same results as expected. 
+Before testing your package using RcppDeepState, we need to make sure that RcppDeepState is working correctly. To do so please make sure to check if RcppDeepState::deepstate_fuzz_fun_analyze() produces the same results as expected. 
 
 For example, when we run the function rcpp_write_index_outofbound:
 
 ```R
 > fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
-> seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603403708,5)
+> seed_analyze<-deepstate_fuzz_fun_analyze(fun_path,1603403708,5)
 > seed_analyze
-              [,1]                                                              
-err.kind      "InvalidWrite"
-message       "Invalid write of size 4"
-file.line     "src/write_index_outofbound.cpp : 8"
-address.msg   "Address 0x2707127c is not stack'd, malloc'd or (recently) free'd"
-address.trace "No Address Trace found" 
+
+       err.kind                 message                          file.line
+1: InvalidWrite Invalid write of size 4 src/write_index_outofbound.cpp : 8
+                                                        address.msg
+1: Address 0x2707127c is not stack'd, malloc'd or (recently) free'd
+            address.trace
+1: No Address Trace found
 
 ```
 
