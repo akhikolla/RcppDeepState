@@ -43,7 +43,7 @@ deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all")
 ##' @param seed input seed to pass on the executable
 ##' @param time.limit.seconds duration to run the code
 ##' @export
-deepstate_fuzz_fun_seed<- function(test_function,seed,time.limit.seconds) {
+deepstate_fuzz_fun_seed<- function(test_function,seed=-1,time.limit.seconds) {
   test_function <- normalizePath(test_function,mustWork = TRUE)
   fun_name <- basename(test_function)
   test_harness.o <- file.path(test_function, paste0(fun_name, "_DeepState_TestHarness.o"))
@@ -52,8 +52,21 @@ deepstate_fuzz_fun_seed<- function(test_function,seed,time.limit.seconds) {
   if(!file.exists(test_harness.o)){
     deepstate_compile_fun(test_function)
   }
-  system(paste0("cd ",test_function," && valgrind --xml=yes --xml-file=",log_file," --tool=memcheck --leak-check=yes --track-origins=yes ",
-                "./",basename(test_function),"_DeepState_TestHarness --seed=",seed," --timeout=",time.limit.seconds," --fuzz"," > ",valgrind.log.text," 2>&1"))
+  if(time.limit.seconds <= 0){
+    stop("time.limit.seconds should always be greater than zero")
+  }
+  run.executable <- if(seed == -1 && time.limit.seconds != -1){
+    paste0("cd ",test_function," && valgrind --xml=yes --xml-file=",log_file,
+           " --tool=memcheck --leak-check=yes --track-origins=yes ",
+           "./",basename(test_function),"_DeepState_TestHarness --timeout=",time.limit.seconds,
+           " --fuzz"," > ",valgrind.log.text," 2>&1")
+  }else{
+    paste0("cd ",test_function," && valgrind --xml=yes --xml-file=",log_file,
+           " --tool=memcheck --leak-check=yes --track-origins=yes ",
+           "./",basename(test_function),"_DeepState_TestHarness --seed=",seed,
+           " --timeout=",time.limit.seconds," --fuzz"," > ",valgrind.log.text," 2>&1")
+  }
+  system(run.executable)
   seed_log_analyze <- deepstate_read_valgrind_xml(log_file)
-  return(seed_log_analyze)
+  return(do.call(rbind,seed_log_analyze))
 }

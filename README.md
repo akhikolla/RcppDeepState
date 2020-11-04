@@ -60,13 +60,12 @@ This function lists out the error messages, line numbers where the error occurre
 
 ```R
 result = RcppDeepState::deepstate_harness_analyze_pkg("~/R/RcppDeepState/inst/testpkgs/testSAN")
-result
 ```
 
 The result contains a data table with three columns: binary.file,inputs,logtable
 
 ```R
-> head(rd,2)
+> head(result,2)
                                                                                                                                                                                          binaryfile
 1: /home/akolla/R/x86_64-pc-linux-gnu-library/3.6/RcppDeepState/testpkgs/testSAN/inst/testfiles/rcpp_read_out_of_bound/rcpp_read_out_of_bound_output/0001957a365ef90344a992e32cc2d49d4aedf572.crash
 2: /home/akolla/R/x86_64-pc-linux-gnu-library/3.6/RcppDeepState/testpkgs/testSAN/inst/testfiles/rcpp_read_out_of_bound/rcpp_read_out_of_bound_output/0001b796162c8cd4b00f4b7ccf165b55b566cfce.crash
@@ -75,81 +74,44 @@ The result contains a data table with three columns: binary.file,inputs,logtable
 2: <list[1]> <data.table[1x5]>
 > 
 
-
 ```
+
 The inputs column contains all the inputs that are passed: 
 
 ```R
-> head(rd$inputs,2)
-[[1]]
-[[1]]$rbound
+> rd$inputs[[1]]
+$rbound
 [1] 437585945
-
-
-[[2]]
-[[2]]$rbound
-[1] -519122509
-
 ```
 The logtable has the data table with a list of errors:
 
 ```R
-> head(rd$logtable,2)
-[[1]]
-             problem
-1:       InvalidRead
-2: Leak_PossiblyLost
-                                                                           message
-1:                                                          Invalid read of size 4
-2: 1,750,343,780 bytes in 1 blocks are possibly lost in loss record 1,279 of 1,279
-                       file.line
-1: src/read_out_of_bound.cpp : 7
-2: src/read_out_of_bound.cpp : 6
-                                                                                        address.msg
-1: Address 0xc21df234 is 1,750,344,180 bytes inside a block of size 1,750,347,680 in arena "client"
-2:                                                                                 No Address found
-            address.trace
-1: No Address Trace found
-2: No Address Trace found
-
-[[2]]
-      problem
-1: FishyValue
-                                                                                     message
-1: Argument 'size' of function __builtin_vec_new has a fishy (possibly negative) value: -1\n
-                       file.line      address.msg          address.trace
-1: src/read_out_of_bound.cpp : 6 No Address found No Address Trace found
-	
+> logtable
+              [,1]                                                               
+err.kind      "InvalidRead" 
+message       "Invalid read of size 4" 
+file.line     "src/read_out_of_bound.cpp : 7"
+address.msg   "Address 0x11eecf884 is not stack'd, malloc'd or (recently) free'd"
+address.trace "No Address Trace found"
+> 
 ```
 
-Before testing your package using RcppDeepState, we need to make sure that RcppDeepState is working correctly. To do so please make sure to check if RcppDeepState::compile_run_analyze() produces the same results as expected. 
+Before testing your package using RcppDeepState, we need to make sure that RcppDeepState is working correctly. To do so please make sure to check if RcppDeepState::deepstate_fuzz_fun_seed() produces the same results as expected. 
 
 For example, when we run the function rcpp_write_index_outofbound:
 
 ```R
-fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
-seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603403708,5)
-print(seed_analyze)
+> fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
+> seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603403708,5)
+> seed_analyze
+              [,1]                                                              
+err.kind      "InvalidWrite"
+message       "Invalid write of size 4"
+file.line     "src/write_index_outofbound.cpp : 8"
+address.msg   "Address 0x2707127c is not stack'd, malloc'd or (recently) free'd"
+address.trace "No Address Trace found" 
 
 ```
-
-Expected results: 
-
-```R
-problem                 message                      file.line
-
-1: InvalidWrite Invalid write of size 4 write_index_outofbound.cpp : 8
-
-                                                        address.msg
-
-1: Address 0x2f63709c is not stack'd, malloc'd or (recently) free'd
-
-            address.trace
-
-1: No Address Trace found
-```
-
-Note : Make a call to deepstate_harness_compile_run(path) before calling rcppdeepstate_compile_run_analyze()
 
 Now RcppDeepState makes it easy to use RcppDeepState on Travis-CI. 
 

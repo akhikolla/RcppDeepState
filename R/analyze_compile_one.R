@@ -25,25 +25,23 @@ deepstate_fuzz_fun<-function(fun_path,seed=-1,time.limit.seconds=-1){
   test_harness <- paste0(fun_name,"_DeepState_TestHarness")
   ## If time.limit.seconds is lessthan or equal to zero we return NULL
   if(time.limit.seconds <= 0){
-    message(sprintf("time.limit.seconds should always be greater than zero"))
-    return(NULL) 
+    stop("time.limit.seconds should always be greater than zero")
   }
   run.executable <-  if(seed == -1 && time.limit.seconds == -1){
               paste0("cd ",fun_path," && ","./",test_harness,
                            " --fuzz --fuzz_save_passing --output_test_dir ",file.path(fun_path,paste0(fun_name,"_output")),
-                           " > ",paste0(log_file_path,"_text "),"2>&1 ; head ", paste0(log_file_path,"_text")," > /dev/null")
+                           " > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
   }else if(seed == -1 && time.limit.seconds != -1){
     paste0("cd ",fun_path," && ","./",test_harness," --timeout=",time.limit.seconds,
            " --fuzz --fuzz_save_passing --output_test_dir ",file.path(fun_path,paste0(fun_name,"_output")),
-           " > ",paste0(log_file_path,"_text "),"2>&1 ; head ", paste0(log_file_path,"_text")," > /dev/null")
+           " > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
   }else{
     paste0("cd ",fun_path," && ","./",test_harness," --seed=",seed,"--timeout=",time.limit.seconds,
            " --fuzz --fuzz_save_passing --output_test_dir ",file.path(fun_path,paste0(fun_name,"_output")),
-           " > ",paste0(log_file_path,"_text "),"2>&1 ; head ", paste0(log_file_path,"_text")," > /dev/null")
+           " > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
   }
   
   #print(run.executable)
-  
   if(!file.exists(test_harness.o)){
     deepstate_compile_fun(fun_path)
   }
@@ -52,9 +50,8 @@ deepstate_fuzz_fun<-function(fun_path,seed=-1,time.limit.seconds=-1){
   execution <- if(file.exists(test_harness.o) && file.exists(test_harness_path)){
     basename(fun_path)
   }else{
-    "failed"
+    NA_character_
   }
-  
 }
 
 

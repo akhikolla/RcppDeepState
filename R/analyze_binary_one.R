@@ -52,7 +52,7 @@ deepstate_analyze_file<-function(files.path){
   valgrind.log.text <- file.path(output_folder,"valgrind_log_text")
   analyze_one <- paste0("valgrind --xml=yes --xml-file=",valgrind.log," --tool=memcheck --leak-check=yes ",exec," --input_test_file ",files.path," > ",valgrind.log.text," 2>&1")
   var <- paste("cd",dirname(dirname(files.path)),";", analyze_one) 
-  #print(var)
+  print(var)
   system(var)
   inputs.path <- Sys.glob(file.path(dirname(dirname(files.path)),"inputs/*"))
   #logtable <- deepstate_logtest(file.path(output_folder,"valgrind_log"))

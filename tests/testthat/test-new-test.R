@@ -70,8 +70,11 @@ test_that("outputfolder files existence", {
 list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
 log.result <- deepstate_analyze_file(list.crashes[1])
 print(log.result$inputs)
+print(log.result$logtable)
+result.data.table <- do.call(rbind,log.result$logtable)
+print(result.data.table)
 test_that("No valgrind issues", {
-  expect_equal(nrow(do.call(cbind,log.result$logtable)),0)
+  expect_equal(nrow(result.data.table),0)
 })
 
 #fun_path <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
@@ -88,3 +91,14 @@ test_that("seed output check", {
   expect_identical(seed_analyze$file.line,"write_index_outofbound.cpp : 8")
 })
 #}
+
+fun_path <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
+seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603839428,5)
+print(seed_analyze)
+test_that("seed output check", {
+  expect_identical(seed_analyze$err.kind,"UninitCondition")
+  expect_identical(seed_analyze$message,"Conditional jump or move depends on uninitialised value(s)")
+  expect_identical(seed_analyze$file.line,"use_uninitalized.cpp : 7")
+  expect_identical(seed_analyze$address.trace,"use_uninitalized.cpp : 5")
+  expect_identical(seed_analyze$address.msg,"Uninitialised value was created by a stack allocation")
+})

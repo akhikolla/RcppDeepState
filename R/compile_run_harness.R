@@ -21,15 +21,15 @@ deepstate_harness_compile_run <- function(package_name){
       }
       else{
         uncompiled.code <- c(uncompiled.code,basename(fun.path))
-        message(sprintf("%s\n",compile.res))
       }
     }
+    if(length(uncompiled.code) > 0)
+        message(sprintf("Uncompiled functions : %s\n",paste(uncompiled.code, collapse=", ")))
     return(as.character(compiled.code))
   }
   else{
-    print("failed")
+    stop("TestHarness are not created for all the function that are returned by pkg create")
   }
-  
 }
 
 
