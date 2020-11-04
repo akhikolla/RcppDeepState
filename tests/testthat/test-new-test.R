@@ -93,7 +93,7 @@ test_that("seed output check", {
 #}
 
 fun_path <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
-seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603839428,5)
+seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603839428,5)
 print(seed_analyze)
 test_that("seed output check", {
   expect_identical(seed_analyze$err.kind,"UninitCondition")
