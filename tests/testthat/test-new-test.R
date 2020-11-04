@@ -71,11 +71,13 @@ list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
 log.result <- deepstate_analyze_file(list.crashes[1])
 print(log.result$inputs)
 print(log.result$logtable)
-result.data.table <- do.call(rbind,log.result$logtable)
+result.data.table <- log.result$logtable[[1]]
 print(result.data.table)
+.f = function() {
 test_that("No valgrind issues", {
   expect_equal(nrow(result.data.table),0)
 })
+}
 
 #fun_path <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
 #seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603839428,5)
@@ -83,7 +85,8 @@ test_that("No valgrind issues", {
 
 #.f = function() {
 fun_wob <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
-seed_analyze_wob<-deepstate_fuzz_fun_analyze(fun_wob,1603403708,5)
+seed_table_wob<-deepstate_fuzz_fun_analyze(fun_wob,1603403708,5)
+seed_analyze_wob <- seed_table_wob$logtable[[1]]
 print(seed_analyze_wob)
 test_that("seed output check", {
   expect_identical(seed_analyze_wob$err.kind,"InvalidWrite")
@@ -93,7 +96,8 @@ test_that("seed output check", {
 #}
 
 fun_uu <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
-seed_analyze_uu<-deepstate_fuzz_fun_analyze(fun_uu,1603839428,5)
+seed_table_uu<-deepstate_fuzz_fun_analyze(fun_uu,1603839428,5)
+seed_analyze_uu <- seed_table_uu$logtable[[1]]
 print(seed_analyze_uu)
 test_that("seed output check", {
   expect_identical(seed_analyze_uu$err.kind,"UninitCondition")

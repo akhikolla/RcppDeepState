@@ -46,9 +46,16 @@ deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all")
 deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) {
   test_function <- normalizePath(test_function,mustWork = TRUE)
   fun_name <- basename(test_function)
+  seed_log_analyze <- data.table()
+  inputs_list<- list()
+  output_folder <- file.path(test_function,paste0(time.limit.seconds,"_",seed))
+  if(!dir.exists(output_folder)){
+    dir.create(output_folder)
+  }
+  inputs.path <- Sys.glob(file.path(test_function,"inputs/*"))
   test_harness.o <- file.path(test_function, paste0(fun_name, "_DeepState_TestHarness.o"))
-  log_file <- file.path(test_function,paste0(seed,"_log"))
-  valgrind.log.text <- file.path(test_function,"seed_valgrind_log_text")
+  log_file <- file.path(output_folder,paste0(seed,"_log"))
+  valgrind.log.text <- file.path(output_folder,"seed_valgrind_log_text")
   if(!file.exists(test_harness.o)){
     deepstate_compile_fun(test_function)
   }
@@ -67,6 +74,15 @@ deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) 
            " --timeout=",time.limit.seconds," --fuzz"," > ",valgrind.log.text," 2>&1")
   }
   system(run.executable)
-  seed_log_analyze <- deepstate_read_valgrind_xml(log_file)
+  for(inputs.i in seq_along(inputs.path)){
+    file.copy(inputs.path[[inputs.i]],output_folder)
+    if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){
+      inputs_list[[gsub(".qs","",basename(inputs.path[[inputs.i]]))]] <- qread(inputs.path[[inputs.i]])
+    }else{
+      inputs_list[[basename(inputs.path[[inputs.i]])]] <-scan(inputs.path[[inputs.i]],quiet = TRUE)
+    }
+  }
+  logtable <- deepstate_read_valgrind_xml(log_file)
+  seed_log_analyze <- data.table(inputs=list(inputs_list),logtable=list(logtable))
   return(seed_log_analyze)
 }
