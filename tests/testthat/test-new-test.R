@@ -67,20 +67,40 @@ test_that("outputfolder files existence", {
   expect_true(all(dir.exists(outputfolder.list)))
 })
 
-
 list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
 log.result <- deepstate_analyze_file(list.crashes[1])
-print(log.result)
-
-
-fun_path <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
-seed_analyze<-rcppdeepstate_compile_run_analyze(fun_path,1603403708,5)
-print(seed_analyze)
-
+result.data.table <- log.result$logtable[[1]]
+print(result.data.table)
 #.f = function() {
-test_that("seed output check", {
-  expect_identical(seed_analyze$kind,"InvalidWrite")
-  expect_identical(seed_analyze$msg,"Invalid write of size 4")
-  expect_identical(seed_analyze$errortrace,"write_index_outofbound.cpp : 8")
+test_that("No valgrind issues", {
+  expect_equal(nrow(result.data.table),0)
 })
 #}
+
+#fun_path <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
+#seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603839428,5)
+#print(seed_analyze)
+
+#.f = function() {
+fun_wob <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
+seed_table_wob<-deepstate_fuzz_fun_analyze(fun_wob,1603403708,5)
+seed_analyze_wob <- seed_table_wob$logtable[[1]]
+print(seed_analyze_wob)
+test_that("seed output check", {
+  expect_identical(seed_analyze_wob$err.kind,"InvalidWrite")
+  expect_identical(seed_analyze_wob$message,"Invalid write of size 4")
+  expect_identical(gsub("src/","",seed_analyze_wob$file.line),"write_index_outofbound.cpp : 8")
+})
+#}
+
+fun_uu <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
+seed_table_uu<-deepstate_fuzz_fun_analyze(fun_uu,1603839428,5)
+seed_analyze_uu <- seed_table_uu$logtable[[1]]
+print(seed_analyze_uu)
+test_that("seed output check", {
+  expect_identical(seed_analyze_uu$err.kind,"UninitCondition")
+  expect_identical(seed_analyze_uu$message,"Conditional jump or move depends on uninitialised value(s)")
+  expect_identical(gsub("src/","",seed_analyze_uu$file.line),"use_uninitalized.cpp : 7")
+  expect_identical(gsub("src/","",seed_analyze_uu$address.trace),"use_uninitalized.cpp : 5")
+  expect_identical(seed_analyze_uu$address.msg,"Uninitialised value was created by a stack allocation")
+})

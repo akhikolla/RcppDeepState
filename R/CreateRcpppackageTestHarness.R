@@ -94,7 +94,7 @@ deepstate_pkg_create<-function(package_name){
           }
           proto_args <- gsub(" ","",paste0(proto_args,arg.name))
           if(argument.i < nrow(functions.rows)) proto_args <- paste0(proto_args,",")
-            write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
+          write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
         }
         write_to_file<-paste0(write_to_file,indent,"std::cout << #input ends# << std::endl;\n",indent,"try{\n")
         write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,");\n")
@@ -111,16 +111,16 @@ deepstate_pkg_create<-function(package_name){
     }
     
     if(match_count > 0 && match_count == length(fun_names)){
-          cat(sprintf("Testharness created for %d functions in the package\n",match_count))
-          return(as.character(harness))
-       }
-       else{
-         if(mismatch_count < length(fun_names) && length(failed.harness) > 0 && match_count != 0){
-           message(sprintf("Failed to create testharness for %d functions in the package - %s\n",mismatch_count,failed.harness))
-           cat(sprintf("Testharness created for %d functions in the package\n",match_count))
-           return(as.character(harness))
-         }  
-      }
+      cat(sprintf("Testharness created for %d functions in the package\n",match_count))
+      return(as.character(harness))
+    }
+    else{
+      if(mismatch_count < length(fun_names) && length(failed.harness) > 0 && match_count != 0){
+        message(sprintf("Failed to create testharness for %d functions in the package - %s\n",mismatch_count,failed.harness))
+        cat(sprintf("Testharness created for %d functions in the package\n",match_count))
+        return(as.character(harness))
+      }  
+    }
     if(mismatch_count == length(fun_names)){
       message(sprintf("Testharnesses cannot be created for the package - datatypes fall out of specified list!!"))
       return(as.character(failed.harness))
@@ -163,12 +163,8 @@ deepstate_create_makefile <-function(package,fun_name){
                   " -Wl,-rpath=",system.file("lib", package="RInside"),
                   " -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",deepstate.build,
                   " -Wl,-rpath=",deepstate.build," -lR -lRInside -ldeepstate")
-  write_to_file<-paste0(write_to_file,flags,"\n")
+  write_to_file<-paste0(write_to_file,flags)
   log_file_path <- file.path(fun_path,paste0(fun_name,"_log"))
-  write_to_file<-paste0(write_to_file,"\n",log_file_path," : ",test_harness_path)
-  write_to_file<-paste0(write_to_file,"\n\t","cd ",fun_path," && ","./",test_harness,
-                        " --fuzz --fuzz_save_passing --output_test_dir ",file.path(fun_path,paste0(fun_name,"_output"))," > ",paste0(log_file_path,"_text "),
-                        "2>&1 ; head ", paste0(log_file_path,"_text")," > /dev/null")
   write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
   compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${COMMON_FLAGS} ","-I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",deepstate.header," ")
   

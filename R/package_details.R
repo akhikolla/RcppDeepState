@@ -1,6 +1,8 @@
 ##' @title gets package details
 ##' @return function list with function names and arguments
 ##' @param path to the RcppExports file
+##' @import nc
+##' @import data.table
 ##' @export
 deepstate_get_package_details <- function(path){
   funs <- ""

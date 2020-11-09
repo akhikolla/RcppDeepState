@@ -40,5 +40,5 @@ globalVariables(c("argument.name","funName","argument.type","calls"
 
 globalVariables(c("error.i","error.type","sanitizer","function.i",
                   "src.file.lines","heapsum","file.line","arg.name",
-                  "value",".N",":=","prototype"))
+                  "value",".N",":=","prototype","data.table"))
 
