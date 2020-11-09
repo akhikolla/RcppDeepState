@@ -73,7 +73,7 @@ deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) 
            "./",basename(test_function),"_DeepState_TestHarness --seed=",seed,
            " --timeout=",time.limit.seconds," --fuzz"," > ",valgrind.log.text," 2>&1")
   }
-  cat(sprintf("running the executable .. \n%s\n",run.executable))
+  message(sprintf("running the executable .. \n%s\n",run.executable))
   system(run.executable)
   for(inputs.i in seq_along(inputs.path)){
     file.copy(inputs.path[[inputs.i]],output_folder)
