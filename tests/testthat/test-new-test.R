@@ -56,7 +56,7 @@ test_that("inputfolder files existence", {
 
 functions.list <- deepstate_get_function_body(path)
 args.list <- gsub(" ","",functions.list$argument.name)
-path.args.list <- file.path(funpath.list,"inputs",paste0(args.list))
+path.args.list <- file.path(funpath.list,"inputs",paste0(args.list,".qs"))
 #print(path.args.list)
 #print(file.exists(path.args.list))
 test_that("input files existence", {
@@ -71,11 +71,11 @@ list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
 log.result <- deepstate_analyze_file(list.crashes[1])
 result.data.table <- log.result$logtable[[1]]
 print(result.data.table)
-#.f = function() {
+.f = function() {
 test_that("No valgrind issues", {
   expect_equal(nrow(result.data.table),0)
 })
-#}
+}
 
 #fun_path <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
 #seed_analyze<-deepstate_fuzz_fun_seed(fun_path,1603839428,5)
@@ -83,7 +83,7 @@ test_that("No valgrind issues", {
 
 #.f = function() {
 fun_wob <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
-seed_table_wob<-deepstate_fuzz_fun_analyze(fun_wob,1603403708,5)
+seed_table_wob<-deepstate_fuzz_fun_analyze(fun_wob,1603403708,4)
 seed_analyze_wob <- seed_table_wob$logtable[[1]]
 print(seed_analyze_wob)
 test_that("seed output check", {
@@ -94,7 +94,7 @@ test_that("seed output check", {
 #}
 
 fun_uu <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
-seed_table_uu<-deepstate_fuzz_fun_analyze(fun_uu,1603839428,5)
+seed_table_uu<-deepstate_fuzz_fun_analyze(fun_uu,1603839428,4)
 seed_analyze_uu <- seed_table_uu$logtable[[1]]
 print(seed_analyze_uu)
 test_that("seed output check", {
