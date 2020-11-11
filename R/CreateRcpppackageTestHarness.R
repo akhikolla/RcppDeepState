@@ -107,7 +107,11 @@ deepstate_pkg_create<-function(package_name){
           write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
         }
         write_to_file<-paste0(write_to_file,indent,"std::cout << #input ends# << std::endl;\n",indent,"try{\n")
-        write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,");\n")
+        if(type.arg == "int" || type.arg == "double" || type.arg == "std::string"){
+          write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,"[0]);\n")  
+        }else{
+          write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,"[0]);\n")
+        }
         write_to_file<-gsub("#","\"",paste0(write_to_file,indent,"}\n",indent,"catch(Rcpp::exception& e){\n",indent,indent,"std::cout<<#Exception Handled#<<std::endl;\n",indent,"}"))
         write_to_file<-paste0(write_to_file,"\n","}")
         write(write_to_file,file_path,append=TRUE)
