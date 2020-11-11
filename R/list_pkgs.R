@@ -20,25 +20,17 @@ deepstate_getRcppExports <- function(){
     untar(pkg.tar.gz,exdir=folder)
     unlink(pkg.tar.gz)
     RcppExports.cpp <- file.path(zip.path,pkg.name, "src/RcppExports.cpp")
-    generated <- if(file.exists(RcppExports.cpp)){
-      result <-  deepstate_pkg_create(file.path(zip.path,pkg.name))
-      print(result)
-      if(length(result) > 0){
-        #devtools::install(file.path(paste0(zip.path,pkg.name)),upgrade="always")
-        deepstate_harness_compile_run(file.path(zip.path,pkg.name))  
-        #deepstate_harness_analyze_one(file.path(zip.path,pkg.name))
-        #deepstate_allchecks(file.path(zip.path,pkg.name))
-      }
-      else{
-        file.copy(file.path(zip.path,pkg.name),untestable_pkgs,overwrite = TRUE, 
-                  recursive = TRUE, 
-                  copy.mode = TRUE)
-        unlink(file.path(zip.path,pkg.name), recursive = TRUE)
-        print("Package cannot be tested using RcppDeepState!!")
-      }
-      
-    } 
+    if(file.exists(RcppExports.cpp)){
+      print(file.path(zip.path,pkg.name))
+      RcppDeepState::deepstate_harness_compile_run(file.path(zip.path,pkg.name))
+      result = RcppDeepState::deepstate_harness_analyze_pkg(file.path(zip.path,pkg.name))
+      print(result$logtable)
+    }else{
+      file.copy(file.path(zip.path,pkg.name),untestable_pkgs,overwrite = TRUE, 
+                recursive = TRUE, 
+                copy.mode = TRUE)
+      unlink(file.path(zip.path,pkg.name), recursive = TRUE)
+      print("Package cannot be tested using RcppDeepState!!")
+    }
   }
 }
-
-

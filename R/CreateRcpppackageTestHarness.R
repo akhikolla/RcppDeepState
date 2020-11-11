@@ -87,14 +87,14 @@ deepstate_pkg_create<-function(package_name){
           }
           else{
             if(type.arg == "int"){
-              variable <- paste0("IntegerVector ",arg.name,"(1)","\n",indent,arg.name,"[0]")
+              variable <- paste0("IntegerVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
             }
             if(type.arg == "double") {
-              variable <- paste0("NumericVector ",arg.name,"(1)","\n",indent,arg.name,"[0]")
+              variable <- paste0("NumericVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
             }
             if(type.arg == "std::string")
             {
-              variable <- paste0("CharacterVector ",arg.name,"(1)","\n",indent,arg.name,"[0]")
+              variable <- paste0("CharacterVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
             }
             arg.file <- paste0(arg.name,".qs")
             input.vals <- file.path(inputs_path,arg.file)
@@ -132,12 +132,12 @@ deepstate_pkg_create<-function(package_name){
       }  
     }
     if(mismatch_count == length(fun_names)){
-      message(sprintf("Testharnesses cannot be created for the package - datatypes fall out of specified list!!"))
+      stop("Testharnesses cannot be created for the package - datatypes fall out of specified list!!")
       return(as.character(failed.harness))
     }
   }
   else{
-    message(sprintf("No Rcpp Functions to test in the package"))
+    stop("No Rcpp Functions to test in the package")
   }
 }   
 ##' @title  creates makefiles for above created testharness in package
