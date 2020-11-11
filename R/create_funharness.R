@@ -15,7 +15,7 @@ file.create(file_path,recursive=TRUE)
 write(headers,file_path,append = TRUE)
 write_to_file <-paste0(write_to_file,pt[1,pt$prototype],"\n")
 testname<-paste0(function_name.i,"_test",sep="")
-unittest<-paste0(package_name,"_deepstate_test")
+unittest<-paste0(basename(package_name),"_deepstate_test")
 write_to_file <- paste0(write_to_file,"\n","TEST(",unittest,",",testname,")","{","\n")
 #obj <-gsub( "\\s+", " " ,paste(in_package,tolower(in_package),";","\n"))
 #write(obj,filename,append = TRUE)
@@ -50,14 +50,14 @@ for(argument.i in 1:nrow(functions.rows)){
   }
   else{
     if(type.arg == "int"){
-      variable <- paste0("IntegerVector ",arg.name,"(1)","\n",indent,arg.name,"[0]")
+      variable <- paste0("IntegerVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
     }
     if(type.arg == "double") {
-      variable <- paste0("NumericVector ",arg.name,"(1)","\n",indent,arg.name,"[0]")
+      variable <- paste0("NumericVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
     }
     if(type.arg == "std::string")
     {
-      variable <- paste0("CharacterVector ",arg.name,"(1)","\n",indent,arg.name,"[0]")
+      variable <- paste0("CharacterVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
     }
     arg.file <- paste0(arg.name,".qs")
     input.vals <- file.path(inputs_path,arg.file)
