@@ -56,7 +56,7 @@ test_that("inputfolder files existence", {
 
 functions.list <- deepstate_get_function_body(path)
 args.list <- gsub(" ","",functions.list$argument.name)
-path.args.list <- file.path(funpath.list,"inputs",paste0(args.list))
+path.args.list <- file.path(funpath.list,"inputs",paste0(args.list,".qs"))
 #print(path.args.list)
 #print(file.exists(path.args.list))
 test_that("input files existence", {
