@@ -86,6 +86,16 @@ deepstate_pkg_create<-function(package_name){
                                                arg.name,"_stream.close();","\n"))
           }
           else{
+            if(type.arg == "int"){
+              variable <- paste0("IntegerVector ",arg.name,"(1)","\n",indent,arg.name,"[0]")
+            }
+            if(type.arg == "double") {
+              variable <- paste0("NumericVector ",arg.name,"(1)","\n",indent,arg.name,"[0]")
+            }
+            if(type.arg == "std::string")
+            {
+              variable <- paste0("CharacterVector ",arg.name,"(1)","\n",indent,arg.name,"[0]")
+            }
             arg.file <- paste0(arg.name,".qs")
             input.vals <- file.path(inputs_path,arg.file)
             file_open <- gsub("# ","\"",paste0("qs::c_qsave(",arg.name,",#",input.vals,"#,\n","\t\t#high#, #zstd#, 1, 15, true, 1);\n",indent,
@@ -167,9 +177,9 @@ deepstate_create_makefile <-function(package,fun_name){
   log_file_path <- file.path(fun_path,paste0(fun_name,"_log"))
   write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
   compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${COMMON_FLAGS} ","-I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",deepstate.header," ")
-  
-  obj.file.path<-file.path(package,"src/*.o")
-  if(!file.exists(obj.file.path)){
+  obj.file.list <-Sys.glob(file.path(package,"src/*.o"))
+  obj.file.path <- file.path(package,"src/*.o")  
+  if(length(obj.file.list) <= 0){
     obj.file.path<-file.path(package,"src/*.cpp")  
   }
   objs.add <-file.path(package,paste0("src/",fun_name,".o"))
