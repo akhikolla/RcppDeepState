@@ -1,13 +1,12 @@
-deepstate_fun_create <- function(packagename,functions.rows,function_name.i,pt){
+deepstate_fun_create <- function(package_name,functions.rows,function_name.i,pt){
+  print(package_name)
   write_to_file <- ""
   inst_path <- file.path(package_name, "inst")
   test_path <- file.path(inst_path,"testfiles")
   headers <-"#include <fstream>\n#include <RInside.h>\n#include <iostream>\n#include <RcppDeepState.h>\n#include <qs.h>\n#include <DeepState.hpp>\n"
-  
   fun_name <-function_name.i
-filename <-paste0(fun_name,"_DeepState_TestHarness",".cpp")
-fun_path <- file.path(test_path,fun_name)
-
+  filename <-paste0(fun_name,"_DeepState_TestHarness",".cpp")
+  fun_path <- file.path(test_path,fun_name)
 if(!dir.exists(fun_path)){
   dir.create(fun_path)
 }
@@ -16,7 +15,7 @@ file.create(file_path,recursive=TRUE)
 write(headers,file_path,append = TRUE)
 write_to_file <-paste0(write_to_file,pt[1,pt$prototype],"\n")
 testname<-paste0(function_name.i,"_test",sep="")
-unittest<-paste0(packagename,"_deepstate_test")
+unittest<-paste0(package_name,"_deepstate_test")
 write_to_file <- paste0(write_to_file,"\n","TEST(",unittest,",",testname,")","{","\n")
 #obj <-gsub( "\\s+", " " ,paste(in_package,tolower(in_package),";","\n"))
 #write(obj,filename,append = TRUE)

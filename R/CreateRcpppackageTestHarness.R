@@ -19,7 +19,7 @@ deepstate_pkg_create<-function(package_name){
     RcppDeepState::deepstate_make_run()
   }
   dir.create(test_path,showWarnings = FALSE)
-  #Rcpp::compileAttributes(package_name)
+  Rcpp::compileAttributes(package_name)
   harness <- list()
   failed.harness <- list()
   functions.list <-  RcppDeepState::deepstate_get_function_body(package_name)
@@ -40,7 +40,7 @@ deepstate_pkg_create<-function(package_name){
         match_count = match_count + 1
         pt <- prototypes_calls[prototypes_calls$funName == function_name.i,]
         filename <- paste0(function_name.i,"_DeepState_TestHarness",".cpp")
-        filepath <- deepstate_fun_create(packagename,functions.rows,function_name.i,pt)
+        filepath <- deepstate_fun_create(package_name,functions.rows,function_name.i,pt)
         if(file.exists(filepath))
         harness <- c(harness,filename)
       }
@@ -109,11 +109,12 @@ deepstate_create_makefile <-function(package,fun_name){
   log_file_path <- file.path(fun_path,paste0(fun_name,"_log"))
   write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
   compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${COMMON_FLAGS} ","-I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",deepstate.header," ")
-  
-  obj.file.path<-file.path(package,"src/*.o")
-  if(!file.exists(obj.file.path)){
+  obj.file.list <-Sys.glob(file.path(package_name,"src/*.o"))
+  obj.file.path <- file.path(package,"src/*.o")  
+  if(length(obj.file.list) <= 0){
     obj.file.path<-file.path(package,"src/*.cpp")  
   }
+  #print(obj.file.path)
   objs.add <-file.path(package,paste0("src/",fun_name,".o"))
   write_to_file<-paste0(write_to_file,compile.line,obj.file.path)#," ",objs.add)
   dir.create(file.path(fun_path,paste0(fun_name,"_output")), showWarnings = FALSE)
