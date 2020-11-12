@@ -83,8 +83,9 @@ test_that("No valgrind issues", {
 
 #.f = function() {
 fun_wob <- file.path(path,"inst/testfiles/rcpp_write_index_outofbound") 
-seed_table_wob<-deepstate_fuzz_fun_analyze(fun_wob,1603403708,5)
+seed_table_wob<-deepstate_fuzz_fun_analyze(fun_wob,1603403708,6)
 seed_analyze_wob <- seed_table_wob$logtable[[1]]
+print("write out of bound")
 print(seed_analyze_wob)
 .f = function() {
 test_that("seed output check", {
@@ -95,9 +96,11 @@ test_that("seed output check", {
 }
 
 fun_uu <- file.path(path,"inst/testfiles/rcpp_use_uninitialized") 
-seed_table_uu<-deepstate_fuzz_fun_analyze(fun_uu,1603839428,5)
+seed_table_uu<-deepstate_fuzz_fun_analyze(fun_uu,1603839428,6)
 seed_analyze_uu <- seed_table_uu$logtable[[1]]
+print("uninitialized")
 print(seed_analyze_uu)
+
 .f = function() {
 test_that("seed output check", {
   expect_identical(seed_analyze_uu$err.kind,"UninitCondition")
