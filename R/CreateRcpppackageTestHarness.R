@@ -22,6 +22,7 @@ deepstate_pkg_create<-function(package_name){
   Rcpp::compileAttributes(package_name)
   harness <- list()
   failed.harness <- list()
+  primitives <- list()
   functions.list <-  RcppDeepState::deepstate_get_function_body(package_name)
   if(!is.null(functions.list) && length(functions.list) > 1){
     functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
@@ -88,13 +89,16 @@ deepstate_pkg_create<-function(package_name){
           else{
             if(type.arg == "int"){
               variable <- paste0("IntegerVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
+              primitives <- c(primitives,arg.name)
             }
             if(type.arg == "double") {
               variable <- paste0("NumericVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
+              primitives <- c(primitives,arg.name)
             }
             if(type.arg == "std::string")
             {
               variable <- paste0("CharacterVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
+              primitives <- c(primitives,arg.name)
             }
             arg.file <- paste0(arg.name,".qs")
             input.vals <- file.path(inputs_path,arg.file)
@@ -103,15 +107,17 @@ deepstate_pkg_create<-function(package_name){
                                                " << std::endl;","\n"))
           }
           proto_args <- gsub(" ","",paste0(proto_args,arg.name))
-          if(argument.i < nrow(functions.rows)) proto_args <- paste0(proto_args,",")
+          if(argument.i <= nrow(functions.rows)) {
+            if(type.arg == "int" || type.arg == "double" || type.arg == "std::string"){
+            proto_args <- paste0(proto_args,"[0],")
+            }else{
+              proto_args <- paste0(proto_args,",")  
+            }
+          }
           write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
         }
         write_to_file<-paste0(write_to_file,indent,"std::cout << #input ends# << std::endl;\n",indent,"try{\n")
-        if(type.arg == "int" || type.arg == "double" || type.arg == "std::string"){
-          write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,"[0]);\n")  
-        }else{
-          write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,");\n")
-        }
+        write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",gsub(",$","",proto_args),");\n")
         write_to_file<-gsub("#","\"",paste0(write_to_file,indent,"}\n",indent,"catch(Rcpp::exception& e){\n",indent,indent,"std::cout<<#Exception Handled#<<std::endl;\n",indent,"}"))
         write_to_file<-paste0(write_to_file,"\n","}")
         write(write_to_file,file_path,append=TRUE)
