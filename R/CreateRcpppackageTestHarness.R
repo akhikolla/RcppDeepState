@@ -110,7 +110,7 @@ deepstate_pkg_create<-function(package_name){
         if(type.arg == "int" || type.arg == "double" || type.arg == "std::string"){
           write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,"[0]);\n")  
         }else{
-          write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,"[0]);\n")
+          write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",proto_args,");\n")
         }
         write_to_file<-gsub("#","\"",paste0(write_to_file,indent,"}\n",indent,"catch(Rcpp::exception& e){\n",indent,indent,"std::cout<<#Exception Handled#<<std::endl;\n",indent,"}"))
         write_to_file<-paste0(write_to_file,"\n","}")
@@ -130,7 +130,7 @@ deepstate_pkg_create<-function(package_name){
     }
     else{
       if(mismatch_count < length(fun_names) && length(failed.harness) > 0 && match_count != 0){
-        message(sprintf("Failed to create testharness for %d functions in the package - %s\n",mismatch_count,failed.harness))
+        message(sprintf("Failed to create testharness for %d functions in the package - %s\n",mismatch_count,paste(failed.harness, collapse=", ")))
         cat(sprintf("Testharness created for %d functions in the package\n",match_count))
         return(as.character(harness))
       }  
