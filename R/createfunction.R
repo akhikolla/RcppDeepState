@@ -1,0 +1,140 @@
+##' @title  creates testharness for given function in package
+##' @param package_name to the RcppExports file
+##' @param function_name of the package
+##' @param sep param to decide infun or outfun
+##' @param prototypes_calls calls to prototypes
+##' @import RcppArmadillo
+##' @export
+deepstate_fun_create<-function(package_name,function_name,prototypes_calls="",sep="infun"){
+  package_name <-normalizePath(package_name, mustWork=TRUE)
+  package_name <- sub("/$","",package_name)
+  inst_path <- file.path(package_name, "inst")
+  test_path <- file.path(inst_path,"testfiles")
+  if(!dir.exists(inst_path)){
+    dir.create(inst_path,showWarnings = FALSE)
+    dir.create(test_path,showWarnings = FALSE)
+  }
+  primitives <- list()
+  packagename <- basename(package_name)
+  if(sep=="outfun"){
+  functions.list <- RcppDeepState::deepstate_get_function_body(package_name)
+  if(!is.null(functions.list) && length(functions.list) > 1){
+    functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
+    prototypes_calls <-RcppDeepState::deepstate_get_prototype_calls(package_name)
+    }else{
+    stop("No Rcpp Function to test in the package")
+  }
+}
+    
+    headers <-"#include <fstream>\n#include <RInside.h>\n#include <iostream>\n#include <RcppDeepState.h>\n#include <qs.h>\n#include <DeepState.hpp>\n"
+    write_to_file <- ""
+    functions.rows  <- functions.list[functions.list$funName == function_name,]
+    params <- c(functions.rows$argument.type)
+    if(RcppDeepState::deepstate_datatype_check(params) == 1){
+      pt <- prototypes_calls[prototypes_calls$funName == function_name,]
+      fun_name <-function_name
+      filename <-paste0(fun_name,"_DeepState_TestHarness",".cpp")
+      print(test_path)
+      fun_path <- file.path(test_path,fun_name)
+      print(fun_path)
+      if(!dir.exists(fun_path)){
+        dir.create(fun_path)
+      }
+      if(sep=="outfun"){
+        testable_path <- file.path(fun_path,paste0("testable_",fun_name))
+        if(!dir.exists(testable_path)){
+          dir.create(testable_path)
+        }
+        file_path <- file.path(testable_path,filename)
+        file.create(file_path,recursive=TRUE)
+        if(file.exists(file.path(fun_path,"Makefile"))){
+        file.copy(file.path(fun_path,"Makefile"),testable_path)
+        }else{
+          deepstate_create_makefile(package_name,fun_name)
+          file.copy(file.path(fun_path,"Makefile"),testable_path)
+          }
+        
+        dir.create(file.path(testable_path,"inputs"),showWarnings = FALSE)
+        dir.create(file.path(testable_path,paste0(fun_name,"_output")),showWarnings = FALSE)
+      }
+      else{
+      file_path <- file.path(fun_path,filename)
+      file.create(file_path,recursive=TRUE)
+      }
+      write(headers,file_path,append = TRUE)
+      write_to_file <-paste0(write_to_file,pt[1,pt$prototype],"\n")
+      testname<-paste0(function_name,"_test",sep="")
+      unittest<-paste0(packagename,"_deepstate_test")
+      write_to_file <- paste0(write_to_file,"\n","TEST(",unittest,",",testname,")","{","\n")
+      #obj <-gsub( "\\s+", " " ,paste(in_package,tolower(in_package),";","\n"))
+      #write(obj,filename,append = TRUE)
+      indent <- "  "
+      write_to_file<-paste0(write_to_file,indent,"RInside R;\n",indent,"std::cout << #input starts# << std::endl;\n")
+      deepstate_create_makefile(package_name,fun_name) 
+      proto_args <-""
+      for(argument.i in 1:nrow(functions.rows)){
+        arg.type <- gsub(" ","",functions.rows [argument.i,argument.type])
+        arg.name <- gsub(" ","",functions.rows [argument.i,argument.name])
+        variable <- paste0(arg.type," ",arg.name)
+        variable <- gsub("const","",variable)
+        type.arg <- gsub("const","", arg.type)
+        type.arg <-gsub("Rcpp::","",type.arg)
+        type.arg <-gsub("arma::","",type.arg)
+        st_val <- paste0("= ","RcppDeepState_",(type.arg),"()",";\n")
+        inputs_path <- file.path(fun_path,"inputs")
+        if(!dir.exists(inputs_path)){
+          dir.create(inputs_path)
+        }
+        if(type.arg == "mat"){
+          write_to_file<-paste0(write_to_file,indent,"std::ofstream ",
+                                gsub(" ","",arg.name),"_stream",";\n")
+          input.vals <- file.path(inputs_path,arg.name)
+          file_open <- gsub("# ","\"",paste0(arg.name,"_stream.open(#",input.vals,"# );","\n",indent,
+                                             arg.name,"_stream << ", 
+                                             arg.name,";","\n",indent,
+                                             "std::cout << ","#",arg.name,
+                                             " values: ","#"," << ",arg.name,
+                                             " << std::endl;","\n",indent,
+                                             arg.name,"_stream.close();","\n"))
+        }
+        else{
+          if(type.arg == "int"){
+            variable <- paste0("IntegerVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
+            primitives <- c(primitives,arg.name)
+          }
+          if(type.arg == "double") {
+            variable <- paste0("NumericVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
+            primitives <- c(primitives,arg.name)
+          }
+          if(type.arg == "std::string")
+          {
+            variable <- paste0("CharacterVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
+            primitives <- c(primitives,arg.name)
+          }
+          arg.file <- paste0(arg.name,".qs")
+          input.vals <- file.path(inputs_path,arg.file)
+          file_open <- gsub("# ","\"",paste0("qs::c_qsave(",arg.name,",#",input.vals,"#,\n","\t\t#high#, #zstd#, 1, 15, true, 1);\n",indent,
+                                             "std::cout << ","#",arg.name," values: ","#"," << ",arg.name,
+                                             " << std::endl;","\n"))
+        }
+        proto_args <- gsub(" ","",paste0(proto_args,arg.name))
+        if(argument.i <= nrow(functions.rows)) {
+          if(type.arg == "int" || type.arg == "double" || type.arg == "std::string"){
+            proto_args <- paste0(proto_args,"[0],")
+          }else{
+            proto_args <- paste0(proto_args,",")  
+          }
+        }
+        write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
+      }
+      write_to_file<-paste0(write_to_file,indent,"std::cout << #input ends# << std::endl;\n",indent,"try{\n")
+      write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",gsub(",$","",proto_args),");\n")
+      write_to_file<-gsub("#","\"",paste0(write_to_file,indent,"}\n",indent,"catch(Rcpp::exception& e){\n",indent,indent,"std::cout<<#Exception Handled#<<std::endl;\n",indent,"}"))
+      write_to_file<-paste0(write_to_file,"\n","}")
+      write(write_to_file,file_path,append=TRUE)
+      return(file_path)
+  } else if(deepstate_datatype_check(params) == 0){
+    return(NA_character_)
+  }
+  
+}
