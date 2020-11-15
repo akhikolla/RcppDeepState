@@ -6,7 +6,7 @@
 ##' @import RcppArmadillo
 ##' @export
 deepstate_fun_create<-function(package_name,function_name,prototypes_calls="",sep="infun"){
-  package_name <-normalizePath(package_name, mustWork=TRUE)
+  #package_name <-normalizePath(package_name, mustWork=TRUE)
   package_name <- sub("/$","",package_name)
   inst_path <- file.path(package_name, "inst")
   test_path <- file.path(inst_path,"testfiles")
