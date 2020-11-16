@@ -16,8 +16,8 @@ deepstate_fun_create<-function(package_name,function_name,prototypes_calls="",se
   }
   primitives <- list()
   packagename <- basename(package_name)
-  if(sep=="outfun"){
   functions.list <- RcppDeepState::deepstate_get_function_body(package_name)
+  if(sep=="outfun"){
   if(!is.null(functions.list) && length(functions.list) > 1){
     functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
     prototypes_calls <-RcppDeepState::deepstate_get_prototype_calls(package_name)
