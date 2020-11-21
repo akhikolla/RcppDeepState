@@ -4,19 +4,12 @@
 \alias{deepstate_fun_create}
 \title{creates testharness for given function in package}
 \usage{
-deepstate_fun_create(
-  package_name,
-  function_name,
-  prototypes_calls = "",
-  sep = "infun"
-)
+deepstate_fun_create(package_name, function_name, sep = "infun")
 }
 \arguments{
 \item{package_name}{to the RcppExports file}
 
 \item{function_name}{of the package}
-
-\item{prototypes_calls}{calls to prototypes}
 
 \item{sep}{param to decide infun or outfun}
 }
