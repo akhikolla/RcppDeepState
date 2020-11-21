@@ -37,7 +37,7 @@ deepstate_pkg_create<-function(package_name){
     for(function_name.i in fun_names){
       functions.rows  <- functions.list [functions.list$funName == function_name.i,]
       params <- c(functions.rows$argument.type)
-      filepath <-RcppDeepState::deepstate_fun_create(packagename,function_name.i,prototypes_calls)
+      filepath <-RcppDeepState::deepstate_fun_create(package_name,function_name.i)
       filename <- paste0(function_name.i,"_DeepState_TestHarness",".cpp")
        if(basename(filepath) ==  filename ){
         match_count = match_count + 1

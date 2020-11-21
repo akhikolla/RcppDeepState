@@ -2,12 +2,12 @@
 ##' @param package_name to the RcppExports file
 ##' @param function_name of the package
 ##' @param sep param to decide infun or outfun
-##' @param prototypes_calls calls to prototypes
 ##' @import RcppArmadillo
 ##' @export
-deepstate_fun_create<-function(package_name,function_name,prototypes_calls="",sep="infun"){
+deepstate_fun_create<-function(package_name,function_name,sep="infun"){
   #package_name <-normalizePath(package_name, mustWork=TRUE)
-  package_name <- sub("/$","",package_name)
+   #print(package_name)
+  #package_name <- sub("/$","",package_name)
   inst_path <- file.path(package_name, "inst")
   test_path <- file.path(inst_path,"testfiles")
   if(!dir.exists(inst_path)){
@@ -17,15 +17,16 @@ deepstate_fun_create<-function(package_name,function_name,prototypes_calls="",se
   primitives <- list()
   packagename <- basename(package_name)
   functions.list <- RcppDeepState::deepstate_get_function_body(package_name)
+  functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
+  prototypes_calls <-RcppDeepState::deepstate_get_prototype_calls(package_name)
   if(sep=="outfun"){
   if(!is.null(functions.list) && length(functions.list) > 1){
-    functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
-    prototypes_calls <-RcppDeepState::deepstate_get_prototype_calls(package_name)
+    #functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
+     print("outfun")  
     }else{
     stop("No Rcpp Function to test in the package")
   }
 }
-    
     headers <-"#include <fstream>\n#include <RInside.h>\n#include <iostream>\n#include <RcppDeepState.h>\n#include <qs.h>\n#include <DeepState.hpp>\n"
     write_to_file <- ""
     functions.rows  <- functions.list[functions.list$funName == function_name,]
@@ -34,9 +35,9 @@ deepstate_fun_create<-function(package_name,function_name,prototypes_calls="",se
       pt <- prototypes_calls[prototypes_calls$funName == function_name,]
       fun_name <-function_name
       filename <-paste0(fun_name,"_DeepState_TestHarness",".cpp")
-      print(test_path)
+      #print(test_path)
       fun_path <- file.path(test_path,fun_name)
-      print(fun_path)
+      #print(fun_path)
       if(!dir.exists(fun_path)){
         dir.create(fun_path)
       }
