@@ -85,8 +85,6 @@ deepstate_fun_create<-function(package_name,function_name,sep="infun"){
       for(argument.i in 1:nrow(functions.rows)){
         arg.type <- gsub(" ","",functions.rows [argument.i,argument.type])
         arg.name <- gsub(" ","",functions.rows [argument.i,argument.name])
-        variable <- paste0(arg.type," ",arg.name)
-        variable <- gsub("const","",variable)
         type.arg <- gsub("const","", arg.type)
         type.arg <-gsub("Rcpp::","",type.arg)
         type.arg <-gsub("arma::","",type.arg)
@@ -113,11 +111,11 @@ deepstate_fun_create<-function(package_name,function_name,sep="infun"){
         }
         else{
           if(type.arg == "int"){
-            variable <- paste0("IntegerVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
+            variable <- paste0("IntegerVector ",arg.name,"(1);","\n",indent,"//RcppDeepState_",type.arg,"(low,high)","\n",indent,arg.name,"[0]")
             primitives <- c(primitives,arg.name)
           }
           if(type.arg == "double") {
-            variable <- paste0("NumericVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
+            variable <- paste0("NumericVector ",arg.name,"(1);","\n",indent,"//RcppDeepState_",type.arg,"(low,high)","\n",indent,arg.name,"[0]")
             primitives <- c(primitives,arg.name)
           }
           if(type.arg == "std::string")
@@ -125,6 +123,13 @@ deepstate_fun_create<-function(package_name,function_name,sep="infun"){
             variable <- paste0("CharacterVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
             primitives <- c(primitives,arg.name)
           }
+          if(type.arg == "NumericVector" || type.arg == "IntegerVector"){
+            variable <- paste0("//RcppDeepState_",type.arg,"(size,low,high)","\n",indent,arg.type," ",arg.name)
+          }
+          if(type.arg == "NumericMatrix"){
+            variable <- paste0("//RcppDeepState_",type.arg,"(row,column,low,high)","\n",indent,arg.type," ",arg.name)
+          }
+          variable <- gsub("const","",variable)
           arg.file <- paste0(arg.name,".qs")
           input.vals <- file.path(inputs_path,arg.file)
           file_open <- gsub("# ","\"",paste0("qs::c_qsave(",arg.name,",#",input.vals,"#,\n","\t\t#high#, #zstd#, 1, 15, true, 1);\n",indent,
