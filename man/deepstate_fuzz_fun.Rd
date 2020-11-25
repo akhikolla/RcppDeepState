@@ -4,7 +4,7 @@
 \alias{deepstate_fuzz_fun}
 \title{analyze the binary file}
 \usage{
-deepstate_fuzz_fun(fun_path, seed = -1, time.limit.seconds = -1)
+deepstate_fuzz_fun(fun_path, seed = -1, time.limit.seconds = -1, sep = "infun")
 }
 \arguments{
 \item{fun_path}{path of the test package function}
@@ -12,6 +12,8 @@ deepstate_fuzz_fun(fun_path, seed = -1, time.limit.seconds = -1)
 \item{seed}{input seed to pass on the executable}
 
 \item{time.limit.seconds}{duration to run the code}
+
+\item{sep}{type of harness to run}
 }
 \description{
 analyze the binary file

@@ -48,6 +48,7 @@ Rcpp::NumericVector RcppDeepState_NumericVector(){
              }
 	    },
 	    [&] {
+std::cout << "Missing value" << std::endl;
             for(int i = 0 ; i < rand_size - 1 ;i++){      
                  rand_numvec[i] = DeepState_Double();  
              }
@@ -70,6 +71,7 @@ Rcpp::NumericVector RcppDeepState_NumericVector(int size,int low,int high){
              }
 	    },
 	    [&] {
+std::cout << "Missing value" << std::endl;
               for(int i = 0 ; i < rand_size - 1 ;i++){      
                  rand_numvec[i] = DeepState_DoubleInRange(low,high);   
              }
@@ -92,6 +94,7 @@ Rcpp::IntegerVector RcppDeepState_IntegerVector(){
              }
 	    },
 	    [&] {
+std::cout << "Missing value" << std::endl;
             for(int i = 0 ; i < rand_size ;i++){
 	        rand_intvec[i] = DeepState_Int();
 	    }
@@ -114,7 +117,7 @@ Rcpp::IntegerVector RcppDeepState_IntegerVector(int size,int low,int high){
              }
 	    },
 	    [&] {
-              
+              std::cout << "Missing value" << std::endl;
 		for(int i = 0 ; i < rand_size ;i++){
 	         rand_intvec[i] = DeepState_IntInRange(low,high);
 	  	}

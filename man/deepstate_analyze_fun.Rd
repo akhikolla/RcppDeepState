@@ -4,12 +4,14 @@
 \alias{deepstate_analyze_fun}
 \title{analyze the binary for one function}
 \usage{
-deepstate_analyze_fun(fun_path, max_inputs = "all")
+deepstate_analyze_fun(fun_path, max_inputs = "all", sep = "infun")
 }
 \arguments{
 \item{fun_path}{function path to run}
 
 \item{max_inputs}{input arguments}
+
+\item{sep}{type of harness file}
 }
 \description{
 analyze the binary for one function

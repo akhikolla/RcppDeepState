@@ -1,11 +1,16 @@
 ##' @title  analyze the binary for one function 
 ##' @param fun_path function path to run
+##' @param sep type of harness file
 ##' @param max_inputs input arguments
 ##' @export
-deepstate_analyze_fun<-function(fun_path,max_inputs="all"){
+deepstate_analyze_fun<-function(fun_path,max_inputs="all",sep="infun"){
     pkg.path <-normalizePath(fun_path, mustWork=TRUE)
     if(file.exists(fun_path)){
-    bin.path <- file.path(pkg.path,paste0(basename(pkg.path),"_output"))
+      bin.path <- if(sep == "generation" || sep == "checks"){
+        file.path(pkg.path,paste0(basename(pkg.path),"_output","_",sep))
+      }else{
+        file.path(pkg.path,paste0(basename(pkg.path),"_output"))
+      }
     bin.files <- Sys.glob(file.path(bin.path,"*"))
     
     if(length(bin.files) == 0){
