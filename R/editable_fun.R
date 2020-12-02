@@ -7,6 +7,10 @@ deepstate_editable_fun<-function(package_name,function_name){
   deepstate_fun_create(package_name,function_name,sep="checks")  
   }
 
+##' @title  compiles generate harness for given function in package
+##' @param package_name to the RcppExports file
+##' @param function_name of the package
+##' @export
 deepstate_compile_generate_fun <-function(package_name,function_name){
   inst_path <- file.path(package_name, "inst")
   test_path <- file.path(inst_path,"testfiles")
@@ -42,6 +46,10 @@ deepstate_compile_generate_fun <-function(package_name,function_name){
   }
 }
 
+##' @title  compiles checks harness for given function in package
+##' @param package_name to the RcppExports file
+##' @param function_name of the package
+##' @export
 deepstate_compile_checks_fun <-function(package_name,function_name){
   inst_path <- file.path(package_name, "inst")
   test_path <- file.path(inst_path,"testfiles")

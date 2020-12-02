@@ -1,6 +1,6 @@
 crancheck<-function(){
 pkg.name.vec <- dir("/home/akhila/Documents/packages")
-dir.create("/home/akhila/Documents/checks", showWarnings=FALSE)
+dir.create("/home/akhila/test/checks", showWarnings=FALSE)
 pkg.check.vec <- file.path("/home/akhila/Documents/checks/files", sub("_.*", "",basename(pkg.name.vec)))
 for(pkg.i in seq_along(pkg.name.vec)){
   pkg.name <- sub("_.*", "",basename(pkg.name.vec[[pkg.i]]))

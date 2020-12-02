@@ -25,12 +25,15 @@ deepstate_get_package_details <- function(path){
       code="(?:.*\n)*?",
       "\\s*END_RCPP")
   }
+  print(funs)
 }
 
 ##' @title gets function body
 ##' @return function.list list with function names and arguments
 ##' @param package_name to the RcppExports file
 ##' @export
+##' @examples
+##' deepstate_get_function_body(system.file("testpkgs/testSAN", package = "RcppDeepState")) 
 deepstate_get_function_body<-function(package_name){
   funs <-  RcppDeepState::deepstate_get_package_details(package_name) 
   function.list <-""

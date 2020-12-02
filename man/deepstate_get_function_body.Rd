@@ -15,3 +15,6 @@ function.list list with function names and arguments
 \description{
 gets function body
 }
+\examples{
+deepstate_get_function_body(system.file("testpkgs/testSAN", package = "RcppDeepState")) 
+}

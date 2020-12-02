@@ -1,4 +1,4 @@
-##' @title compiles the code for created testharness in package
+##' @title Harness compilation for the package
 ##' @param package_name to the RcppExports file
 ##' @export
 deepstate_harness_compile_run <- function(package_name){
