@@ -1,18 +1,22 @@
-##' @title  creates testharness for given function in package
-##' @param package_name to the RcppExports file
-##' @param function_name of the package
+##' @title Generation and Checks TestHarness creation
+##' @param package_path path to the test package
+##' @param function_name function name in the package
+##' @description This function creates two different testharness one for generating the vectors of 
+##' user defined size that are creatd by deepstate and second for writing asserts/checks 
+##' on the result/generated inputs.
 ##' @export
-deepstate_editable_fun<-function(package_name,function_name){
+deepstate_editable_fun<-function(package_path,function_name){
   deepstate_fun_create(package_name,function_name,sep="generation")  
   deepstate_fun_create(package_name,function_name,sep="checks")  
   }
 
-##' @title  compiles generate harness for given function in package
-##' @param package_name to the RcppExports file
-##' @param function_name of the package
+##' @title  Generation Testharness compilation
+##' @param package_path path to the testpackage
+##' @param function_name function name in the package
+##' @description This function compiles the generation testharness.
 ##' @export
-deepstate_compile_generate_fun <-function(package_name,function_name){
-  inst_path <- file.path(package_name, "inst")
+deepstate_compile_generate_fun <-function(package_path,function_name){
+  inst_path <- file.path(package_path, "inst")
   test_path <- file.path(inst_path,"testfiles")
   filename  <- paste0(function_name,"_DeepState_TestHarness_generation.cpp")
   no.specified.range <- list()
@@ -46,12 +50,13 @@ deepstate_compile_generate_fun <-function(package_name,function_name){
   }
 }
 
-##' @title  compiles checks harness for given function in package
-##' @param package_name to the RcppExports file
-##' @param function_name of the package
+##' @title  Checks Testharness compilation
+##' @param package_path path to the testpackage
+##' @param function_name function name in the package
+##' @description This function compiles the checks testharness.
 ##' @export
-deepstate_compile_checks_fun <-function(package_name,function_name){
-  inst_path <- file.path(package_name, "inst")
+deepstate_compile_checks_fun <-function(package_path,function_name){
+  inst_path <- file.path(package_path, "inst")
   test_path <- file.path(inst_path,"testfiles")
   filename  <- paste0(function_name,"_DeepState_TestHarness_checks.cpp")
   no.specified.range <- list()

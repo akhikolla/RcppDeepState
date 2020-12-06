@@ -1,6 +1,7 @@
-##' @title gets package details
-##' @return function list with function names and arguments
-##' @param path to the RcppExports file
+##' @title Package Details
+##' @return A list with all the relevant data in the RcppExrpots
+##' @param path to the package with RcppExports file
+##' @description Ths function takes the path to the test package and captures the argument specific data.
 ##' @import nc
 ##' @import data.table
 ##' @export
@@ -25,17 +26,16 @@ deepstate_get_package_details <- function(path){
       code="(?:.*\n)*?",
       "\\s*END_RCPP")
   }
-  print(funs)
 }
 
-##' @title gets function body
-##' @return function.list list with function names and arguments
-##' @param package_name to the RcppExports file
-##' @export
+##' @title Function Details
+##' @return A list with function names and arguments
+##' @param package_path path to the test package
 ##' @examples
 ##' deepstate_get_function_body(system.file("testpkgs/testSAN", package = "RcppDeepState")) 
-deepstate_get_function_body<-function(package_name){
-  funs <-  RcppDeepState::deepstate_get_package_details(package_name) 
+##' @export
+deepstate_get_function_body<-function(package_path){
+  funs <-  RcppDeepState::deepstate_get_package_details(package_path) 
   function.list <-""
   if(nrow(funs) > 0){
     function.list <- funs[,{
@@ -50,13 +50,33 @@ deepstate_get_function_body<-function(package_name){
   return(function.list)
 }
 
-##' @title gets prototype calls
-##' @return prototypes list with function prototype
-##' @param package_name to the RcppExports file
+##' @title Prototypes
+##' @return prototypes list with function prototypes
+##' @param package_path to the RcppExports file
 ##' @export
-deepstate_get_prototype_calls <-function(package_name){
-  funs <-  RcppDeepState::deepstate_get_package_details(package_name) 
+deepstate_get_prototype_calls <-function(package_path){
+  funs <-  RcppDeepState::deepstate_get_package_details(package_path) 
   codes <- funs[,{nc::capture_all_str(code,"::wrap",calls ="(?:.*)")},by=funName]
   prototypes <-funs[,.(funName,prototype,calls=codes$calls)]
   return(prototypes)
 }
+
+
+
+
+
+
+
+major.lis <- paste(sprintf('<li><a href="%s.html">%s</a></li><li><a href="%s.html">%s</a></li>',
+          gsub(" ", "_", names(export.list)),
+          paste0("Packages with issue in Exported functions\n<\br>", names(export.list)),
+          gsub(" ", "_", names(unexport.list)),paste0("Packages with issue in unexported functions\n<\br>",
+                                                      names(unexport.list))),collapse="\n")
+
+
+major.lis <- paste(
+  sprintf(
+    '<li><a href="%s.html">%s</a></li>',
+    gsub(" ", "_", names(degree.list)),
+    names(degree.list)),
+  collapse="\n")

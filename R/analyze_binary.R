@@ -1,13 +1,19 @@
-##' @title  analyze the binary file 
-##' @param path to test
-##' @param max_inputs no of bin files to analyze
-##' @param testfiles no of test files to test
-##' @return returns a list of all the param values of the arguments of function
+##' @title Analyze Harness for the Package
+##' @param path path of the test package to analyze
+##' @param max_inputs maximum number of inputs to run on the executable under valgrind. defaults to all
+##' @param testfiles number of functions to analyze in the package
+##' @description Analyze all the function specific testharness in the package under valgrind.
+##' @examples
+##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+##' analyzed.harness <- deepstate_harness_analyze_pkg(path)
+##' print(analyzed.harness)
+##' @return A list of data tables with inputs, error messages, address trace and line numbers for specified testfiles.
 ##' @import methods
 ##' @import Rcpp
 ##' @import RInside
 ##' @import qs
 ##' @export
+
 deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all"){
   path <-normalizePath(path, mustWork=TRUE)
   package_name <- sub("/$","",path)

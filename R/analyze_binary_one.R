@@ -1,7 +1,13 @@
-##' @title  analyze the binary for one function 
-##' @param fun_path function path to run
-##' @param sep type of harness file
-##' @param max_inputs input arguments
+##' @title Analyze Harness for the function
+##' @param fun_path path of the function to compile
+##' @param max_inputs maximum number of inputs to run on the executable under valgrind. defaults to all
+##' @param sep default to infun
+##' @description Analyzes the function-specific testharness in the package under valgrind.
+##' @examples
+##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+##' compiled.harness <- deepstate_analyze_fun(path)
+##' print(compiled.harness.list)
+##' @return A data table with inputs, error messages, address trace and line numbers
 ##' @export
 deepstate_analyze_fun<-function(fun_path,max_inputs="all",sep="infun"){
     pkg.path <-normalizePath(fun_path, mustWork=TRUE)
@@ -39,9 +45,10 @@ deepstate_analyze_fun<-function(fun_path,max_inputs="all",sep="infun"){
 }
 
 
-##' @title  analyze the binary for one function 
-##' @param files.path file to analyze
-##' @import data.table
+##' @title Analyze Binary file for Harness
+##' @param files.path path to the binary file to analyze
+##' @description Analyzes the function-specific binary file in the package under valgrind.
+##' @return A data table with inputs, error messages, address trace and line numbers
 ##' @export
 deepstate_analyze_file<-function(files.path){
   inputs_list<- list()

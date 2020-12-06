@@ -1,6 +1,11 @@
-##' @title  compile the  for one function 
-##' @param fun_path function path to compile
-##' @param sep type of harness to compile
+##' @title Harness compilation for the function
+##' @param fun_path path of the function to compile
+##' @param sep default to infun
+##' @description Compiles the function-specific testharness in the package.
+##' @examples
+##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+##' compiled.harness <- deepstate_compile_fun(path)
+##' print(compiled.harness.list)
 ##' @export
 deepstate_compile_fun<-function(fun_path,sep="infun"){
   if(sep == "infun"){
@@ -25,11 +30,18 @@ deepstate_compile_fun<-function(fun_path,sep="infun"){
   }
 }
 
-##' @title analyze the binary file 
-##' @param fun_path path of the test package function
-##' @param seed input seed to pass on the executable
-##' @param time.limit.seconds duration to run the code
-##' @param sep type of harness to run
+
+##' @title Harness execution for the function
+##' @param fun_path path of the function to compile
+##' @param seed input seed value to pass on the executable
+##' @param time.limit.seconds duration to run the executable
+##' @param sep default to infun
+##' @description Executes the function-specific testharness in the package.
+##' @examples
+##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+##' compiled.harness <- deepstate_fuzz_fun(path)
+##' print(compiled.harness.list)
+##' @return The executed function.
 ##' @export
 deepstate_fuzz_fun<-function(fun_path,seed=-1,time.limit.seconds=-1,sep="infun"){
   fun_name <- basename(fun_path)

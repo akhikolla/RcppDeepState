@@ -2,6 +2,7 @@
 ##' @param package path to the test package
 ##' @param fun_name name of the function
 ##' @description This function generates makefile for the provided function specific TestHarness
+##' @export
 deepstate_create_makefile <-function(package,fun_name){
   #list.paths <-nc::capture_first_vec(package, "/",root=".+?","/",remain_path=".*")
   inst_path <- file.path(package, "inst")

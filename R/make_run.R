@@ -2,7 +2,7 @@
 ##' @export
 deepstate_make_run<-function(){ 
   #insts.path <- system.file(package="RcppDeepState")
-  insts.path <- "~"
+  insts.path <- normalizePath("~", mustWork=TRUE)
   deepstate.path <- paste0(insts.path,"/.RcppDeepState")
   dir.create(deepstate.path,showWarnings = FALSE)
   deepstate.zip <- file.path(deepstate.path, "deepstate-master.zip")
