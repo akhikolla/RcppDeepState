@@ -60,23 +60,3 @@ deepstate_get_prototype_calls <-function(package_path){
   prototypes <-funs[,.(funName,prototype,calls=codes$calls)]
   return(prototypes)
 }
-
-
-
-
-
-
-
-major.lis <- paste(sprintf('<li><a href="%s.html">%s</a></li><li><a href="%s.html">%s</a></li>',
-          gsub(" ", "_", names(export.list)),
-          paste0("Packages with issue in Exported functions\n<\br>", names(export.list)),
-          gsub(" ", "_", names(unexport.list)),paste0("Packages with issue in unexported functions\n<\br>",
-                                                      names(unexport.list))),collapse="\n")
-
-
-major.lis <- paste(
-  sprintf(
-    '<li><a href="%s.html">%s</a></li>',
-    gsub(" ", "_", names(degree.list)),
-    names(degree.list)),
-  collapse="\n")
