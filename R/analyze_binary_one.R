@@ -5,10 +5,10 @@
 ##' @param sep default to infun
 ##' @description Analyzes the function-specific testharness in the package under valgrind.
 ##' @examples
-##' package_path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
-##' fun_name <- "rcpp_read_out_of_bound"
-##' analyzed.fun <- deepstate_analyze_fun(package_path,fun_name)
-##' print(analyzed.fun)
+##' #package_path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+##' #fun_name <- "rcpp_read_out_of_bound"
+##' #analyzed.fun <- deepstate_analyze_fun(package_path,fun_name)
+##' #print(analyzed.fun)
 ##' #to see all the issues that are detected by RcppDeepState
 ##' #print(issues.table(analyzed.fun$logtable))
 ##' #to see all the inputs that caused the issues

@@ -2,12 +2,9 @@ library(testthat)
 context("deepstate_compile_run")
 library(RcppDeepState)
 
-library(testthat)
-context("deepstate_compile_run")
-library(RcppDeepState)
-
+#rcppdeepstate.path <- system.file(package="RcppDeepState")
+#resu <- deepstate_pkg_create(rcppdeepstate.path)
 path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
-print(path)
 
 funs.list <- c("rcpp_read_out_of_bound","rcpp_use_after_deallocate","rcpp_use_after_free",
                "rcpp_use_uninitialized","rcpp_write_index_outofbound","rcpp_zero_sized_array")
