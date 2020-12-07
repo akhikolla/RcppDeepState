@@ -1,12 +1,3 @@
-##' @title  deepstate_getRcpppackages
-##' @export
-deepstate_getRcpppackages <- function(){
-packages <- file.path(system.file("extdata",package="RcppDeepState"),"packages")
-Rcpp.LinkingTo.pkgs <- devtools::revdep("Rcpp", "LinkingTo")
-dir.create(packages)
-download.packages(Rcpp.LinkingTo.pkgs, packages, type="source")
-}
-
 ##' @title  deepstate_datatype_check
 ##' @param params.list to the package test file
 ##' @export

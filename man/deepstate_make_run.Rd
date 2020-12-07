@@ -2,10 +2,10 @@
 % Please edit documentation in R/make_run.R
 \name{deepstate_make_run}
 \alias{deepstate_make_run}
-\title{creates testharness for given functions in package}
+\title{Deepstate Static library}
 \usage{
 deepstate_make_run()
 }
 \description{
-creates testharness for given functions in package
+Creates a deepstate static library for the user in the ~/.RcppDeepState directory.
 }

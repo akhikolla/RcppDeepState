@@ -1,50 +1,23 @@
-##' @title Harness compilation for the function
-##' @param fun_path path of the function to compile
-##' @param sep default to infun
-##' @description Compiles the function-specific testharness in the package.
-##' @examples
-##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
-##' compiled.harness <- deepstate_compile_fun(path)
-##' print(compiled.harness.list)
-##' @export
-deepstate_compile_fun<-function(fun_path,sep="infun"){
-  if(sep == "infun"){
-    harness.file <- file.path(fun_path,paste0(basename(fun_path),"_DeepState_TestHarness.cpp"))
-    make.file <- file.path(fun_path,"Makefile")
-    compile_line <-paste0("cd ",fun_path," && rm -f *.o && make\n")
-  }else if(sep == "generation"){
-    harness.file <- file.path(fun_path,paste0(basename(fun_path),"_DeepState_TestHarness_generation.cpp"))
-    make.file <- file.path(fun_path,"generation.Makefile")
-    compile_line <-paste0("cd ",fun_path," && rm -f *.o && make -f generation.Makefile\n")
-    }else if(sep == "checks"){
-    harness.file <- file.path(fun_path,paste0(basename(fun_path),"_DeepState_TestHarness_checks.cpp"))
-    make.file <- file.path(fun_path,"checks.Makefile")
-    compile_line <-paste0("cd ",fun_path," && rm -f *.o && make -f checks.Makefile\n")
-    }
-  if(file.exists(harness.file) && 
-     file.exists(make.file)){
-    cat(sprintf("compiling .. \n%s\n",compile_line))
-    system(compile_line)
-  }else{
-    message(sprintf("TestHarness and makefile doesn't exists. Please use deepstate_pkg_create() to create them"))
-  }
-}
-
-
 ##' @title Harness execution for the function
-##' @param fun_path path of the function to compile
+##' @param package_path path to the testpackage
+##' @param fun_name name of the function to compile
 ##' @param seed input seed value to pass on the executable
 ##' @param time.limit.seconds duration to run the executable
 ##' @param sep default to infun
 ##' @description Executes the function-specific testharness in the package.
 ##' @examples
-##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
-##' compiled.harness <- deepstate_fuzz_fun(path)
-##' print(compiled.harness.list)
+##' package_path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+##' fun_name <- "rcpp_read_out_of_bound"
+##' compiled.harness <- deepstate_fuzz_fun(package_path,fun_name)
+##' print(compiled.harness)
+##' #Runs the harness specified number of seconds
+##' compiled.harness.timer <- deepstate_fuzz_fun(package_path,fun_name,time.limit.seconds=6)
+##' print(compiled.harness.timer)
 ##' @return The executed function.
 ##' @export
-deepstate_fuzz_fun<-function(fun_path,seed=-1,time.limit.seconds=-1,sep="infun"){
-  fun_name <- basename(fun_path)
+deepstate_fuzz_fun<-function(package_path,fun_name,seed=-1,time.limit.seconds=2,sep="infun"){
+  fun_path <- file.path(package_path,"inst/testfiles",fun_name)
+  fun_path <-normalizePath(fun_path, mustWork=TRUE)
   if(sep == "generation" || sep == "checks"){
     log_file_path <- file.path(fun_path,paste0(fun_name,"_",sep,"_log"))
     test_harness.o <- file.path(fun_path, paste0(fun_name, "_DeepState_TestHarness_",sep,".o"))
@@ -64,9 +37,9 @@ deepstate_fuzz_fun<-function(fun_path,seed=-1,time.limit.seconds=-1,sep="infun")
     stop("time.limit.seconds should always be greater than zero")
   }
   run.executable <-  if(seed == -1 && time.limit.seconds == -1){
-              paste0("cd ",fun_path," && ","./",test_harness,
-                           " --fuzz --fuzz_save_passing --output_test_dir ",output_dir,
-                           " > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
+    paste0("cd ",fun_path," && ","./",test_harness,
+           " --fuzz --fuzz_save_passing --output_test_dir ",output_dir,
+           " > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
   }else if(seed == -1 && time.limit.seconds != -1){
     paste0("cd ",fun_path," && ","./",test_harness," --timeout=",time.limit.seconds,
            " --fuzz --fuzz_save_passing --output_test_dir ",output_dir,

@@ -90,9 +90,6 @@ address.trace<-function(err.node){
   if(any(names(childs)=="auxwhat")){
     aux.val <- which(names(childs)=="auxwhat")
     stack.val <- names(childs)[aux.val+1] == "stack"
-    print(class(stack.val))
-    print(stack.val[0])
-    print(stack.val[1])
       output <- if(!is.na(stack.val) && stack.val[1] == TRUE)
      "stack"
   }else{

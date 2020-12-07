@@ -3,6 +3,11 @@
 ##' @param function_name from the test package
 ##' @param sep infun default
 ##' @description The function creates Testharness for the provided function name.
+##' @examples 
+##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+##' function_name <- "rcpp_read_out_of_bound"
+##' function.harness <- deepstate_fun_create(path,function_name)
+##' print(function.harness)
 ##' @return The TestHarness file that is generated
 ##' @export
 deepstate_fun_create<-function(package_path,function_name,sep="infun"){

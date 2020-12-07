@@ -19,3 +19,9 @@ The TestHarness file that is generated
 \description{
 The function creates Testharness for the provided function name.
 }
+\examples{
+path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+function_name <- "rcpp_read_out_of_bound"
+function.harness <- deepstate_fun_create(path,function_name)
+print(function.harness)
+}

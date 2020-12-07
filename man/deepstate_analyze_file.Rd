@@ -11,7 +11,18 @@ deepstate_analyze_file(files.path)
 }
 \value{
 A data table with inputs, error messages, address trace and line numbers
+package_path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+fun_name <- "rcpp_read_out_of_bound"
+binary.dir <- file.path(package_path,"inst/testfiles",fun_name,paste0(fun_name,"_output"))
+binary.files <- Sys.glob(file.path(binary.dir,"*"))
+print(binary.files[1])
+analyze.result <- deepstate_analyze_file(binary.files[1])
+print(analyze.result)
+#to see all the issues that are detected by RcppDeepState
+#print(issues.table(analyzed.fun$logtable))
+#to see all the inputs that caused the issues
+#print(inputs.table(analyzed.fun$inputs))
 }
 \description{
-Analyzes the function-specific binary file in the package under valgrind.
+Analyzes the function-specific binary file in the package under valgrind
 }
