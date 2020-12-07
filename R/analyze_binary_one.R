@@ -1,5 +1,6 @@
 ##' @title Analyze Harness for the function
-##' @param fun_path path of the function to compile
+##' @param package_path path to the test package
+##' @param fun_name path of the function to compile
 ##' @param max_inputs maximum number of inputs to run on the executable under valgrind. defaults to all
 ##' @param sep default to infun
 ##' @description Analyzes the function-specific testharness in the package under valgrind.

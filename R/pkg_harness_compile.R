@@ -24,7 +24,7 @@ deepstate_harness_compile_run <- function(package_path){
       uncompiled_count = 0
       log_count = 0
       for(fun.path in functions.list){
-        compile.res <- deepstate_fuzz_fun(fun.path,time.limit.seconds=2)
+        compile.res <- deepstate_fuzz_fun(package_path,basename(fun.path),time.limit.seconds=2)
         if(!is.na(compile.res) && compile.res == basename(fun.path)){
           compiled.code <-c(compiled.code,compile.res)
         }

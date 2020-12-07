@@ -12,11 +12,13 @@ deepstate_analyze_fun(
 )
 }
 \arguments{
+\item{package_path}{path to the test package}
+
+\item{fun_name}{path of the function to compile}
+
 \item{max_inputs}{maximum number of inputs to run on the executable under valgrind. defaults to all}
 
 \item{sep}{default to infun}
-
-\item{fun_path}{path of the function to compile}
 }
 \value{
 A data table with inputs, error messages, address trace and line numbers
