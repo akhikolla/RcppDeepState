@@ -2,15 +2,15 @@
 % Please edit documentation in R/editable_fun.R
 \name{deepstate_compile_checks_fun}
 \alias{deepstate_compile_checks_fun}
-\title{compiles checks harness for given function in package}
+\title{Checks Testharness compilation}
 \usage{
-deepstate_compile_checks_fun(package_name, function_name)
+deepstate_compile_checks_fun(package_path, function_name)
 }
 \arguments{
-\item{package_name}{to the RcppExports file}
+\item{package_path}{path to the testpackage}
 
-\item{function_name}{of the package}
+\item{function_name}{function name in the package}
 }
 \description{
-compiles checks harness for given function in package
+This function compiles the checks testharness.
 }

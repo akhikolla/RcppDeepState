@@ -2,17 +2,25 @@
 % Please edit documentation in R/analyze_binary_one.R
 \name{deepstate_analyze_fun}
 \alias{deepstate_analyze_fun}
-\title{analyze the binary for one function}
+\title{Analyze Harness for the function}
 \usage{
 deepstate_analyze_fun(fun_path, max_inputs = "all", sep = "infun")
 }
 \arguments{
-\item{fun_path}{function path to run}
+\item{fun_path}{path of the function to compile}
 
-\item{max_inputs}{input arguments}
+\item{max_inputs}{maximum number of inputs to run on the executable under valgrind. defaults to all}
 
-\item{sep}{type of harness file}
+\item{sep}{default to infun}
+}
+\value{
+A data table with inputs, error messages, address trace and line numbers
 }
 \description{
-analyze the binary for one function
+Analyzes the function-specific testharness in the package under valgrind.
+}
+\examples{
+path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+compiled.harness <- deepstate_analyze_fun(path)
+print(compiled.harness.list)
 }

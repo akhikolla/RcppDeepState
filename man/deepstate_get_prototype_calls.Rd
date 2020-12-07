@@ -2,16 +2,16 @@
 % Please edit documentation in R/package_details.R
 \name{deepstate_get_prototype_calls}
 \alias{deepstate_get_prototype_calls}
-\title{gets prototype calls}
+\title{Prototypes}
 \usage{
-deepstate_get_prototype_calls(package_name)
+deepstate_get_prototype_calls(package_path)
 }
 \arguments{
-\item{package_name}{to the RcppExports file}
+\item{package_path}{to the RcppExports file}
 }
 \value{
-prototypes list with function prototype
+prototypes list with function prototypes
 }
 \description{
-gets prototype calls
+Prototypes
 }

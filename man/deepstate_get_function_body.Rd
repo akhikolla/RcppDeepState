@@ -2,18 +2,18 @@
 % Please edit documentation in R/package_details.R
 \name{deepstate_get_function_body}
 \alias{deepstate_get_function_body}
-\title{gets function body}
+\title{Function Details}
 \usage{
-deepstate_get_function_body(package_name)
+deepstate_get_function_body(package_path)
 }
 \arguments{
-\item{package_name}{to the RcppExports file}
+\item{package_path}{path to the test package}
 }
 \value{
-function.list list with function names and arguments
+A list with function names and arguments
 }
 \description{
-gets function body
+Function Details
 }
 \examples{
 deepstate_get_function_body(system.file("testpkgs/testSAN", package = "RcppDeepState")) 

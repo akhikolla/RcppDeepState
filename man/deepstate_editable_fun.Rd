@@ -2,15 +2,17 @@
 % Please edit documentation in R/editable_fun.R
 \name{deepstate_editable_fun}
 \alias{deepstate_editable_fun}
-\title{creates testharness for given function in package}
+\title{Generation and Checks TestHarness creation}
 \usage{
-deepstate_editable_fun(package_name, function_name)
+deepstate_editable_fun(package_path, function_name)
 }
 \arguments{
-\item{package_name}{to the RcppExports file}
+\item{package_path}{path to the test package}
 
-\item{function_name}{of the package}
+\item{function_name}{function name in the package}
 }
 \description{
-creates testharness for given function in package
+This function creates two different testharness one for generating the vectors of 
+user defined size that are creatd by deepstate and second for writing asserts/checks 
+on the result/generated inputs.
 }

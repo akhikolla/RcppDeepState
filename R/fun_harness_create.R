@@ -4,8 +4,6 @@
 ##' @param sep infun default
 ##' @description The function creates Testharness for the provided function name.
 ##' @return The TestHarness file that is generated
-##' @example 
-##' 
 ##' @export
 deepstate_fun_create<-function(package_path,function_name,sep="infun"){
   inst_path <- file.path(package_path, "inst")

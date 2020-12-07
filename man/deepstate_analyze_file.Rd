@@ -2,13 +2,16 @@
 % Please edit documentation in R/analyze_binary_one.R
 \name{deepstate_analyze_file}
 \alias{deepstate_analyze_file}
-\title{analyze the binary for one function}
+\title{Analyze Binary file for Harness}
 \usage{
 deepstate_analyze_file(files.path)
 }
 \arguments{
-\item{files.path}{file to analyze}
+\item{files.path}{path to the binary file to analyze}
+}
+\value{
+A data table with inputs, error messages, address trace and line numbers
 }
 \description{
-analyze the binary for one function
+Analyzes the function-specific binary file in the package under valgrind.
 }

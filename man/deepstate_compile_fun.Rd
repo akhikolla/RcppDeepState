@@ -2,15 +2,20 @@
 % Please edit documentation in R/analyze_compile_one.R
 \name{deepstate_compile_fun}
 \alias{deepstate_compile_fun}
-\title{compile the  for one function}
+\title{Harness compilation for the function}
 \usage{
 deepstate_compile_fun(fun_path, sep = "infun")
 }
 \arguments{
-\item{fun_path}{function path to compile}
+\item{fun_path}{path of the function to compile}
 
-\item{sep}{type of harness to compile}
+\item{sep}{default to infun}
 }
 \description{
-compile the  for one function
+Compiles the function-specific testharness in the package.
+}
+\examples{
+path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+compiled.harness <- deepstate_compile_fun(path)
+print(compiled.harness.list)
 }

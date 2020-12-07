@@ -2,19 +2,27 @@
 % Please edit documentation in R/analyze_compile_one.R
 \name{deepstate_fuzz_fun}
 \alias{deepstate_fuzz_fun}
-\title{analyze the binary file}
+\title{Harness execution for the function}
 \usage{
 deepstate_fuzz_fun(fun_path, seed = -1, time.limit.seconds = -1, sep = "infun")
 }
 \arguments{
-\item{fun_path}{path of the test package function}
+\item{fun_path}{path of the function to compile}
 
-\item{seed}{input seed to pass on the executable}
+\item{seed}{input seed value to pass on the executable}
 
-\item{time.limit.seconds}{duration to run the code}
+\item{time.limit.seconds}{duration to run the executable}
 
-\item{sep}{type of harness to run}
+\item{sep}{default to infun}
+}
+\value{
+The executed function.
 }
 \description{
-analyze the binary file
+Executes the function-specific testharness in the package.
+}
+\examples{
+path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+compiled.harness <- deepstate_fuzz_fun(path)
+print(compiled.harness.list)
 }

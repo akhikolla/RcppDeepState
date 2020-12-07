@@ -2,13 +2,21 @@
 % Please edit documentation in R/compile_run_harness.R
 \name{deepstate_harness_compile_run}
 \alias{deepstate_harness_compile_run}
-\title{compiles the code for created testharness in package}
+\title{Harness compilation for the package}
 \usage{
-deepstate_harness_compile_run(package_name)
+deepstate_harness_compile_run(package_path)
 }
 \arguments{
-\item{package_name}{to the RcppExports file}
+\item{package_path}{to the test package}
+}
+\value{
+A character vector of compiled functions.
 }
 \description{
-compiles the code for created testharness in package
+Compiles all the generated function-specific testharness in the package.
+}
+\examples{
+path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+compiled.harness.list <- deepstate_harness_compile_run(path)
+print(compiled.harness.list)
 }
