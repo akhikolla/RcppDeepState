@@ -1,8 +1,8 @@
 ---
-title: "rcppdeepstate-vignette"
+title: "RcppDeepState"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{rcppdeepstate}
+  %\VignetteIndexEntry{rcppdeepstate-vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,241 +20,168 @@ library(RcppDeepState)
 
 ## RcppDeepState
 
-RcppDeepState is an R package that extends the DeepState testing framework to fuzz test the Rcpp packages. DeepState is a static library, used to create testharness. It also provides a built-in fuzzer to generate tests with learned or random inputs.
+RcppDeepState is an R package that extends the deepstate testing framework to fuzz test the Rcpp packages. DeepState is a static library that provides common interface to fuzzing and symbolic execution engines. Users can create a testharness and execute it under those fuzzing engines. It also provides a built-in fuzzer to generate tests with learned or random inputs.
 
 ## Generation of TestHarness
 
-RcppDeepState provides four key R functions to test any Rcpp package. 
+RcppDeepState provides three key R functions to test any Rcpp package. 
 
-**(i) RcppDeepState::deepstate_pkg_create**: This function will generate a testharness for the package with default tests being the functions in the package.
-In specific it creates unit tests for every function in the package. The unit test name is the package name and test name being the function which we are testing.
+**(i) RcppDeepState::deepstate_pkg_create**: This function will generate testharnesses for all the functions in the package with default tests being the functions in the package.
 
-We have implemented RcppDeepState_* random generation function for only 8 data types and the list includes 
+We have implemented RcppDeepState_* random generation function for only 8 data types and we can create the testharness for the package only if the datatypes in the function are from the given list. 
 
-RcppDeepState specific datatypes: {"RcppDeepState_NumericVector","RcppDeepState_NumericMatrix","RcppDeepState_mat",
+RcppDeepState specific datatypes:
+
+{"RcppDeepState_NumericVector","RcppDeepState_NumericMatrix","RcppDeepState_mat",
 "RcppDeepState_string","RcppDeepState_CharacterVector","RcppDeepState_int",
 "RcppDeepState_IntegerVector","RcppDeepState_double"}
-  
-Also, we can create the testharness for the package only if the datatypes in the function are from the given list.
 
-**usage:** RcppDeepState::deepstate_pkg_create(package_name)
+The RcppDeepState_* random generation functions can be overloaded, Users can specify the range and the size of the input that is to be generated.
+
+**usage:** RcppDeepState::deepstate_pkg_create(package_path)
  
- **package_name:** is a character vector with a path to the package on which testing is to be performed.
+**package_path:** is a character vector with a path to the test package.
 
 The output varies depending upon the package:
 
-* If one or more functions in the package have their argument datatypes in the given list then the creation of tests for that function in the package is successful and the function returns 1.
+* If all the functions in the package have their function's argument datatypes in the above specified datatype list then the creation of tests for that function in the package is successful.The function gives a message saying the number of functions the test harness were created for. The function returns a character vector with the names of the testharness that were created.
 
-* If all the functions in the package don't have their argument datatypes in the given list then the creation of tests for all the functions in the package failed and it returns 0
+* If only few functions in the package have their function's argument datatypes in the specified datatype list then the function prints a message giving the count of testharnesses created and also prints the functions for which we failed to create the testharnesses. The function returns  a character vector with the names of the testharness that were created.
+
+* If none of the functions in the package have their functions datatypes in the specified datatype list then the function returns a names of the all those functions.
+
+Consider the test path to the testSAN package:
 
 ```{r}
-deepstate_pkg_create<-function(package_name){
-packagename <- basename(package_name)
-inst_path <- file.path(package_name, "inst")
-  if(!dir.exists(inst_path)){
-    dir.create(inst_path)
-  }
-  test_path <- file.path(inst_path,"testfiles")
-    dir.create(test_path,showWarnings = FALSE)
-  functions.list <- deepstate_get_function_body(package_name)
-  if(!is.null(functions.list) && length(functions.list) > 1){
-    functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
-    prototypes_calls <-deepstate_get_prototype_calls(package_name)
-  }
-  }
+path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+path
+```
+
+The test package has 6 Rcpp functions that are expected to produce valgrind issues. 
+
+## TestHarness Creation For a package
+
+```{r}
+list.harness <- RcppDeepState::deepstate_pkg_create(path)
+list.harness
+```
+
+The function returns the character vector of testharnesses created. This function create a function specific folders in inst/testfiles of the testpackage.
+
+Each function specific folder has the function specific testharness and its corresponding makefiles.
+
+## TestHarness Creation for a Function
+
+To create a TestHarness for a single function in the package all we have to do is make a call to deepstate_fun_create(), with function_name and path to the test package.
+
+```{r}
+function_name <- "rcpp_read_out_of_bound"
+function.harness <- deepstate_fun_create(path,function_name)
+function.harness
+```
+
+## TestHarness Compilation & Execution for Package
+
+```{r}
+compiled.harness.list <- RcppDeepState::deepstate_harness_compile_run(path,5)
+compiled.harness.list
+```
+
+This function compiles and execute all the functions in the package. We can specify the duration to run the testharness. Usually time limit should always be greater than zero and default time limits runs the testharness for 5 seconds.
+
+This function returns the list of function's Testharness that are successfully compiled and executed.
+
+## TestHarness Compilation & Execution for Function.
+
+```{r}
+fun_name <- "rcpp_read_out_of_bound"
+harness.fun <- deepstate_fuzz_fun(package_path,fun_name)
+harness.fun
+
+#Runs the harness specified number of seconds
+time.limit.seconds <- 6
+harness.timer.fun<- deepstate_fuzz_fun(path,fun_name,time.limit.seconds)
+harness.timer.fun
+```
+
+This function executes and returns the name of the function if it is successfully executed. We can adjust the time.limit.seconds arguments to vary the duration of executing the testharness.
+
+Compiling and executing the testharness creates 2 folders in the function specific folders. One folder named inputs has the argument values stored in .qs files and the function specific output folder which has the .crash/.fail/.pass files depending on the result they produced when run with the harness. We can use these inputs in the later part to run the testharness under Valgrind.
+
+Inputs files will have the most recent values passed on to the harness. Those .qs files can be read using qread() from qs package.
+
+```{r}
+inputs <- Sys.glob(file.path(path,fun_name,"inputs/*"))
+#RcppDeepState::list_inputs(inputs)
+```
+
+## Analyze Package Using Valgrind
+
+Now that we the inputs that are created by deepstate_pkg_compile() or deepstate_fuzz_fun() we can use these .crash/.fail/.pass as inputs to the testharness when we run it under valgrind.
+
+```{r}
+analyzed.harness <- deepstate_harness_analyze_pkg(path)
+analyzed.harness
+#gives the logtable datatable
+RcppDeepState::issues.table(analyzed.harness$logtable)
+#gives inputs datatable
+RcppDeepState::inputs.table(analyzed.harness$inputs)
+```
+
+This function returns a data.table with three columns. The first gives the path to the binary files (.crash/.fail/.pass). The second column gives a list of inputs that are passed to the testharness. The third column has a data.table with list of error messages.
+
+We can also specify the number of binary files to analyze and number of test functions to analyze.
+
+```{r}
+analyzed.harness <- deepstate_harness_analyze_pkg(path,2,1)
+analyzed.harness
+```
+
+This function analyzes two testharness functions with one binary file on each of them.The function's default binary files to analyze is set to 3. And the default number for testfiles is to analyze all.
+
+## Analyze Function Using Valgrind
+
+```{r}
+fun_name <- "rcpp_read_out_of_bound"
+analyzed.harness.fun <- deepstate_analyze_fun(path,fun_name)
+analyzed.harness.fun
+```
+
+The function analyzes a function on given number of binary files.The default max_inpus is set to analyze 3 binary files. The number of max_inputs should be less than number of binary files in the function specifi output folder.
+
+We can change the number of max_inputs like this.
+
+```{r}
+fun_name <- "rcpp_read_out_of_bound"
+analyzed.harness.fun <- deepstate_analyze_fun(path,fun_name)
+analyzed.harness.fun
+```
+
+## Analyze binary file using Valgrind
+
+We can analyze a single binary file to check the output of the file.
+
+```{r}
+fun_name <- "rcpp_read_out_of_bound"
+binary.dir <- file.path(package_path,"inst/testfiles",fun_name,paste0(fun_name,"_output"))
+binary.files <- Sys.glob(file.path(binary.dir,"*"))
+binary.files[1]
+analyze.result <- deepstate_analyze_file(binary.files[1])
+analyze.result
 ```
 
 
-In the above code, the deepstate_pkg_create() function checks if your package has an inst folder. If one doesn't exist it creates the inst folder with test files as its subfolder which has the test harnesses, makefiles, and the corresponding log files and binary output folders.
-
-This function also makes a call to the deepstate_get_function_body() to get the list of functions in the package along with their list of parameters and datatypes. The function has a regex written to exact the code from the src/RcppExports.cpp and structure it accordingly.
-
-Here the deepstate_get_package_details() is the actual method that does the regex grouping relative to the arguments from the RcppExports.cpp.
 
 
-```{r}
-deepstate_get_package_details <- function(path){
-  package_path <- Sys.glob(file.path(
-    path,"src", "RcppExports.cpp"))
-  funs<- nc::capture_all_str(
-    package_path,
-    "\n\\s*// ",
-    commentName=".*",
-    "\n",
-    prototype=list(
-      returnType=".*",
-      " ",
-      funName=".*?",
-      "\\(",
-      arguments=".*",
-      "\\);"),"\n",
-    SEXP=".*\n","\\s*BEGIN_RCPP\\s*\n",
-    code="(?:.*\n)*?",
-    "\\s*END_RCPP")
-}
-```
 
 
-The result obtained from the deepstate_get_package_details() is taken as an input for grouping the function name for argument type and argument name. 
 
 
-```{r}
-deepstate_get_function_body<-function(package_name){
-  funs <- deepstate_get_package_details(package_name) 
-  function.list <- funs[,{
-    dt <- nc::capture_all_str(
-      code,
-      "input_parameter< ",
-      argument.type=".*?",
-      ">::type",
-      argument.name="[^(]+")
-  }, by=funName]
-  return(function.list)
-}
-```
-
-The deepstate_pkg_create() makes a call to the deepstate_get_prototype_calls() function which also makes use of the output obtained from the deepstate_get_package_details() function and groups with functions for their respective prototypes.
-
-```{r}
-  deepstate_get_prototype_calls <-function(package_name){
-  funs <-  deepstate_get_package_details(package_name) 
-  codes <- funs[,{nc::capture_all_str(code,"::wrap",calls ="(?:.*)")},by=funName]
-  prototypes <-funs[,.(funName,prototype,calls=codes$calls)]
-  return(prototypes)
-}
-```
-
-The above code gets the respective function calls and prototypes for the functions which will be useful in the latter part of designing the test harness.
-
-```{r}
-deepstate_harness_compile_run <- function(package_name){
-functions.list <-  RcppDeepState::deepstate_get_function_body(package_name)
-fun_names <- unique(functions.list$funName)
-    for(function_name.i in fun_names){
-      write_to_file <- ""
-      functions.rows  <- functions.list [functions.list$funName == function_name.i,]
-      params <- c(functions.rows$argument.type)
-      if(deepstate_datatype_check(params) == 1){
-        match_count = match_count + 1
-        pt <- prototypes_calls[prototypes_calls$funName == function_name.i,]
-        fun_name <-gsub("rcpp_","",function_name.i)
-        filename <-paste0(fun_name,"_DeepState_TestHarness",".cpp")
-        file_path <- file.path(test_path,filename)
-        file.create(file_path,recursive=TRUE)
-        write(include,file_path,append = TRUE)
-        write_to_file <-paste(write_to_file,pt[1,pt$prototype])
-        testname<-paste(function_name.i,"_test",sep="")
-        unittest<-gsub(" ","",paste(packagename,"_deepstate_test"))
-      }
-    }
-}
-```
-
-After getting the list of functions we iterate through each of them and check if they have valid datatypes, if they do we start creating the testharness with a TEST macro specifying the unit test name as the packagename_deepstate_test and test name as the functionName_test.
-
-In the test harness, we make a call to the respective RcppDeepState specific datatype for every argument of the function to pass the randomly generated data. After assigning the values we make a call to the function itself inside a try-catch block to avoid the known exception and concentrate on the unknown errors.
-
-After that, we make a call to deepstate_create_makefile() which creates the makefile for the function passed. 
-
-In the makefile, we include all the necessary headers along with the deepstate library and also include the list of src/*.cpp files.
-
-The makefile has the compile line to compile the testharness and to run the test harness with the Valgrind and save the inputs to the respective functionName_output folder in binary file format.
 
 
-**(ii) RcppDeepState::deepstate_harness_compile_run**: This function will perform limited fuzz testing on the generated tests bypassing the random/learned inputs. This function also checks for subtle bugs/crashes in the code. In addition to the deep state's fuzzing, we use Valgrind's dynamic analysis to detect memory violations in the code. In case Valgrind fails to find any errors we make use of address sanitizer to check for the bugs.
-
-These checks are necessary to make sure we don't miss a chance to identify the errors if one exists.
-
-To compile and run the testharness all you have to do is run the makefile on the command prompt like this:
-
-```{r}
-system("rm -f *.o && make -f <functionMakefile>")
-```
-
-After running this command on your command prompt you will see a list of log files and files for every argument of the function containing the most recently passed random values.
-
-If you check the functionName_output folders you can find the binary files with three types of extensions:
-
-* The binary files with *.pass extension indicate the passing inputs to the tests.
-
-* The binary files with *.fail extension indicate the failing inputs to the tests.
-
-* The binary files with *.crash extension indicate the crashing inputs to the tests.
 
 
-As soon as the code executes the log files contain the data log with errors and heap summary, leak summary for the inputs values that are passed.
 
-To get the given inputs for the error with corresponding line numbers and file locations we need to make a call to deepstate_user_error_display().
 
-The function uses a regex to capture the required information.
 
-```{r}
-deepstate_user_error_display<-function(logfile){
-error.dt <- nc::capture_all_str(
-  logfile,
-  inputs="(?:.*?values:.*\n)+",
-  errortrace="(?:.*\n)*?", 
-  "==[0-9]+== HEAP SUMMARY:",
-  "\n",
-  heapsum="(?:.*\n)*?",
-  "==[0-9]+== LEAK SUMMARY:",
-  "\n",
-  leaksum="(?:.*\n)*?",
-  "==[0-9]+== ERROR SUMMARY:"
-)
-  trace <- gsub("==[0-9]+== Warning:.*?\\n","",error.dt$errortrace)
-  trace <- paste0(trace,error.dt$heapsum,error.dt$leaksum)
-  error.dt[, src.file.lines := {
-    file.line.dt <- nc::capture_all_str(
-      trace,
-      file.line="[^()]+?:[0-9]+")
-    file.line.dt[grepl(paste0(files.list$file.name,".cpp"), file.line),paste(file.line, collapse="\n")]
-  }, by=error.i]
-  
-  count.dt <- error.dt[, .(
-    count=.N
-  ), by=.(inputs,src.file.lines,error.message=gsub("==[0-9]+==","",error.msg$msg))]
-}
-```
-
-The error.dt data table has information about inputs,errortrace, heap, and leak summary.
-we need to filter the errortrace and summary(heapsum, leaksum) for more specific data.
-
-We check if there are any warnings in the code and ignore them and the above regex is used to capture the file name and its line number from where the error occurred.
-
-The final output dataframe contains the inputs passed and the source file lines and the error message.
-
-**(iii) RcppDeepState::deepstate_harness_analyze_one**: This function takes the path to the package as the input argument and converts all the function-specific binary input files to readable text files and also generates a Valgrind log for the functions when these inputs are passed.
-
-Each binary crash/fail file has a folder where it stores the binary file, input text file, the Valgrind log file. After the Valgrind log is generated this method makes a call to deepstate_display() which takes the log file as the input and returns a data table with inputs and errortrace.
-
-This method will be useful when we want to examine all the crash/fails in the package.
-
-**(iv) RcppDeepState::deepstate_ci_setup**: This function will create/edit the .travis.yml to make it easy for developers to use RcppDeepState on Travis-CI. 
-
-The .travis.yml file for any package that uses RcppDeepState should contain:
-
-**before_install:**
-  - sudo apt-get install build-essential gcc-multilib g++-multilib cmake python3-setuptools libffi-dev
-
-These libraries are necessary to build the static deepstate library.
-
-**before_script:**
-  - R -e "devtools::load_all()"
-
-It is important to load your package before you test it.
-
-**r_packages:** Here we need to specify the R packages that are used by your package.
-
-**env:** - VALGRIND_OPTS='--leak-check=full --track-origins=yes' 
-
-Use this env variable to set the VALGRIND_OPTS tag for leak checks.
-
-This function also creates a test file named rcppdeepstate-test.R which makes a call to all three functions we discussed above. 
-
-1. deepstate_pkg_create - creating the testharness for the package.
-2. deepstate_harness_compile_run - compiles the testharness for all the functions in the package.
-3. deepstate_user_error_display - captures the errors from the lo files.
-
-The tests check if src.files.lines  from the error list are empty. If the test fails it means that your package has errors in it and you need to resolve them.
 

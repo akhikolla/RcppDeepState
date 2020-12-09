@@ -46,7 +46,7 @@ deepstate_pkg_create<-function(package_path){
       params <- c(functions.rows$argument.type)
       filepath <-deepstate_fun_create(package_path,function_name.i)
       filename <- paste0(function_name.i,"_DeepState_TestHarness",".cpp")
-      if(basename(filepath) ==  filename ){
+      if(!is.na(filepath) && basename(filepath) ==  filename ){
         match_count = match_count + 1
         harness <- c(harness,filename) 
       }
@@ -59,13 +59,13 @@ deepstate_pkg_create<-function(package_path){
     }
     
     if(match_count > 0 && match_count == length(fun_names)){
-      cat(sprintf("Testharness created for %d functions in the package\n",match_count))
+      message(sprintf("Testharness created for %d functions in the package\n",match_count))
       return(as.character(harness))
     }
     else{
       if(mismatch_count < length(fun_names) && length(failed.harness) > 0 && match_count != 0){
         message(sprintf("Failed to create testharness for %d functions in the package - %s\n",mismatch_count,paste(failed.harness, collapse=", ")))
-        cat(sprintf("Testharness created for %d functions in the package\n",match_count))
+        message(sprintf("Testharness created for %d functions in the package\n",match_count))
         return(as.character(harness))
       }  
     }

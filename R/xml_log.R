@@ -104,3 +104,5 @@ address.trace<-function(err.node){
 get_string <- function(node, child){
   paste(xml2::xml_contents(xml2::xml_child(node, child)))
 }
+
+  

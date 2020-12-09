@@ -13,7 +13,6 @@
 ##' @import RInside
 ##' @import qs
 ##' @export
-
 deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all"){
   path <-normalizePath(path, mustWork=TRUE)
   package_name <- sub("/$","",path)
@@ -42,6 +41,24 @@ deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all")
     
   }
 }
+
+##' @title analyze the binary file 
+##' @param logtable.list logtable  column of result table
+##' @export
+issues.table <- function(logtable.list){
+  logtable.list <- do.call(rbind, logtable.list)
+  logtable.list.unique <-unique(logtable.list, incomparables = FALSE)
+  print(logtable.list.unique)
+}
+##' @title analyze the binary file 
+##' @param inputs.column inputs column of result table
+##' @export
+inputs.table <- function(inputs.column){
+  inputs.list <- do.call(rbind, inputs.column)
+  inputs.list.unique <-unique(inputs.list, incomparables = FALSE)
+  print(inputs.list.unique)
+}
+
 
 
 ##' @title analyze the binary file 
@@ -93,3 +110,5 @@ deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) 
   seed_log_analyze <- data.table(inputs=list(inputs_list),logtable=list(logtable))
   return(seed_log_analyze)
 }
+
+

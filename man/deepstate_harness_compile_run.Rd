@@ -4,10 +4,12 @@
 \alias{deepstate_harness_compile_run}
 \title{Harness compilation for the package}
 \usage{
-deepstate_harness_compile_run(package_path)
+deepstate_harness_compile_run(package_path, time.limit.seconds = 5)
 }
 \arguments{
 \item{package_path}{to the test package}
+
+\item{time.limit.seconds}{duration to run the testharness, defaulted to 5 seconds}
 }
 \value{
 A character vector of compiled functions.
