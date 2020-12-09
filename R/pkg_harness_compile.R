@@ -18,7 +18,7 @@ deepstate_harness_compile_run <- function(package_path,time.limit.seconds=5){
   test_path <- file.path(inst_path,"testfiles")
   uncompiled.code <- list()
   compiled.code <- list()
-  testharness<-RcppDeepState::deepstate_pkg_create(package_path)
+  testharness<-deepstate_pkg_create(package_path)
   testharness <- gsub("_DeepState_TestHarness.cpp","",testharness)
   functions.list <- Sys.glob(file.path(test_path,"*"))
   #no harness created

@@ -95,7 +95,7 @@ This function returns the list of function's Testharness that are successfully c
 
 ```{r}
 fun_name <- "rcpp_read_out_of_bound"
-harness.fun <- deepstate_fuzz_fun(package_path,fun_name)
+harness.fun <- deepstate_fuzz_fun(path,fun_name)
 harness.fun
 
 #Runs the harness specified number of seconds
