@@ -163,7 +163,7 @@ We can analyze a single binary file to check the output of the file.
 
 ```{r}
 fun_name <- "rcpp_read_out_of_bound"
-binary.dir <- file.path(package_path,"inst/testfiles",fun_name,paste0(fun_name,"_output"))
+binary.dir <- file.path(path,"inst/testfiles",fun_name,paste0(fun_name,"_output"))
 binary.files <- Sys.glob(file.path(binary.dir,"*"))
 binary.files[1]
 analyze.result <- deepstate_analyze_file(binary.files[1])
