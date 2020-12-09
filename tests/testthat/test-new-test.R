@@ -30,6 +30,13 @@ test_that("compile run after create pkg", {
   expect_identical(dhcr,as.character(funs.list))
 })
 
+fun_name <- "rcpp_read_out_of_bound"
+compiled.harness.timer <- RcppDeepState::deepstate_fuzz_fun(path,fun_name,time.limit.seconds=3)
+print(compiled.harness.timer)
+test_that("fuzz fun", {
+  expect_identical(compiled.harness.timer,fun_name)
+})
+
 print(Sys.getenv('TRAVIS'))
 if(identical(Sys.getenv('TRAVIS'), 'true'))
 {  max_inputs=1

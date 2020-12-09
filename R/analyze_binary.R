@@ -62,7 +62,7 @@ inputs.table <- function(inputs.column){
 
 
 ##' @title analyze the binary file 
-##' @param test_function path of the test package
+##' @param test_function path of the test function
 ##' @param seed input seed to pass on the executable
 ##' @param time.limit.seconds duration to run the code
 ##' @export

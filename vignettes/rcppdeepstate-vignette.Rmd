@@ -20,15 +20,15 @@ library(RcppDeepState)
 
 ## RcppDeepState
 
-RcppDeepState is an R package that extends the deepstate testing framework to fuzz test the Rcpp packages. DeepState is a static library that provides common interface to fuzzing and symbolic execution engines. Users can create a testharness and execute it under those fuzzing engines. It also provides a built-in fuzzer to generate tests with learned or random inputs.
+RcppDeepState is an R package that extends the deepstate testing framework to fuzz test the Rcpp packages. DeepState is a static library that provides a common interface to fuzzing and symbolic execution engines. Users can create a testharness and execute it under those fuzzing engines. It also provides a built-in fuzzer to generate tests with learned or random inputs.
 
 ## Generation of TestHarness
 
 RcppDeepState provides three key R functions to test any Rcpp package. 
 
-**(i) RcppDeepState::deepstate_pkg_create**: This function will generate testharnesses for all the functions in the package with default tests being the functions in the package.
+**(i) RcppDeepState::deepstate_pkg_create**: This function will generate test harnesses for all the functions in the package with default tests being the functions in the package.
 
-We have implemented RcppDeepState_* random generation function for only 8 data types and we can create the testharness for the package only if the datatypes in the function are from the given list. 
+We have implemented the RcppDeepState_* random generation function for only 8 data types and we can create the testharness for the package only if the datatypes in the function are from the given list. 
 
 RcppDeepState specific datatypes:
 
@@ -44,11 +44,11 @@ The RcppDeepState_* random generation functions can be overloaded, Users can spe
 
 The output varies depending upon the package:
 
-* If all the functions in the package have their function's argument datatypes in the above specified datatype list then the creation of tests for that function in the package is successful.The function gives a message saying the number of functions the test harness were created for. The function returns a character vector with the names of the testharness that were created.
+* If all the functions in the package have their function's argument data types in the above-specified datatype list then the creation of tests for that function in the package is successful. The function gives a message saying the number of functions the test harness was created for. The function returns a character vector with the names of the testharness that were created.
 
-* If only few functions in the package have their function's argument datatypes in the specified datatype list then the function prints a message giving the count of testharnesses created and also prints the functions for which we failed to create the testharnesses. The function returns  a character vector with the names of the testharness that were created.
+* If only a few functions in the package have their function's argument datatypes in the specified data type list then the function prints a message giving the count of test harnesses created and also prints the functions for which we failed to create the test harnesses. The function returns a character vector with the names of the testharness that were created.
 
-* If none of the functions in the package have their functions datatypes in the specified datatype list then the function returns a names of the all those functions.
+* If none of the functions in the package have their functions datatypes in the specified data type list then the function returns the names of all those functions.
 
 Consider the test path to the testSAN package:
 
@@ -57,7 +57,7 @@ path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
 path
 ```
 
-The test package has 6 Rcpp functions that are expected to produce valgrind issues. 
+The test package has 6 Rcpp functions that are expected to produce Valgrind issues. 
 
 ## TestHarness Creation For a package
 
@@ -66,9 +66,9 @@ list.harness <- RcppDeepState::deepstate_pkg_create(path)
 list.harness
 ```
 
-The function returns the character vector of testharnesses created. This function create a function specific folders in inst/testfiles of the testpackage.
+The function returns the character vector of test harnesses created. This function creates function-specific folders in inst/testfiles of the test package.
 
-Each function specific folder has the function specific testharness and its corresponding makefiles.
+Each function-specific folder has the function-specific testharness and its corresponding makefiles.
 
 ## TestHarness Creation for a Function
 
@@ -87,9 +87,9 @@ compiled.harness.list <- RcppDeepState::deepstate_harness_compile_run(path,5)
 compiled.harness.list
 ```
 
-This function compiles and execute all the functions in the package. We can specify the duration to run the testharness. Usually time limit should always be greater than zero and default time limits runs the testharness for 5 seconds.
+This function compiles and executes all the functions in the package. We can specify the duration to run the testharness. Usually time limit should always be greater than zero and the default time limit runs the testharness for 5 seconds.
 
-This function returns the list of function's Testharness that are successfully compiled and executed.
+This function returns the list of function's Testharness that is successfully compiled and executed.
 
 ## TestHarness Compilation & Execution for Function.
 
@@ -106,9 +106,9 @@ harness.timer.fun
 
 This function executes and returns the name of the function if it is successfully executed. We can adjust the time.limit.seconds arguments to vary the duration of executing the testharness.
 
-Compiling and executing the testharness creates 2 folders in the function specific folders. One folder named inputs has the argument values stored in .qs files and the function specific output folder which has the .crash/.fail/.pass files depending on the result they produced when run with the harness. We can use these inputs in the later part to run the testharness under Valgrind.
+Compiling and executing the testharness creates 2 folders in the function-specific folders. One folder named inputs has the argument values stored in .qs files and the function-specific output folder has the .crash/.fail/.pass files depending on the result they produced when run with the harness. We can use these inputs in the later part to run the testharness under Valgrind.
 
-Inputs files will have the most recent values passed on to the harness. Those .qs files can be read using qread() from qs package.
+Inputs files will have the most recent values passed on to the harness. Those .qs files can be read using qread() from the qs package.
 
 ```{r}
 inputs <- Sys.glob(file.path(path,fun_name,"inputs/*"))
@@ -117,7 +117,7 @@ inputs <- Sys.glob(file.path(path,fun_name,"inputs/*"))
 
 ## Analyze Package Using Valgrind
 
-Now that we the inputs that are created by deepstate_pkg_compile() or deepstate_fuzz_fun() we can use these .crash/.fail/.pass as inputs to the testharness when we run it under valgrind.
+Now that the inputs that are created by deepstate_pkg_compile() or deepstate_fuzz_fun() we can use these .crash/.fail/.pass as inputs to the testharness when we run it under valgrind.
 
 ```{r}
 analyzed.harness <- deepstate_harness_analyze_pkg(path)
@@ -128,16 +128,16 @@ RcppDeepState::issues.table(analyzed.harness$logtable)
 RcppDeepState::inputs.table(analyzed.harness$inputs)
 ```
 
-This function returns a data.table with three columns. The first gives the path to the binary files (.crash/.fail/.pass). The second column gives a list of inputs that are passed to the testharness. The third column has a data.table with list of error messages.
+This function returns a data.table with three columns. The first gives the path to the binary files (.crash/.fail/.pass). The second column gives a list of inputs that are passed to the testharness. The third column has a data.table with a list of error messages.
 
-We can also specify the number of binary files to analyze and number of test functions to analyze.
+We can also specify the number of binary files to analyze and as well as the number of test functions to analyze.
 
 ```{r}
 analyzed.harness <- deepstate_harness_analyze_pkg(path,2,1)
 analyzed.harness
 ```
 
-This function analyzes two testharness functions with one binary file on each of them.The function's default binary files to analyze is set to 3. And the default number for testfiles is to analyze all.
+This function analyzes two testharness functions with one binary file on each of them. The function's default binary files to analyze is set to 3. And the default number for test files is to analyze all.
 
 ## Analyze Function Using Valgrind
 
@@ -147,7 +147,7 @@ analyzed.harness.fun <- deepstate_analyze_fun(path,fun_name)
 analyzed.harness.fun
 ```
 
-The function analyzes a function on given number of binary files.The default max_inpus is set to analyze 3 binary files. The number of max_inputs should be less than number of binary files in the function specifi output folder.
+The function analyzes a function on a given number of binary files. The default max_inpus is set to analyze 3 binary files. The number of max_inputs should be less than the number of binary files in the function-specific output folder.
 
 We can change the number of max_inputs like this.
 
@@ -169,6 +169,46 @@ binary.files[1]
 analyze.result <- deepstate_analyze_file(binary.files[1])
 analyze.result
 ```
+
+## Editable Functions
+
+RcppDeepState allows user to write assertions on the Testharness. Users can also specify the range and the size of the input vector that they want to generate.
+
+```{r}
+deepstate_editable_fun(path,fun_name)
+```
+
+A call to the above function generates two files <fun_name>_DeepState_TestHarness_generation.cpp and 
+<fun_name>_DeepState_TestHarness_checks.cpp in the function specific folder inside the inst/testfiles.
+
+User can edit <fun_name>_DeepState_TestHarness_checks.cpp and add the assert statements/checks that he wants to perform on the return values or the inputs of the function.
+
+```{r}
+deepstate_compile_checks_fun(path,fun_name)
+```
+
+A call to this function checks if there are any assert conditions added, if so then we compile and execute the testharness and return a data table with inputs passed and valgrind errors if there are any.
+
+```{r}
+deepstate_compile_generate_fun(path,fun_name)
+```
+
+User can edit <fun_name>_DeepState_TestHarness_generation.cpp and add the range and size of the inputs vectors to generate.
+
+A call to this function checks if there are any size/range values added, if not then we compile and execute the testharness with the default size and range and returns a data table with inputs passed and valgrind errors if there are any.
+
+## Seed & Timer on TestHarness
+
+RcppDeepState allows users to run their executable on a given seed for given duration under valgrind.
+
+The specified duration should always be greater than zero.
+
+```{r}
+#deepstate_fuzz_fun_analyze(test_function,seed=-1,time.limit.seconds) 
+```
+
+**test_function:** The path to the testharness that user wish to run with specified seed and time under valgrind.
+
 
 
 
