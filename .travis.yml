@@ -1,5 +1,7 @@
 warnings_are_errors: false
+
 language: r
+
 sudo: required
 
 before_install:
@@ -21,8 +23,7 @@ r_packages:
 after_success:
   - Rscript -e 'devtools::load_all();devtools::install();devtools::test()'
   
-r_check_args: '--as-cran --use-valgrind'
-r_build_args: --no-resave-data --no-build-vignettes
+r_check_args: "--as-cran --use-valgrind --no-build-vignettes --ignore-vignettes"
 
 addons:
   apt:
@@ -34,6 +35,5 @@ env:
 
 script: 
   - |
-    travis_wait 160 R CMD build --no-resave-data --no-build-vignettes .
-    travis_wait 160 R CMD check RcppDeepState*tar.gz --as-cran --no-build-vignettes --use-valgrind
-    
+    travis_wait 160 R CMD build .
+    travis_wait 160 R CMD check RcppDeepState*tar.gz
