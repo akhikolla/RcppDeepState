@@ -35,6 +35,5 @@ env:
 script: 
   - |
     travis_wait 160 R CMD build --no-resave-data --no-build-vignettes .
-    travis_wait 160 R CMD check "${PKG_TARBALL}" --as-cran --no-build-vignettes --use-valgrind; CHECK_RET=$?
-
+    travis_wait 160 R CMD check RcppDeepState*tar.gz --as-cran --no-build-vignettes --use-valgrind
     
