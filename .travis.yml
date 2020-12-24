@@ -22,6 +22,7 @@ after_success:
   - Rscript -e 'devtools::load_all();devtools::install();devtools::test()'
   
 r_check_args: '--as-cran --use-valgrind'
+r_build_args: --no-resave-data --no-build-vignettes
 
 addons:
   apt:
@@ -36,5 +37,4 @@ script:
     travis_wait 160 R CMD build --no-resave-data --no-build-vignettes .
     travis_wait 160 R CMD check "${PKG_TARBALL}" --as-cran --no-build-vignettes --use-valgrind; CHECK_RET=$?
 
-r_build_args: --no-resave-data --no-build-vignettes
     
