@@ -2,18 +2,38 @@ library(testthat)
 context("deepstate_compile_run")
 library(RcppDeepState)
 
-#rcppdeepstate.path <- system.file(package="RcppDeepState")
-#resu <- deepstate_pkg_create(rcppdeepstate.path)
+rcppdeepstate.path <- system.file(package="RcppDeepState")
+expect_error(deepstate_pkg_create(rcppdeepstate.path),"pkgdir must refer to the directory containing an R package")
+
 path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
 
 funs.list <- c("rcpp_read_out_of_bound","rcpp_use_after_deallocate","rcpp_use_after_free",
                "rcpp_use_uninitialized","rcpp_write_index_outofbound","rcpp_zero_sized_array")
+
+test_that("Missing testfiles", {
+  expect_error(deepstate_fuzz_fun(path,"rcpp_read_out_of_bound"),"Missing testfiles directory")
+})
+
+write_bound <- deepstate_fun_create(path,"rcpp_write_index_outofbound")
+harness.vec <- paste0("rcpp_write_index_outofbound_DeepState_TestHarness.cpp")
+test_that("write index outofbound", {
+  expect_identical(write_bound,harness.vec)
+})
+
+test_that("failed fuzz harnesss", {
+  expect_error(RcppDeepState::deepstate_fuzz_fun(path,"rcpp_read_out_of_bound"),"TestHarness and makefile doesn't exists. Please use deepstate_pkg_create() to create them")
+})
 
 harness.vec <- paste0(funs.list,"_DeepState_TestHarness.cpp")
 result<-deepstate_pkg_create(path)
 test_that("create files testSAN package", {
   expect_identical(result,harness.vec)
 })
+
+
+
+
+
 
 funpath.list <- paste0(system.file("testpkgs/testSAN/inst/testfiles",
                                    package="RcppDeepState"),"/",funs.list)

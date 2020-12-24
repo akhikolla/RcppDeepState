@@ -7,9 +7,11 @@
 ##' @export
 deepstate_get_package_details <- function(path){
   funs <- ""
-  package_path <- Sys.glob(file.path(
-    path,"src", "RcppExports.cpp"))
-  if(length(package_path) > 0){
+  package_path <- file.path(
+    path,"src", "RcppExports.cpp")
+  if(!file.exists(package_path)){
+  stop("pkgdir must refer to the directory containing an R package")
+  }else{
     funs<- nc::capture_all_str(
       package_path,
       "\n\\s*// ",

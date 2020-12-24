@@ -26,7 +26,7 @@ deepstate_compile_fun<-function(fun_path,sep="infun"){
     cat(sprintf("compiling .. \n%s\n",compile_line))
     system(compile_line)
   }else{
-    message(sprintf("TestHarness and makefile doesn't exists. Please use deepstate_pkg_create() to create them"))
+    stop("TestHarness and makefile doesn't exists. Please use deepstate_pkg_create() to create them")
   }
 }
 
