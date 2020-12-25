@@ -13,6 +13,7 @@
 deepstate_fun_create<-function(package_path,function_name,sep="infun"){
   inst_path <- file.path(package_path, "inst")
   test_path <- file.path(inst_path,"testfiles")
+  
   if(!dir.exists(inst_path)){
     dir.create(inst_path,showWarnings = FALSE)
     dir.create(test_path,showWarnings = FALSE)
