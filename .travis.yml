@@ -6,7 +6,7 @@ sudo: required
 
 before_install:
   - sudo apt-get install build-essential gcc-multilib g++-multilib cmake python3-setuptools libffi-dev
-  - Rscript -e 'install.packages(c("devtools"));if (!all(c("devtools") %in% installed.packages())) { q(status = 1, save = "no")}'
+  - R -e 'source("https://install-github.me/r-lib/remotes")'
 
 r_github_packages:
   - jimhester/covr
