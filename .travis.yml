@@ -16,8 +16,8 @@ before_install:
 r_github_packages:
   - jimhester/covr
   
-before_script:
-  - R -e "devtools::load_all()"
+#before_script:
+ # - R -e "devtools::load_all()"
 
 r_packages:
   - Rcpp
