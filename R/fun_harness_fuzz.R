@@ -53,7 +53,7 @@ deepstate_fuzz_fun<-function(package_path,fun_name,seed=-1,time.limit.seconds=2,
            " --fuzz --fuzz_save_passing --output_test_dir ",output_dir,
            " > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
   }else{
-    paste0("cd ",fun_path," && ","./",test_harness," --seed=",seed,"--timeout=",time.limit.seconds,
+    paste0("cd ",fun_path," && ","./",test_harness," --seed=",seed," --timeout=",time.limit.seconds,
            " --fuzz --fuzz_save_passing --output_test_dir ",output_dir,
            " > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
   }
