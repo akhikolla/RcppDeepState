@@ -6,7 +6,7 @@ sudo: required
 
 install:
   - Rscript -e 'install.packages("devtools", repos = "http://cran.rstudio.com")'
-  - Rscript -e 'install.packages(c("plyr", "geepack", "snowfall"), repos = "http://cran.rstudio.com")'
+  - Rscript -e 'install.packages(c("plyr", "Rcpp","RInside","RcppArmadillo","roxygen2","geepack", "snowfall"), repos = "http://cran.rstudio.com")'
   - Rscript -e 'install.packages("INLA", repos = c("http://www.math.ntnu.no/inla/R/stable", "http://cran.rstudio.com"))'
 
 before_install:
@@ -19,12 +19,12 @@ r_github_packages:
 #before_script:
  # - R -e "devtools::load_all()"
 
-r_packages:
-  - Rcpp
-  - RInside
-  - RcppArmadillo
-  - devtools
-  - roxygen2
+#r_packages:
+ # - Rcpp
+  #- RInside
+  #- RcppArmadillo
+  #- devtools
+  #- roxygen2
 
 after_success:
   - Rscript -e 'devtools::load_all();devtools::install();devtools::test()'
