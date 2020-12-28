@@ -26,8 +26,8 @@ r_github_packages:
   #- devtools
   #- roxygen2
 
-after_success:
-  - Rscript -e 'devtools::load_all();devtools::install();devtools::test()'
+#after_success:
+ # - Rscript -e 'devtools::load_all();devtools::install();devtools::test()'
   
 r_check_args: "--as-cran --use-valgrind --no-build-vignettes --ignore-vignettes"
 
