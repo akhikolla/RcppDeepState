@@ -28,8 +28,8 @@ r_github_packages:
 
 #after_success:
  # - Rscript -e 'devtools::load_all();devtools::install();devtools::test()'
-  
-r_check_args: "--as-cran --use-valgrind --no-build-vignettes --ignore-vignettes"
+r_check_args: "--no-vignettes --no-build-vignettes --ignore-vignettes"  
+#r_check_args: "--as-cran --use-valgrind --no-build-vignettes --ignore-vignettes"
 
 addons:
   apt:
