@@ -6,8 +6,8 @@
 ##' on the result/generated inputs.
 ##' @export
 deepstate_editable_fun<-function(package_path,function_name){
-  deepstate_fun_create(package_name,function_name,sep="generation")  
-  deepstate_fun_create(package_name,function_name,sep="checks")  
+  deepstate_fun_create(package_path,function_name,sep="generation")  
+  deepstate_fun_create(package_path,function_name,sep="checks")  
   }
 
 ##' @title  Generation Testharness compilation
