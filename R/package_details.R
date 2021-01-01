@@ -1,14 +1,17 @@
-##' @title gets package details
-##' @return function list with function names and arguments
-##' @param path to the RcppExports file
+##' @title Package Details
+##' @return A list with all the relevant data in the RcppExrpots
+##' @param path to the package with RcppExports file
+##' @description Ths function takes the path to the test package and captures the argument specific data.
 ##' @import nc
 ##' @import data.table
 ##' @export
 deepstate_get_package_details <- function(path){
   funs <- ""
-  package_path <- Sys.glob(file.path(
-    path,"src", "RcppExports.cpp"))
-  if(length(package_path) > 0){
+  package_path <- file.path(
+    path,"src", "RcppExports.cpp")
+  if(!file.exists(package_path)){
+  stop("pkgdir must refer to the directory containing an R package")
+  }else{
     funs<- nc::capture_all_str(
       package_path,
       "\n\\s*// ",
@@ -27,12 +30,14 @@ deepstate_get_package_details <- function(path){
   }
 }
 
-##' @title gets function body
-##' @return function.list list with function names and arguments
-##' @param package_name to the RcppExports file
+##' @title Function Details
+##' @return A list with function names and arguments
+##' @param package_path path to the test package
+##' @examples
+##' deepstate_get_function_body(system.file("testpkgs/testSAN", package = "RcppDeepState")) 
 ##' @export
-deepstate_get_function_body<-function(package_name){
-  funs <-  RcppDeepState::deepstate_get_package_details(package_name) 
+deepstate_get_function_body<-function(package_path){
+  funs <-  RcppDeepState::deepstate_get_package_details(package_path) 
   function.list <-""
   if(nrow(funs) > 0){
     function.list <- funs[,{
@@ -47,12 +52,12 @@ deepstate_get_function_body<-function(package_name){
   return(function.list)
 }
 
-##' @title gets prototype calls
-##' @return prototypes list with function prototype
-##' @param package_name to the RcppExports file
+##' @title Prototypes
+##' @return prototypes list with function prototypes
+##' @param package_path to the RcppExports file
 ##' @export
-deepstate_get_prototype_calls <-function(package_name){
-  funs <-  RcppDeepState::deepstate_get_package_details(package_name) 
+deepstate_get_prototype_calls <-function(package_path){
+  funs <-  RcppDeepState::deepstate_get_package_details(package_path) 
   codes <- funs[,{nc::capture_all_str(code,"::wrap",calls ="(?:.*)")},by=funName]
   prototypes <-funs[,.(funName,prototype,calls=codes$calls)]
   return(prototypes)

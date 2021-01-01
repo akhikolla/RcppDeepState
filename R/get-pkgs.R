@@ -1,12 +1,3 @@
-##' @title  deepstate_getRcpppackages
-##' @export
-deepstate_getRcpppackages <- function(){
-packages <- file.path(system.file("extdata",package="RcppDeepState"),"packages")
-Rcpp.LinkingTo.pkgs <- devtools::revdep("Rcpp", "LinkingTo")
-dir.create(packages)
-download.packages(Rcpp.LinkingTo.pkgs, packages, type="source")
-}
-
 ##' @title  deepstate_datatype_check
 ##' @param params.list to the package test file
 ##' @export
@@ -36,7 +27,7 @@ globalVariables(c("argument.name","funName","argument.type","calls"
                   ,"code","funName",".","error.i","src.file.lines",
                   "heapsum","file.line","arg.name","value",":=",".N","f","fun_name"
                   ,"read.table","new.i.vec","download.file","result","inputs",
-                  "rest","status","fun","max_inputs","pkg.list","testfiles.res"))
+                  "rest","status","fun","max_inputs","package_name","pkg.list","testfiles.res"))
 
 globalVariables(c("error.i","error.type","sanitizer","function.i",
                   "src.file.lines","heapsum","file.line","arg.name",

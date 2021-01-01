@@ -1,8 +1,10 @@
-##' @title return datatable for parse xml data 
+##' @title Parse xml data 
 ##' @param xml.file the input log file path
 ##' @return line.num.dt list with error messgae,line number where the error ocuured
 ##' @import data.table
 ##' @import xml2
+##' @description Generates a data table with valgrind error message, address trace 
+##' and the line number and file name where the issue occured
 ##' @export
 deepstate_read_valgrind_xml <- function(xml.file){
   xml.lines <- readLines(xml.file)
@@ -88,7 +90,7 @@ address.trace<-function(err.node){
   if(any(names(childs)=="auxwhat")){
     aux.val <- which(names(childs)=="auxwhat")
     stack.val <- names(childs)[aux.val+1] == "stack"
-    output <- if(!is.na(stack.val) && stack.val == TRUE)
+      output <- if(!is.na(stack.val) && stack.val[1] == TRUE)
      "stack"
   }else{
     NA_character_
@@ -102,3 +104,5 @@ address.trace<-function(err.node){
 get_string <- function(node, child){
   paste(xml2::xml_contents(xml2::xml_child(node, child)))
 }
+
+  

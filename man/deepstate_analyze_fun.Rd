@@ -2,15 +2,37 @@
 % Please edit documentation in R/analyze_binary_one.R
 \name{deepstate_analyze_fun}
 \alias{deepstate_analyze_fun}
-\title{analyze the binary for one function}
+\title{Analyze Harness for the function}
 \usage{
-deepstate_analyze_fun(fun_path, max_inputs = "all")
+deepstate_analyze_fun(
+  package_path,
+  fun_name,
+  max_inputs = "all",
+  sep = "infun"
+)
 }
 \arguments{
-\item{fun_path}{function path to run}
+\item{package_path}{path to the test package}
 
-\item{max_inputs}{input arguments}
+\item{fun_name}{path of the function to compile}
+
+\item{max_inputs}{maximum number of inputs to run on the executable under valgrind. defaults to all}
+
+\item{sep}{default to infun}
+}
+\value{
+A data table with inputs, error messages, address trace and line numbers
 }
 \description{
-analyze the binary for one function
+Analyzes the function-specific testharness in the package under valgrind.
+}
+\examples{
+#package_path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+#fun_name <- "rcpp_read_out_of_bound"
+#analyzed.fun <- deepstate_analyze_fun(package_path,fun_name)
+#print(analyzed.fun)
+#to see all the issues that are detected by RcppDeepState
+#print(issues.table(analyzed.fun$logtable))
+#to see all the inputs that caused the issues
+#print(inputs.table(analyzed.fun$inputs))
 }

@@ -2,16 +2,16 @@
 % Please edit documentation in R/package_details.R
 \name{deepstate_get_package_details}
 \alias{deepstate_get_package_details}
-\title{gets package details}
+\title{Package Details}
 \usage{
 deepstate_get_package_details(path)
 }
 \arguments{
-\item{path}{to the RcppExports file}
+\item{path}{to the package with RcppExports file}
 }
 \value{
-function list with function names and arguments
+A list with all the relevant data in the RcppExrpots
 }
 \description{
-gets package details
+Ths function takes the path to the test package and captures the argument specific data.
 }

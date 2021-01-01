@@ -1,8 +1,13 @@
-##' @title  analyze the binary file 
-##' @param path to test
-##' @param max_inputs no of bin files to analyze
-##' @param testfiles no of test files to test
-##' @return returns a list of all the param values of the arguments of function
+##' @title Analyze Harness for the Package
+##' @param path path of the test package to analyze
+##' @param max_inputs maximum number of inputs to run on the executable under valgrind. defaults to all
+##' @param testfiles number of functions to analyze in the package
+##' @description Analyze all the function specific testharness in the package under valgrind.
+##' @examples
+##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+##' analyzed.harness <- deepstate_harness_analyze_pkg(path)
+##' print(analyzed.harness)
+##' @return A list of data tables with inputs, error messages, address trace and line numbers for specified testfiles.
 ##' @import methods
 ##' @import Rcpp
 ##' @import RInside
@@ -24,7 +29,7 @@ deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all")
       test.files <- test.files[1:testfiles]
     }
     for(pkg.i in seq_along(test.files)){
-      list_testfiles[basename(test.files[[pkg.i]])] <- list(deepstate_analyze_fun(test.files[[pkg.i]],max_inputs))
+      list_testfiles[basename(test.files[[pkg.i]])] <- list(deepstate_analyze_fun(path,basename(test.files[[pkg.i]]),max_inputs))
     }
     list_testfiles <- do.call(rbind,list_testfiles)
     # print(list_testfiles)
@@ -37,9 +42,27 @@ deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all")
   }
 }
 
+##' @title analyze the binary file 
+##' @param logtable.list logtable  column of result table
+##' @export
+issues.table <- function(logtable.list){
+  logtable.list <- do.call(rbind, logtable.list)
+  logtable.list.unique <-unique(logtable.list, incomparables = FALSE)
+  print(logtable.list.unique)
+}
+##' @title analyze the binary file 
+##' @param inputs.column inputs column of result table
+##' @export
+inputs.table <- function(inputs.column){
+  inputs.list <- do.call(rbind, inputs.column)
+  inputs.list.unique <-unique(inputs.list, incomparables = FALSE)
+  print(inputs.list.unique)
+}
+
+
 
 ##' @title analyze the binary file 
-##' @param test_function path of the test package
+##' @param test_function path of the test function
 ##' @param seed input seed to pass on the executable
 ##' @param time.limit.seconds duration to run the code
 ##' @export
@@ -87,3 +110,5 @@ deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) 
   seed_log_analyze <- data.table(inputs=list(inputs_list),logtable=list(logtable))
   return(seed_log_analyze)
 }
+
+

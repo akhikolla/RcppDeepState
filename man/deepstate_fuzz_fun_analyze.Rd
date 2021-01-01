@@ -7,7 +7,7 @@
 deepstate_fuzz_fun_analyze(test_function, seed = -1, time.limit.seconds)
 }
 \arguments{
-\item{test_function}{path of the test package}
+\item{test_function}{path of the test function}
 
 \item{seed}{input seed to pass on the executable}
 

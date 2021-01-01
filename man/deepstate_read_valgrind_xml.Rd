@@ -2,7 +2,7 @@
 % Please edit documentation in R/xml_log.R
 \name{deepstate_read_valgrind_xml}
 \alias{deepstate_read_valgrind_xml}
-\title{return datatable for parse xml data}
+\title{Parse xml data}
 \usage{
 deepstate_read_valgrind_xml(xml.file)
 }
@@ -13,5 +13,6 @@ deepstate_read_valgrind_xml(xml.file)
 line.num.dt list with error messgae,line number where the error ocuured
 }
 \description{
-return datatable for parse xml data
+Generates a data table with valgrind error message, address trace 
+and the line number and file name where the issue occured
 }

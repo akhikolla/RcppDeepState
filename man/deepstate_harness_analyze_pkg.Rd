@@ -2,20 +2,25 @@
 % Please edit documentation in R/analyze_binary.R
 \name{deepstate_harness_analyze_pkg}
 \alias{deepstate_harness_analyze_pkg}
-\title{analyze the binary file}
+\title{Analyze Harness for the Package}
 \usage{
 deepstate_harness_analyze_pkg(path, testfiles = "all", max_inputs = "all")
 }
 \arguments{
-\item{path}{to test}
+\item{path}{path of the test package to analyze}
 
-\item{testfiles}{no of test files to test}
+\item{testfiles}{number of functions to analyze in the package}
 
-\item{max_inputs}{no of bin files to analyze}
+\item{max_inputs}{maximum number of inputs to run on the executable under valgrind. defaults to all}
 }
 \value{
-returns a list of all the param values of the arguments of function
+A list of data tables with inputs, error messages, address trace and line numbers for specified testfiles.
 }
 \description{
-analyze the binary file
+Analyze all the function specific testharness in the package under valgrind.
+}
+\examples{
+path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
+analyzed.harness <- deepstate_harness_analyze_pkg(path)
+print(analyzed.harness)
 }
