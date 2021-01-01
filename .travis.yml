@@ -1,6 +1,23 @@
+warnings_are_errors: false
+
 language: r
 
 sudo: required
+
+install:
+  - Rscript -e 'install.packages("devtools", repos = "http://cran.rstudio.com")'
+  - Rscript -e 'install.packages(c("plyr", "Rcpp","RInside","RcppArmadillo","roxygen2","geepack", "snowfall","data.table","qs","nc"), repos = "http://cran.rstudio.com")'
+  - Rscript -e 'install.packages("INLA", repos = c("http://www.math.ntnu.no/inla/R/stable", "http://cran.rstudio.com"))'
+
+before_install:
+  - sudo apt-get install build-essential gcc-multilib g++-multilib cmake python3-setuptools libffi-dev
+#  - R -e 'source("https://install-github.me/r-lib/remotes")'
+
+r_github_packages:
+  - jimhester/covr
+  
+#before_script:
+ # - R -e "devtools::load_all()"
 
 r_packages:
   - Rcpp
@@ -8,37 +25,21 @@ r_packages:
   - RcppArmadillo
   - devtools
   - roxygen2
-  - rmarkdown
-  - here
 
-apt_packages:
-  - texlive
-  - ghostscript
-  - texlive-fonts-extra
-  - texinfo  
-  
+#after_success:
+ # - Rscript -e 'devtools::load_all();devtools::install();devtools::test()'
 r_check_args: "--no-vignettes --no-build-vignettes --ignore-vignettes"  
+#r_check_args: "--as-cran --use-valgrind --no-build-vignettes --ignore-vignettes"
 
 addons:
   apt:
     packages:
       - valgrind
-
-#script: 
- # - |
-  #  travis_wait 160 R CMD build .
-   # travis_wait 160 R CMD check RcppDeepState*tar.gz  
-
-notifications:
-  email:
-    on_success: change
-    on_failure: change
-
+      
 env:
   - VALGRIND_OPTS='--leak-check=full --track-origins=yes'
-  - TEST_SUITE=CRAN
-  - TEST_SUITE=TRAVIS
 
-script:
-  - R CMD INSTALL .
-  - if [ "$TEST_SUITE" == "CRAN" ];then bash build.sh;else Rscript -e "source('tests/testthat.R', chdir = TRUE)";fi
+script: 
+  - |
+    travis_wait 160 R CMD build .
+    travis_wait 160 R CMD check RcppDeepState*tar.gz
