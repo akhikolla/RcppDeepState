@@ -13,7 +13,6 @@
 deepstate_fun_create<-function(package_path,function_name,sep="infun"){
   inst_path <- file.path(package_path, "inst")
   test_path <- file.path(inst_path,"testfiles")
-  
   if(!dir.exists(inst_path)){
     dir.create(inst_path,showWarnings = FALSE)
     dir.create(test_path,showWarnings = FALSE)
@@ -81,8 +80,8 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
       write(paste0(write_to_file,comment,headers),file_path,append = TRUE)
     }
     write_to_file <-paste0(write_to_file,pt[1,pt$prototype],"\n")
-    testname<-paste0(function_name,"_test",sep="")
-    unittest<-paste0(packagename,"_deepstate_test")
+    testname<-gsub(".","",paste0(function_name,"_test",sep=""))
+    unittest<-gsub(".","",paste0(packagename,"_deepstate_test"))
     write_to_file <- paste0(write_to_file,"\n","TEST(",unittest,",",testname,")","{","\n")
     #obj <-gsub( "\\s+", " " ,paste(in_package,tolower(in_package),";","\n"))
     #write(obj,filename,append = TRUE)

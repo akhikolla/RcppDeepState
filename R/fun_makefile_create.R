@@ -36,6 +36,7 @@ deepstate_create_makefile <-function(package,fun_name){
   log_file_path <- file.path(fun_path,paste0(fun_name,"_log"))
   write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
   compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${COMMON_FLAGS} ","-I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",deepstate.header," ")
+  install.packages(setdiff(basename(package), rownames(installed.packages())))
   obj.file.list <-Sys.glob(file.path(package,"src/*.so"))
   obj.file.path <- obj.file.list
   if(length(obj.file.list) <= 0){
