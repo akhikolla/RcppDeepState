@@ -19,12 +19,12 @@ r_github_packages:
 #before_script:
  # - R -e "devtools::load_all()"
 
-r_packages:
-  - Rcpp
-  - RInside
-  - RcppArmadillo
-  - devtools
-  - roxygen2
+#r_packages:
+ # - Rcpp
+  #- RInside
+  #- RcppArmadillo
+  #- devtools
+  #- roxygen2
 
 #after_success:
  # - Rscript -e 'devtools::load_all();devtools::install();devtools::test()'
