@@ -22,7 +22,7 @@ deepstate_create_makefile <-function(package,fun_name){
   path_home <-paste0("R_HOME=",R.home())
   path_include <-paste0("R_INCLUDE=",R.home("include"))
   path_lib <-paste0("R_LIB=",R.home("lib"))
-  write_to_file<-paste0(write_to_file,path_home,"\n",path_include,"\n")
+  write_to_file<-paste0(write_to_file,path_home,"\n",path_include,"\n",path_lib,"\n")
   insts.path <- "${HOME}"
   deepstate.path <- file.path(insts.path,".RcppDeepState")
   master <- file.path(deepstate.path,"deepstate-master")
