@@ -19,8 +19,9 @@ deepstate_create_makefile <-function(package,fun_name){
   makefile.cpp_path<-file.path(fun_path,makefile.name.cpp)
   test_harness_path <- file.path(fun_path,test_harness)
   file.create(makefile_path, recursive=TRUE)
-  path <-paste("R_HOME=",dirname(R.home('include')))
-  write_to_file<-paste0(write_to_file,path,"\n")
+  path_home <-paste0("R_HOME=",R.home())
+  path_include <-paste0("R_INCLUDE=",R.home("include"))
+  write_to_file<-paste0(write_to_file,path_home,"\n",path_include,"\n")
   insts.path <- "${HOME}"
   deepstate.path <- file.path(insts.path,".RcppDeepState")
   master <- file.path(deepstate.path,"deepstate-master")
@@ -35,7 +36,7 @@ deepstate_create_makefile <-function(package,fun_name){
   write_to_file<-paste0(write_to_file,flags)
   log_file_path <- file.path(fun_path,paste0(fun_name,"_log"))
   write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
-  compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${COMMON_FLAGS} ","-I${R_HOME}/include -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",deepstate.header," ")
+  compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${COMMON_FLAGS} ","-I${R_INCLUDE} -I", system.file("include", package="Rcpp")," -I",system.file("include", package="RcppArmadillo")," -I",deepstate.header," ")
   install.packages(setdiff(basename(package), rownames(installed.packages())))
   obj.file.list <-Sys.glob(file.path(package,"src/*.so"))
   obj.file.path <- obj.file.list
@@ -47,7 +48,7 @@ deepstate_create_makefile <-function(package,fun_name){
   dir.create(file.path(fun_path,paste0(fun_name,"_output")), showWarnings = FALSE)
   #write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/home/",p$val,"testfiles","/",p$packagename)," && ","./",test_harness," --fuzz")
   write_to_file<-paste0(write_to_file,"\n\n",makefile.o_path," : ",makefile.cpp_path)
-  write_to_file<-paste0(write_to_file,"\n\t","clang++ -g -I${R_HOME}/include -I", system.file("include", package="Rcpp"),
+  write_to_file<-paste0(write_to_file,"\n\t","clang++ -g -I${R_INCLUDE} -I", system.file("include", package="Rcpp"),
                         " -I",system.file("include", package="RcppArmadillo")," -I",system.file("include", package="qs")," -I",system.file("include", package="RInside"),
                         " -I",system.file("include",package="RcppDeepState")," ",makefile.cpp_path," -o ",makefile.o_path," -c")
   write(write_to_file,makefile_path,append=TRUE)
