@@ -9,7 +9,7 @@ deepstate_create_makefile <-function(package,fun_name){
   #p <- nc::capture_all_str(list.paths$remain_path,val=".+/",folder=".+/",packagename=".*")
   test_path <- file.path(inst_path,"testfiles")
   fun_path <- file.path(test_path,fun_name)
-  write_to_file <- ""
+
   makefile.name <-paste0("Makefile")
   test_harness <- paste0(fun_name,"_DeepState_TestHarness")
   makefile_path <- file.path(fun_path,makefile.name)
@@ -22,7 +22,7 @@ deepstate_create_makefile <-function(package,fun_name){
   path_home <-paste0("R_HOME=",R.home())
   path_include <-paste0("R_INCLUDE=",R.home("include"))
   path_lib <-paste0("R_LIB=",R.home("lib"))
-  write_to_file<-paste0(write_to_file,path_home,"\n",path_include,"\n",path_lib,"\n")
+  write_to_file<-paste0(path_home,"\n",path_include,"\n",path_lib,"\n")
   insts.path <- "${HOME}"
   deepstate.path <- file.path(insts.path,".RcppDeepState")
   master <- file.path(deepstate.path,"deepstate-master")
