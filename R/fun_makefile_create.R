@@ -21,6 +21,7 @@ deepstate_create_makefile <-function(package,fun_name){
   file.create(makefile_path, recursive=TRUE)
   path_home <-paste0("R_HOME=",R.home())
   path_include <-paste0("R_INCLUDE=",R.home("include"))
+  path_lib <-paste0("R_LIB=",R.home("lib"))
   write_to_file<-paste0(write_to_file,path_home,"\n",path_include,"\n")
   insts.path <- "${HOME}"
   deepstate.path <- file.path(insts.path,".RcppDeepState")
@@ -31,7 +32,7 @@ deepstate_create_makefile <-function(package,fun_name){
                   system.file("include",package="RcppDeepState")," -I",deepstate.build," -I",
                   deepstate.header," -L",system.file("lib", package="RInside"),
                   " -Wl,-rpath=",system.file("lib", package="RInside"),
-                  " -L${R_HOME}/lib -Wl,-rpath=${R_HOME}/lib"," -L",deepstate.build,
+                  " -L${R_LIB} -Wl,-rpath=${R_LIB}"," -L",deepstate.build,
                   " -Wl,-rpath=",deepstate.build," -lR -lRInside -ldeepstate")
   write_to_file<-paste0(write_to_file,flags)
   log_file_path <- file.path(fun_path,paste0(fun_name,"_log"))
