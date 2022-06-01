@@ -20,6 +20,8 @@ deepstate_create_makefile <-function(package,fun_name){
   makefile.cpp_path<-file.path(fun_path,makefile.name.cpp)
   test_harness_path <- file.path(fun_path,test_harness)
   file.create(makefile_path, recursive=TRUE)
+
+  # R home, include and lib directories
   path_home <-paste0("R_HOME=",R.home())
   path_include <-paste0("R_INCLUDE=",R.home("include"))
   path_lib <-paste0("R_LIB=",R.home("lib"))
@@ -57,24 +59,21 @@ deepstate_create_makefile <-function(package,fun_name){
   compiler_ldlibs <- paste("-lR", "-lRInside", "-ldeepstate")
   write_to_file <- paste0(write_to_file, "LDLIBS=",compiler_ldlibs, "\n\n")
 
-  # compiler line
-  write_to_file<-paste0(write_to_file,"\n\n",test_harness_path," : ",makefile.o_path)
-  compile.line <- paste0("\n\t","clang++ -g -o ",test_harness_path," ${CPPFLAGS} ", " ${LDFLAGS} ", " ${LDLIBS} ")
   install.packages(setdiff(basename(package), rownames(installed.packages())))
-  
-  obj.file.list <-Sys.glob(file.path(package,"src/*.so"))
+  dir.create(file.path(fun_path, paste0(fun_name,"_output")), showWarnings = FALSE)
+
+  obj.file.list <- Sys.glob(file.path(package,"src/*.so"))
   obj.file.path <- obj.file.list
   if(length(obj.file.list) <= 0){
     obj.file.path<-file.path(package,"src/*.cpp")  
   }
-  objs.add <-file.path(package,paste0("src/",fun_name,".o"))
-  write_to_file<-paste0(write_to_file, compile.line, obj.file.path)#," ",objs.add)
+  objs.add <- file.path(package,paste0("src/", fun_name, ".o"))
+ 
+  # Makefile rules : compile lines
+  write_to_file<-paste0(write_to_file, "\n\n", test_harness_path, " : ", makefile.o_path)
+  write_to_file<-paste0(write_to_file, "\n\t", "clang++ -g -o ", test_harness_path, " ", makefile.o_path, " ${CPPFLAGS} ", " ${LDFLAGS} ", " ${LDLIBS} ", obj.file.path) #," ",objs.add)
+  write_to_file<-paste0(write_to_file, "\n\n", makefile.o_path, " : ", makefile.cpp_path)
+  write_to_file<-paste0(write_to_file, "\n\t", "clang++ -g -c ", " ${CPPFLAGS} ", makefile.cpp_path, " -o ", makefile.o_path)
 
-  dir.create(file.path(fun_path,paste0(fun_name,"_output")), showWarnings = FALSE)
-
-  #write_to_file<-paste0(write_to_file,"\n\t","cd ",paste0("/home/",p$val,"testfiles","/",p$packagename)," && ","./",test_harness," --fuzz")
-  write_to_file<-paste0(write_to_file,"\n\n",makefile.o_path," : ",makefile.cpp_path)
-  write_to_file<-paste0(write_to_file,"\n\t","clang++ -g -c ", " ${CPPFLAGS} ", makefile.cpp_path," -o ", makefile.o_path)
-
-  write(write_to_file,makefile_path,append=TRUE)
+  write(write_to_file, makefile_path, append=TRUE)
 }
