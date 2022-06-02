@@ -11,13 +11,12 @@ deepstate_create_makefile <-function(package,fun_name){
   fun_path <- file.path(test_path,fun_name)
   log_file_path <- file.path(fun_path,paste0(fun_name,"_log"))
 
-  makefile.name <-paste0("Makefile")
   test_harness <- paste0(fun_name,"_DeepState_TestHarness")
-  makefile_path <- file.path(fun_path,makefile.name)
-  makefile.name.o <-paste0(test_harness,".o")
-  makefile.name.cpp <-paste0(test_harness,".cpp")
-  makefile.o_path<-file.path(fun_path,makefile.name.o)
-  makefile.cpp_path<-file.path(fun_path,makefile.name.cpp)
+  makefile_path <- file.path(fun_path, "Makefile")
+  test_harness.o <- paste0(test_harness,".o")
+  test_harness.cpp <- paste0(test_harness,".cpp")
+  test_harness.o_path <- file.path(fun_path,test_harness.o)
+  test_harness.cpp_path <- file.path(fun_path,test_harness.cpp)
   test_harness_path <- file.path(fun_path,test_harness)
   file.create(makefile_path, recursive=TRUE)
 
@@ -70,10 +69,10 @@ deepstate_create_makefile <-function(package,fun_name){
   objs.add <- file.path(package,paste0("src/", fun_name, ".o"))
  
   # Makefile rules : compile lines
-  write_to_file<-paste0(write_to_file, "\n\n", test_harness_path, " : ", makefile.o_path)
-  write_to_file<-paste0(write_to_file, "\n\t", "clang++ -g -o ", test_harness_path, " ", makefile.o_path, " ${CPPFLAGS} ", " ${LDFLAGS} ", " ${LDLIBS} ", obj.file.path) #," ",objs.add)
-  write_to_file<-paste0(write_to_file, "\n\n", makefile.o_path, " : ", makefile.cpp_path)
-  write_to_file<-paste0(write_to_file, "\n\t", "clang++ -g -c ", " ${CPPFLAGS} ", makefile.cpp_path, " -o ", makefile.o_path)
+  write_to_file<-paste0(write_to_file, "\n\n", test_harness_path, " : ", test_harness.o_path)
+  write_to_file<-paste0(write_to_file, "\n\t", "clang++ -g -o ", test_harness_path, " ", test_harness.o_path, " ${CPPFLAGS} ", " ${LDFLAGS} ", " ${LDLIBS} ", obj.file.path) #," ",objs.add)
+  write_to_file<-paste0(write_to_file, "\n\n", test_harness.o_path, " : ", test_harness.cpp_path)
+  write_to_file<-paste0(write_to_file, "\n\t", "clang++ -g -c ", " ${CPPFLAGS} ", test_harness.cpp_path, " -o ", test_harness.o_path)
 
   write(write_to_file, makefile_path, append=TRUE)
 }
