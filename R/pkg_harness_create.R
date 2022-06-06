@@ -20,6 +20,9 @@ deepstate_pkg_create<-function(package_path){
   packagename <- basename(package_path)
   unlink(test_path, recursive = TRUE)
   if(!file.exists(file.path(package_path,"src/*.so"))){
+    makevars_file <- file.path(package_path, "src", "Makevars")
+    makevars_content <- "PKG_CXXFLAGS += -g "
+    write(makevars_content, makevars_file, append=FALSE)
     system(paste0("R CMD INSTALL ",package_path),intern = FALSE,ignore.stderr =TRUE,ignore.stdout = TRUE)
   }
   if(!(file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate32.a") &&
