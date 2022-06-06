@@ -13,24 +13,29 @@ deepstate_pkg_create<-function(package_path){
   package_path <-normalizePath(package_path, mustWork=TRUE)
   package_path <- sub("/$","",package_path)
   inst_path <- file.path(package_path, "inst")
-  if(!dir.exists(inst_path)){
+  test_path <- file.path(inst_path,"testfiles")
+
+  # Test directory structure initialization
+  unlink(test_path, recursive = TRUE)
+  if(!dir.exists(inst_path)) {
     dir.create(inst_path)
   }
-  test_path <- file.path(inst_path,"testfiles")
-  packagename <- basename(package_path)
-  unlink(test_path, recursive = TRUE)
-  if(!file.exists(file.path(package_path,"src/*.so"))){
+  dir.create(test_path,showWarnings = FALSE)
+
+  if(!file.exists(file.path(package_path,"src/*.so"))) {
+    # ensure that the debugging symbols are embedded in the resulting shared object
     makevars_file <- file.path(package_path, "src", "Makevars")
     makevars_content <- "PKG_CXXFLAGS += -g "
     write(makevars_content, makevars_file, append=FALSE)
+    
     system(paste0("R CMD INSTALL ",package_path),intern = FALSE,ignore.stderr =TRUE,ignore.stdout = TRUE)
   }
+
   if(!(file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate32.a") &&
        file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate.a")))
   {
     RcppDeepState::deepstate_make_run()
   }
-  dir.create(test_path,showWarnings = FALSE)
   Rcpp::compileAttributes(package_path)
   harness <- list()
   failed.harness <- list()
