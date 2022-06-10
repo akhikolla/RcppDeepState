@@ -177,15 +177,14 @@ Rcpp::NumericMatrix RcppDeepState_NumericMatrix(int row,int column,int low,int h
 //default CharacterVector generation
 Rcpp::CharacterVector RcppDeepState_CharacterVector(){
   int size = DeepState_IntInRange(0,100);
-  int str_len = 20;
   Rcpp::CharacterVector rand_charactervec(size);
   for(int i = 0 ; i < size ; i++){
     OneOf(
       [&] {
-        rand_charactervec[i] = DeepState_CStr_C(str_len, "abcdefghijklmnopqrstuvwxyz");
+        rand_charactervec[i] = DeepState_CStr_C(1, "abcdefghijklmnopqrstuvwxyz");
       },
       [&] {
-        rand_charactervec[i] = DeepState_CStrUpToLen(str_len, "abcdefghijklmnopqrstuvwxyz");
+        rand_charactervec[i] = DeepState_CStrUpToLen(1, "abcdefghijklmnopqrstuvwxyz");
       },
       [&] {
         rand_charactervec[i] = NA_STRING;
