@@ -195,8 +195,9 @@ Rcpp::CharacterVector RcppDeepState_CharacterVector(){
 
 //default string generation
 std::string RcppDeepState_string(){
+  int str_len = DeepState_IntInRange(1,100);
   std::string rand_string;
-  rand_string = DeepState_CStrUpToLen(26,"abcdefghijklmnopqrstuvwxyz");
+  rand_string = DeepState_CStrUpToLen(str_len,"abcdefghijklmnopqrstuvwxyz");
   return rand_string;
 }
 
