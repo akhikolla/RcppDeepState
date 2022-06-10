@@ -86,7 +86,7 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
     #obj <-gsub( "\\s+", " " ,paste(in_package,tolower(in_package),";","\n"))
     #write(obj,filename,append = TRUE)
     indent <- "  "
-    write_to_file<-paste0(write_to_file,indent,"RInside R;\n",indent,"std::cout << #input starts# << std::endl;\n")
+    write_to_file<-paste0(write_to_file,indent,"static RInside R;\n",indent,"std::cout << #input starts# << std::endl;\n")
     proto_args <-""
     for(argument.i in 1:nrow(functions.rows)){
       arg.type <- gsub(" ","",functions.rows [argument.i,argument.type])
