@@ -10,7 +10,6 @@
 using namespace Rcpp;
 using namespace arma;
 using namespace deepstate;
-int rand_size;
 
 //default integer generation
 int RcppDeepState_int(){
@@ -38,7 +37,7 @@ double RcppDeepState_double(double low,double high){
 
 //default NumericVector generation
 Rcpp::NumericVector RcppDeepState_NumericVector(){
-  rand_size = DeepState_IntInRange(0,100);
+  int rand_size = DeepState_IntInRange(0,100);
   double missing_values[] = {DeepState_Double(),R_NaN,R_PosInf,R_NegInf,NA_REAL};
   Rcpp::NumericVector rand_numvec(rand_size);
    OneOf(
@@ -61,6 +60,7 @@ Rcpp::NumericVector RcppDeepState_NumericVector(){
 
 //inclusive range NumericVector generation
 Rcpp::NumericVector RcppDeepState_NumericVector(int size,int low,int high){
+  int rand_size = DeepState_IntInRange(0,100);
   double missing_values[] = {DeepState_Double(),R_NaN,R_PosInf,R_NegInf,NA_REAL};
   Rcpp::NumericVector rand_numvec(size);
   OneOf(
@@ -105,6 +105,7 @@ Rcpp::IntegerVector RcppDeepState_IntegerVector(){
 
 //inclusive range IntegerVector generation
 Rcpp::IntegerVector RcppDeepState_IntegerVector(int size,int low,int high){
+  int rand_size = DeepState_IntInRange(0,100);
   int missing_values[] = {DeepState_Int(),NA_INTEGER};
   Rcpp::IntegerVector rand_intvec(size);
   OneOf(
