@@ -1,0 +1,5 @@
+name: 'Debug info checker'
+description: 'GitHub Action used to check if the binaries compiled for a R library are compiled using the -g parameter'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
