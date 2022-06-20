@@ -10,6 +10,8 @@ path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
 funs.list <- c("rcpp_read_out_of_bound","rcpp_use_after_deallocate","rcpp_use_after_free",
                "rcpp_use_uninitialized","rcpp_write_index_outofbound","rcpp_zero_sized_array")
 
+
+unlink(file.path(path, "inst"), recursive = TRUE)
 test_that("Missing testfiles", {
   expect_error(deepstate_fuzz_fun(path,"rcpp_read_out_of_bound"),"Missing testfiles directory")
 })
