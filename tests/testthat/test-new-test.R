@@ -21,7 +21,7 @@ test_that("write index outofbound", {
 })
 
 test_that("failed fuzz harnesss", {
-  expect_error(RcppDeepState::deepstate_fuzz_fun(path,"rcpp_read_out_of_bound"),"TestHarness and makefile doesn't exists. Please use deepstate_pkg_create() to create them")
+  expect_error(RcppDeepState::deepstate_fuzz_fun(path,"rcpp_read_out_of_bound"),"TestHarness and makefile doesn't exists. Please use deepstate_pkg_create() to create them", fixed=TRUE)
 })
 
 harness.vec <- paste0(funs.list,"_DeepState_TestHarness.cpp")
