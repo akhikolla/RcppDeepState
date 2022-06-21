@@ -4,12 +4,14 @@
 \alias{deepstate_harness_compile_run}
 \title{Harness compilation for the package}
 \usage{
-deepstate_harness_compile_run(package_path, time.limit.seconds = 5)
+deepstate_harness_compile_run(package_path, time.limit.seconds = 5, seed = -1)
 }
 \arguments{
 \item{package_path}{to the test package}
 
 \item{time.limit.seconds}{duration to run the testharness, defaulted to 5 seconds}
+
+\item{seed}{input seed value passed to the executable, -1 to use a random seed}
 }
 \value{
 A character vector of compiled functions.
