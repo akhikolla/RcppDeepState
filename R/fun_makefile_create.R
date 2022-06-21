@@ -58,7 +58,7 @@ deepstate_create_makefile <-function(package,fun_name){
   compiler_ldlibs <- paste("-lR", "-lRInside", "-ldeepstate")
   write_to_file <- paste0(write_to_file, "LDLIBS=",compiler_ldlibs, "\n\n")
 
-  install.packages(setdiff(basename(package), rownames(installed.packages())),repos = "http://cran.us.r-project.org")
+  # install.packages(setdiff(basename(package), rownames(installed.packages())),repos = "http://cran.us.r-project.org")
   dir.create(file.path(fun_path, paste0(fun_name,"_output")), showWarnings = FALSE)
 
   obj.file.list <- Sys.glob(file.path(package,"src/*.so"))
