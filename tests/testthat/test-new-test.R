@@ -94,7 +94,7 @@ test_that("outputfolder files existence", {
 })
 
 list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
-log.result <- deepstate_analyze_file(list.crashes[1])
+log.result <- deepstate_analyze_file(basename(path),list.crashes[1])
 result.data.table <- log.result$logtable[[1]]
 print(result.data.table)
 .f = function() {
