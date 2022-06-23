@@ -166,7 +166,7 @@ fun_name <- "rcpp_read_out_of_bound"
 binary.dir <- file.path(path,"inst/testfiles",fun_name,paste0(fun_name,"_output"))
 binary.files <- Sys.glob(file.path(binary.dir,"*"))
 binary.files[1]
-analyze.result <- deepstate_analyze_file(binary.files[1])
+analyze.result <- deepstate_analyze_file(basename(path),binary.files[1])
 analyze.result
 ```
 
