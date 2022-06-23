@@ -118,8 +118,9 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
                                            " values: ","#"," << ",arg.name,
                                            " << std::endl;","\n",indent,
                                            arg.name,"_stream.close();","\n"))
-        runner_harness_body <- paste0(runner_harness_body,indent,paste0(variable,indent,st_val,indent,file_open))
         generator_harness_body <- paste0(generator_harness_body,indent,paste0(variable,indent,st_val,indent,file_open))
+        runner_harness_body <- paste0(runner_harness_body,indent,paste0(variable,indent,"= ","RcppDeepState_",(type.arg),"()",";\n",indent,file_open))
+
       }
       else{
         if(sep == "generation"){
@@ -168,10 +169,9 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
         print_only <- gsub("# ","\"",paste0("std::cout << ","#",arg.name," values: ","#"," << ",arg.name,
                                            " << std::endl;","\n"))
                                         
-        
-        runner_harness_body <- paste0(runner_harness_body,indent,paste0(variable,indent,st_val,indent,print_only))
         generator_harness_body <- paste0(generator_harness_body,indent,paste0(variable,indent,st_val,indent,file_open))
-                                           
+        runner_harness_body <- paste0(runner_harness_body,indent,paste0(variable,indent,"= ","RcppDeepState_",(type.arg),"()",";\n",indent,print_only))
+
 
       }
       proto_args <- gsub(" ","",paste0(proto_args,arg.name))
@@ -187,7 +187,7 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
     runner_harness_body<-paste0(runner_harness_body,indent,"std::cout << #input ends# << std::endl;\n")
     runner_harness_body<-paste0(runner_harness_body,indent,"try{\n",indent,indent,fun_name,"(",gsub(",$","",proto_args),");\n")
     if(sep == "checks"){
-      runner_harness_body<-paste0(runner_harness_body,indent,"//ASSERT CONDITIONS CAN BE ADDED HERE\n") 
+      runner_harness_body<-paste0(runner_harness_body,indent,indent,"//ASSERT CONDITIONS CAN BE ADDED HERE\n") 
     }
     runner_harness_body<-paste0(runner_harness_body,indent,"}\n",indent,"catch(Rcpp::exception& e){\n",indent,indent,"std::cout<<#Exception Handled#<<std::endl;\n",indent,"}")
     write_to_file<-gsub("#","\"",paste0(write_to_file, generator_harness_header, generator_harness_body,"}", runner_harness_header, runner_harness_body, "\n","}"))

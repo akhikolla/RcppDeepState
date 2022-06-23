@@ -28,8 +28,8 @@ deepstate_compile_generate_fun <-function(package_path,function_name){
     #harness_lines <- gsub("","",harness_lines,fixed=TRUE)
     range_elements <- nc::capture_all_str(harness_lines,"//",
                                           fun_call=".*","\\(")
-    for(fun_range in range_elements$fun_call){
-      range_check <- grep(paste0(fun_range,"();"),harness_lines,value = TRUE,fixed=TRUE)
+    for(fun_range in range_elements$fun_call[1:(length(range_elements$fun_call)/2)]){
+      range_check <- grep(paste0(fun_range,"();"),harness_lines,value = TRUE,fixed=TRUE)[1]
       variable = nc::capture_all_str(range_check,val = ".*","="," RcppDeepState_",
                                      type=".*","\\(")
       #system(paste0("\"grep -e ",fun_range,"(); ",filename," | wc -l\""))
