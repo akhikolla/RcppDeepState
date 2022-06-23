@@ -79,15 +79,18 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
       write(paste0(write_to_file,comment,headers),file_path,append = TRUE)
     }
 
-    write_to_file <- paste0(write_to_file,"RInside Rinstance;\n");  # create a single RInside instance at the beginning
+    write_to_file <- paste0(write_to_file,"RInside Rinstance;\n\n")  # create a single RInside instance at the beginning
     write_to_file <-paste0(write_to_file,pt[1,pt$prototype],"\n")
-    testname<-gsub(".","",paste0(function_name,"_test",sep=""))
-    unittest<-gsub(".","",paste0(packagename,"_deepstate_test"))
-    write_to_file <- paste0(write_to_file,"\n","TEST(",unittest,",",testname,")","{","\n")
+    unittest <- gsub(".","",packagename, fixed=TRUE)
+    
+
+    generator_harness_header <- paste0("\n\n","TEST(",unittest,", generator)","{","\n")
+    runner_harness_header <- paste0("\n\n","TEST(",unittest,", runner)","{","\n")
     #obj <-gsub( "\\s+", " " ,paste(in_package,tolower(in_package),";","\n"))
     #write(obj,filename,append = TRUE)
     indent <- "  "
-    write_to_file<-paste0(write_to_file,indent,"std::cout << #input starts# << std::endl;\n")
+    generator_harness_body<-paste0(indent,"std::cout << #input starts# << std::endl;\n")
+    runner_harness_body<-paste0(indent,"std::cout << #input starts# << std::endl;\n")
     proto_args <-""
     for(argument.i in 1:nrow(functions.rows)){
       arg.type <- gsub(" ","",functions.rows [argument.i,argument.type])
@@ -105,8 +108,8 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
         dir.create(inputs_path)
       }
       if(type.arg == "mat"){
-        write_to_file<-paste0(write_to_file,indent,"std::ofstream ",
-                              gsub(" ","",arg.name),"_stream",";\n")
+        generator_harness_body<-paste0(generator_harness_body,indent,"std::ofstream ",  gsub(" ","",arg.name),"_stream",";\n")
+        runner_harness_body<-paste0(runner_harness_body,indent,"std::ofstream ",  gsub(" ","",arg.name),"_stream",";\n")
         input.vals <- file.path(inputs_path,arg.name)
         file_open <- gsub("# ","\"",paste0(arg.name,"_stream.open(#",input.vals,"# );","\n",indent,
                                            arg.name,"_stream << ", 
@@ -115,6 +118,8 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
                                            " values: ","#"," << ",arg.name,
                                            " << std::endl;","\n",indent,
                                            arg.name,"_stream.close();","\n"))
+        runner_harness_body <- paste0(runner_harness_body,indent,paste0(variable,indent,st_val,indent,file_open))
+        generator_harness_body <- paste0(generator_harness_body,indent,paste0(variable,indent,st_val,indent,file_open))
       }
       else{
         if(sep == "generation"){
@@ -160,6 +165,14 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
         file_open <- gsub("# ","\"",paste0("qs::c_qsave(",arg.name,",#",input.vals,"#,\n","\t\t#high#, #zstd#, 1, 15, true, 1);\n",indent,
                                            "std::cout << ","#",arg.name," values: ","#"," << ",arg.name,
                                            " << std::endl;","\n"))
+        print_only <- gsub("# ","\"",paste0("std::cout << ","#",arg.name," values: ","#"," << ",arg.name,
+                                           " << std::endl;","\n"))
+                                        
+        
+        runner_harness_body <- paste0(runner_harness_body,indent,paste0(variable,indent,st_val,indent,print_only))
+        generator_harness_body <- paste0(generator_harness_body,indent,paste0(variable,indent,st_val,indent,file_open))
+                                           
+
       }
       proto_args <- gsub(" ","",paste0(proto_args,arg.name))
       if(argument.i <= nrow(functions.rows)) {
@@ -169,15 +182,15 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
           proto_args <- paste0(proto_args,",")  
         }
       }
-      write_to_file <- paste0(write_to_file,indent,paste0(variable,indent,st_val,indent,file_open))
     }
-    write_to_file<-paste0(write_to_file,indent,"std::cout << #input ends# << std::endl;\n",indent,"try{\n")
-    write_to_file<-paste0(write_to_file,indent,indent,fun_name,"(",gsub(",$","",proto_args),");\n")
+    generator_harness_body<-paste0(generator_harness_body,indent,"std::cout << #input ends# << std::endl;\n")
+    runner_harness_body<-paste0(runner_harness_body,indent,"std::cout << #input ends# << std::endl;\n")
+    runner_harness_body<-paste0(runner_harness_body,indent,"try{\n",indent,indent,fun_name,"(",gsub(",$","",proto_args),");\n")
     if(sep == "checks"){
-      write_to_file<-paste0(write_to_file,indent,"//ASSERT CONDITIONS CAN BE ADDED HERE\n") 
+      runner_harness_body<-paste0(runner_harness_body,indent,"//ASSERT CONDITIONS CAN BE ADDED HERE\n") 
     }
-    write_to_file<-gsub("#","\"",paste0(write_to_file,indent,"}\n",indent,"catch(Rcpp::exception& e){\n",indent,indent,"std::cout<<#Exception Handled#<<std::endl;\n",indent,"}"))
-    write_to_file<-paste0(write_to_file,"\n","}")
+    runner_harness_body<-paste0(runner_harness_body,indent,"}\n",indent,"catch(Rcpp::exception& e){\n",indent,indent,"std::cout<<#Exception Handled#<<std::endl;\n",indent,"}")
+    write_to_file<-gsub("#","\"",paste0(write_to_file, generator_harness_header, generator_harness_body,"}", runner_harness_header, runner_harness_body, "\n","}"))
     write(write_to_file,file_path,append=TRUE)
     return(filename)
   } else if(deepstate_datatype_check(params) == 0){
