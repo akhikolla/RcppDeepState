@@ -60,17 +60,16 @@ Rcpp::NumericVector RcppDeepState_NumericVector(){
 
 //inclusive range NumericVector generation
 Rcpp::NumericVector RcppDeepState_NumericVector(int size,int low,int high){
-  int rand_size = DeepState_IntInRange(0,100);
   double missing_values[] = {DeepState_Double(),R_NaN,R_PosInf,R_NegInf,NA_REAL};
   Rcpp::NumericVector rand_numvec(size);
   OneOf(
 	    [&] {
-	      for(int i = 0 ; i < rand_size;i++){      
+	      for(int i = 0 ; i < size;i++){      
                rand_numvec[i] = DeepState_DoubleInRange(low,high); 
              }
 	    },
 	    [&] {
-              for(int i = 0 ; i < rand_size - 1 ;i++){      
+              for(int i = 0 ; i < size - 1 ;i++){      
                  rand_numvec[i] = DeepState_DoubleInRange(low,high);   
              }
             for(int i = 0 ; i < 5 ; i++){
