@@ -105,17 +105,16 @@ Rcpp::IntegerVector RcppDeepState_IntegerVector(){
 
 //inclusive range IntegerVector generation
 Rcpp::IntegerVector RcppDeepState_IntegerVector(int size,int low,int high){
-  int rand_size = DeepState_IntInRange(0,100);
   int missing_values[] = {DeepState_Int(),NA_INTEGER};
   Rcpp::IntegerVector rand_intvec(size);
   OneOf(
 	    [&] {
-	      for(int i = 0 ; i < rand_size;i++){      
+	      for(int i = 0 ; i < size;i++){      
                 rand_intvec[i] = DeepState_IntInRange(low,high);
              }
 	    },
 	    [&] {
-		for(int i = 0 ; i < rand_size ;i++){
+		for(int i = 0 ; i < size ;i++){
 	         rand_intvec[i] = DeepState_IntInRange(low,high);
 	  	}
   		for(int i = 0 ; i < 2 ; i++){
