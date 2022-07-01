@@ -14,6 +14,6 @@ Suggests: testthat,
     devtools,
     knitr,
     rmarkdown
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.0
 Encoding: UTF-8
 VignetteBuilder: knitr

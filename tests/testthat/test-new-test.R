@@ -10,6 +10,8 @@ path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
 funs.list <- c("rcpp_read_out_of_bound","rcpp_use_after_deallocate","rcpp_use_after_free",
                "rcpp_use_uninitialized","rcpp_write_index_outofbound","rcpp_zero_sized_array")
 
+
+unlink(file.path(path, "inst"), recursive = TRUE)
 test_that("Missing testfiles", {
   expect_error(deepstate_fuzz_fun(path,"rcpp_read_out_of_bound"),"Missing testfiles directory")
 })
@@ -21,7 +23,7 @@ test_that("write index outofbound", {
 })
 
 test_that("failed fuzz harnesss", {
-  expect_error(RcppDeepState::deepstate_fuzz_fun(path,"rcpp_read_out_of_bound"),"TestHarness and makefile doesn't exists. Please use deepstate_pkg_create() to create them")
+  expect_error(RcppDeepState::deepstate_fuzz_fun(path,"rcpp_read_out_of_bound"),"TestHarness and makefile doesn't exists. Please use deepstate_pkg_create() to create them", fixed=TRUE)
 })
 
 harness.vec <- paste0(funs.list,"_DeepState_TestHarness.cpp")
@@ -92,7 +94,7 @@ test_that("outputfolder files existence", {
 })
 
 list.crashes <-Sys.glob(file.path(funpath.list,paste0(funs.list,"_output"),"*"))
-log.result <- deepstate_analyze_file(list.crashes[1])
+log.result <- deepstate_analyze_file(basename(path),list.crashes[1])
 result.data.table <- log.result$logtable[[1]]
 print(result.data.table)
 .f = function() {

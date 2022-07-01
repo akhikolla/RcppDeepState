@@ -1,6 +1,7 @@
 ##' @title Harness compilation for the package
 ##' @param package_path to the test package
 ##' @param time.limit.seconds duration to run the testharness, defaulted to 5 seconds
+##' @param seed input seed value passed to the executable, -1 to use a random seed
 ##' @description Compiles all the generated function-specific testharness in the package.
 ##' @examples
 ##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
@@ -8,7 +9,7 @@
 ##' print(compiled.harness.list)
 ##' @return A character vector of compiled functions.
 ##' @export
-deepstate_harness_compile_run <- function(package_path,time.limit.seconds=5){
+deepstate_harness_compile_run <- function(package_path,time.limit.seconds=5,seed=-1){
   if(time.limit.seconds <= 0){
     stop("time.limit.seconds should always be greater than zero")
   }
@@ -28,7 +29,7 @@ deepstate_harness_compile_run <- function(package_path,time.limit.seconds=5){
       uncompiled_count = 0
       log_count = 0
       for(fun.path in functions.list){
-        compile.res <- RcppDeepState::deepstate_fuzz_fun(package_path,basename(fun.path),time.limit.seconds)
+        compile.res <- RcppDeepState::deepstate_fuzz_fun(package_path,basename(fun.path),time.limit.seconds,seed=seed)
         if(!is.na(compile.res) && compile.res == basename(fun.path)){
           compiled.code <-c(compiled.code,compile.res)
         }
