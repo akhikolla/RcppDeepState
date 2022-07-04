@@ -33,7 +33,7 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
   params <- c(functions.rows$argument.type)
 
   # check if the parameters are allowed
-  if(deepstate_datatype_check(params) == 0){
+  if(deepstate_datatype_check(params)[[1]] == 0){
     return(NA_character_)
   }
 
