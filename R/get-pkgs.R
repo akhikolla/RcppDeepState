@@ -5,20 +5,15 @@ deepstate_datatype_check <- function(params.list){
   params.list <- gsub("const","",params.list)
   params.list <-gsub("Rcpp::","",params.list)
   params.list <-gsub(" ","",params.list)
-datatypes <- list("NumericVector","NumericMatrix" ,"arma::mat","double",
+  datatypes <- list("NumericVector","NumericMatrix" ,"arma::mat","double",
                   "string","CharacterVector","int","IntegerVector")
-for(pkg.i in seq_along(params.list)){
-  #print(params.list[[pkg.i]])
-  if(is.element(params.list[[pkg.i]], datatypes) =="FALSE"){
-    return(0);
+
+  if (!all(params.list %in% datatypes)){
+    return(0)
   }
-  
+
+  return(1);
 }
-return(1);
-}
-
-
-
 
 
 
