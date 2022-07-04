@@ -7,12 +7,13 @@ deepstate_datatype_check <- function(params.list){
   params.list <-gsub(" ","",params.list)
   datatypes <- list("NumericVector","NumericMatrix" ,"arma::mat","double",
                   "string","CharacterVector","int","IntegerVector")
-
-  if (!all(params.list %in% datatypes)){
-    return(0)
+  matched <- params.list %in% datatypes
+  if (!all(matched)){
+    mismatched_datatypes <- params.list[!matched]
+    return(list(0,mismatched_datatypes))
   }
 
-  return(1);
+  return(list(1,c()));
 }
 
 
