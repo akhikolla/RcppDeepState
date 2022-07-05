@@ -10,7 +10,6 @@
 ##' @return A list of data tables with inputs, error messages, address trace and line numbers for specified testfiles.
 ##' @import methods
 ##' @import Rcpp
-##' @import RInside
 ##' @import qs
 ##' @export
 deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all"){
