@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [test-debug-symbols]
+    branches: [test-debug-symbols, logging-improvements]
   pull_request:
-    branches: [test-debug-symbols]
+    branches: [test-debug-symbols, logging-improvements]
 
 name: R-CMD-check
 
