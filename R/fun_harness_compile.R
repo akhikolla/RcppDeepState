@@ -1,6 +1,7 @@
 ##' @title Harness compilation for the function
 ##' @param fun_path path of the function to compile
 ##' @param sep default to infun
+##' @param verbose used to deliver more in depth information
 ##' @description Compiles the function-specific testharness in the package.
 ##' @examples
 ##' pkg_path <- file.path("./RcppDeepState/testpkgs/testSAN")
@@ -9,7 +10,7 @@
 ##' compiled.harness <- deepstate_compile_fun(path)
 ##' print(compiled.harness)
 ##' @export
-deepstate_compile_fun<-function(fun_path,sep="infun", verbose=getOption("verbose")){
+deepstate_compile_fun<-function(fun_path, sep="infun", verbose=getOption("verbose")){
 
   silent <- if (!verbose) "-s" else ""
 

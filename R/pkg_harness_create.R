@@ -1,5 +1,6 @@
 ##' @title TestHarness for the package
 ##' @param package_path path to the test package
+##' @param verbose used to deliver more in depth information
 ##' @description Creates Testharness for all the functions in the package that you want to test
 ##' using RcppDeepState.
 ##' @examples 

@@ -2,6 +2,7 @@
 ##' @param package_path to the test package
 ##' @param time.limit.seconds duration to run the testharness, defaulted to 5 seconds
 ##' @param seed input seed value passed to the executable, -1 to use a random seed
+##' @param verbose used to deliver more in depth information
 ##' @description Compiles all the generated function-specific testharness in the package.
 ##' @examples
 ##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")

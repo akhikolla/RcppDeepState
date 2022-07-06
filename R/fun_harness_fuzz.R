@@ -4,6 +4,7 @@
 ##' @param seed input seed value to pass on the executable
 ##' @param time.limit.seconds duration to run the executable
 ##' @param sep default to infun
+##' @param verbose used to deliver more in depth information
 ##' @description Executes the function-specific testharness in the package.
 ##' @examples
 ##' package_path <- system.file("testpkgs/testSAN", package = "RcppDeepState")

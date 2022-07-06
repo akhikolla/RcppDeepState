@@ -1,4 +1,5 @@
 ##' @title Deepstate Static library
+##' @param verbose used to deliver more in depth information
 ##' @description Creates a deepstate static library for the user in the ~/.RcppDeepState directory.
 ##' @importFrom utils unzip
 ##' @export

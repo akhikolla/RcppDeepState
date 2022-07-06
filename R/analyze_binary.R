@@ -2,6 +2,7 @@
 ##' @param path path of the test package to analyze
 ##' @param max_inputs maximum number of inputs to run on the executable under valgrind. defaults to all
 ##' @param testfiles number of functions to analyze in the package
+##' @param verbose used to deliver more in depth information
 ##' @description Analyze all the function specific testharness in the package under valgrind.
 ##' @examples
 ##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
@@ -64,6 +65,7 @@ inputs.table <- function(inputs.column){
 ##' @param test_function path of the test function
 ##' @param seed input seed to pass on the executable
 ##' @param time.limit.seconds duration to run the code
+##' @param verbose used to deliver more in depth information
 ##' @export
 deepstate_fuzz_fun_analyze<- function(test_function,seed=-1, time.limit.seconds, verbose=getOption("verbose")) {
   test_function <- normalizePath(test_function,mustWork = TRUE)
