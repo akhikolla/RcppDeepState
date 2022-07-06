@@ -15,7 +15,7 @@
 ##' print(compiled.harness.timer)
 ##' @return The executed function.
 ##' @export
-deepstate_fuzz_fun<-function(package_path,fun_name,seed=-1,time.limit.seconds=2,sep="infun"){
+deepstate_fuzz_fun<-function(package_path,fun_name,seed=-1,time.limit.seconds=2,sep="infun", verbose=getOption("verbose")){
   packagename <- basename(package_path)
 
   if(!dir.exists(file.path(package_path,"inst/testfiles"))){
@@ -39,8 +39,7 @@ deepstate_fuzz_fun<-function(package_path,fun_name,seed=-1,time.limit.seconds=2,
     output_dir <- file.path(fun_path,paste0(fun_name,"_output"))
   }
   if(!file.exists(test_harness.o)){
-    print(fun_path)
-    deepstate_compile_fun(fun_path,sep)
+    deepstate_compile_fun(fun_path, sep, verbose)
   }
   ## If time.limit.seconds is lessthan or equal to zero we return NULL
   if(time.limit.seconds <= 0){
@@ -60,9 +59,11 @@ deepstate_fuzz_fun<-function(package_path,fun_name,seed=-1,time.limit.seconds=2,
            " --input_which_test ",packagename,"_generator > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
   }
   
-  #print(run.executable)
-  cat(sprintf("running the executable .. \n%s\n",run.executable))
-  system(run.executable)
+  if (verbose) {
+    message(sprintf("running the executable .. \n%s\n",run.executable))
+  }
+  system(run.executable, ignore.stdout=!verbose)
+  
   execution <- if(file.exists(test_harness.o) && file.exists(test_harness_path)){
     basename(fun_path)
   }else{

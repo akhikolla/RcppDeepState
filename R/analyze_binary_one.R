@@ -15,7 +15,7 @@
 ##' #print(inputs.table(analyzed.fun$inputs))
 ##' @return A data table with inputs, error messages, address trace and line numbers
 ##' @export
-deepstate_analyze_fun<-function(package_path,fun_name,max_inputs="all",sep="infun"){
+deepstate_analyze_fun<-function(package_path, fun_name, max_inputs="all", sep="infun", verbose=getOption("verbose")){
   fun_path <- file.path(package_path,"inst/testfiles",fun_name)
   fun_path <- normalizePath(fun_path, mustWork=TRUE)
   package_name <- basename(package_path)
@@ -40,7 +40,7 @@ deepstate_analyze_fun<-function(package_path,fun_name,max_inputs="all",sep="infu
     for(bin.i in seq_along(bin.files)){
       current.list <- list()
       bin.path.i <- bin.files[[bin.i]]
-      current.list <-  deepstate_analyze_file(package_name,bin.path.i)
+      current.list <-  deepstate_analyze_file(package_name, bin.path.i, verbose)
       final_table[[bin.path.i]] <- current.list 
     }
     final_table <- do.call(rbind,final_table)
@@ -71,7 +71,7 @@ deepstate_analyze_fun<-function(package_path,fun_name,max_inputs="all",sep="infu
 ##' #to see all the inputs that caused the issues
 ##' #print(inputs.table(analyzed.fun$inputs))
 ##' @export
-deepstate_analyze_file<-function(package_name,files.path){
+deepstate_analyze_file<-function(package_name, files.path, verbose=getOption("verbose")){
   inputs_list<- list()
   final_table <- list()
   if(file.exists(files.path)){
@@ -83,8 +83,10 @@ deepstate_analyze_file<-function(package_name,files.path){
     valgrind.log.text <- file.path(output_folder,"valgrind_log_text")
     analyze_one <- paste0("valgrind --xml=yes --xml-file=",valgrind.log," --tool=memcheck --leak-check=yes ",exec," --input_test_file ",files.path," --input_which_test ",package_name,"_runner > ",valgrind.log.text," 2>&1")
     var <- paste("cd",dirname(dirname(files.path)),";", analyze_one) 
-    print(var)
-    system(var)
+    if (verbose){
+      print(var)
+    }
+    system(var, ignore.stdout=!verbose)
     inputs.path <- Sys.glob(file.path(dirname(dirname(files.path)),"inputs/*"))
     logtable <- deepstate_read_valgrind_xml(file.path(output_folder,"valgrind_log"))
     for(inputs.i in seq_along(inputs.path)){

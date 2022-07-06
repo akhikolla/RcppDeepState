@@ -9,7 +9,7 @@
 ##' @import RcppArmadillo
 ##' @return A character vector of TestHarness files that are generated
 ##' @export
-deepstate_pkg_create<-function(package_path){
+deepstate_pkg_create<-function(package_path, verbose=getOption("verbose")){
   package_path <-normalizePath(package_path, mustWork=TRUE)
   package_path <- sub("/$","",package_path)
   inst_path <- file.path(package_path, "inst")
@@ -30,20 +30,20 @@ deepstate_pkg_create<-function(package_path){
         write(makevars_content, makevars_file, append=FALSE)
     }
 
-    system(paste0("R CMD INSTALL ",package_path),intern = FALSE,ignore.stderr =TRUE,ignore.stdout = TRUE)
+    system(paste0("R CMD INSTALL ",package_path),intern = FALSE, ignore.stdout=!verbose, ignore.stderr=!verbose)
     unlink(makevars_file, recursive = FALSE)
   }
 
   if(!(file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate32.a") &&
        file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate.a")))
   {
-    RcppDeepState::deepstate_make_run()
+    deepstate_make_run(verbose)
   }
   Rcpp::compileAttributes(package_path)
   harness <- list()
   failed.harness <- list()
 
-  functions.list <-  RcppDeepState::deepstate_get_function_body(package_path)
+  functions.list <-  deepstate_get_function_body(package_path)
   if(!is.null(functions.list) && length(functions.list) > 1){
     functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
     match_count <- 0
@@ -64,7 +64,9 @@ deepstate_pkg_create<-function(package_path){
         mismatch_count = mismatch_count + 1
         failed.harness <- c(failed.harness,function_name.i)
         mismatched_datatypes <- paste(datatypes_check[[2]], collapse=",")
-        message(sprintf("We can't test the function - %s - due to the following datatypes falling out of the allowed ones: %s\n", function_name.i, mismatched_datatypes))
+        if (verbose){
+            message(sprintf("We can't test the function - %s - due to the following datatypes falling out of the allowed ones: %s\n", function_name.i, mismatched_datatypes))
+        }
       }
       
     }
