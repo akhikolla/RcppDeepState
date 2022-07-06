@@ -10,7 +10,6 @@
 using namespace Rcpp;
 using namespace arma;
 using namespace deepstate;
-int rand_size;
 
 //default integer generation
 int RcppDeepState_int(){
@@ -38,7 +37,7 @@ double RcppDeepState_double(double low,double high){
 
 //default NumericVector generation
 Rcpp::NumericVector RcppDeepState_NumericVector(){
-  rand_size = DeepState_IntInRange(0,100);
+  int rand_size = DeepState_IntInRange(0,100);
   double missing_values[] = {DeepState_Double(),R_NaN,R_PosInf,R_NegInf,NA_REAL};
   Rcpp::NumericVector rand_numvec(rand_size);
    OneOf(
@@ -65,12 +64,12 @@ Rcpp::NumericVector RcppDeepState_NumericVector(int size,int low,int high){
   Rcpp::NumericVector rand_numvec(size);
   OneOf(
 	    [&] {
-	      for(int i = 0 ; i < rand_size;i++){      
+	      for(int i = 0 ; i < size;i++){      
                rand_numvec[i] = DeepState_DoubleInRange(low,high); 
              }
 	    },
 	    [&] {
-              for(int i = 0 ; i < rand_size - 1 ;i++){      
+              for(int i = 0 ; i < size - 1 ;i++){      
                  rand_numvec[i] = DeepState_DoubleInRange(low,high);   
              }
             for(int i = 0 ; i < 5 ; i++){
@@ -109,12 +108,12 @@ Rcpp::IntegerVector RcppDeepState_IntegerVector(int size,int low,int high){
   Rcpp::IntegerVector rand_intvec(size);
   OneOf(
 	    [&] {
-	      for(int i = 0 ; i < rand_size;i++){      
+	      for(int i = 0 ; i < size;i++){      
                 rand_intvec[i] = DeepState_IntInRange(low,high);
              }
 	    },
 	    [&] {
-		for(int i = 0 ; i < rand_size ;i++){
+		for(int i = 0 ; i < size ;i++){
 	         rand_intvec[i] = DeepState_IntInRange(low,high);
 	  	}
   		for(int i = 0 ; i < 2 ; i++){
@@ -197,7 +196,7 @@ Rcpp::CharacterVector RcppDeepState_CharacterVector(){
 //default string generation
 std::string RcppDeepState_string(){
   std::string rand_string;
-  rand_string = DeepState_CStrUpToLen(26,"abcdefghijklmnopqrstuvwxyz");
+  rand_string = DeepState_CStrUpToLen(50,"abcdefghijklmnopqrstuvwxyz");
   return rand_string;
 }
 
