@@ -8,7 +8,8 @@ deepstate_analyze_fun(
   package_path,
   fun_name,
   max_inputs = "all",
-  sep = "infun"
+  sep = "infun",
+  verbose = getOption("verbose")
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ deepstate_analyze_fun(
 \item{max_inputs}{maximum number of inputs to run on the executable under valgrind. defaults to all}
 
 \item{sep}{default to infun}
+
+\item{verbose}{used to deliver more in depth information}
 }
 \value{
 A data table with inputs, error messages, address trace and line numbers

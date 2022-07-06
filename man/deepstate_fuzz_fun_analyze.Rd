@@ -4,7 +4,12 @@
 \alias{deepstate_fuzz_fun_analyze}
 \title{analyze the binary file}
 \usage{
-deepstate_fuzz_fun_analyze(test_function, seed = -1, time.limit.seconds)
+deepstate_fuzz_fun_analyze(
+  test_function,
+  seed = -1,
+  time.limit.seconds,
+  verbose = getOption("verbose")
+)
 }
 \arguments{
 \item{test_function}{path of the test function}
@@ -12,6 +17,8 @@ deepstate_fuzz_fun_analyze(test_function, seed = -1, time.limit.seconds)
 \item{seed}{input seed to pass on the executable}
 
 \item{time.limit.seconds}{duration to run the code}
+
+\item{verbose}{used to deliver more in depth information}
 }
 \description{
 analyze the binary file

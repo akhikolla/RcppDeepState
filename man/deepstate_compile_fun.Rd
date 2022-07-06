@@ -4,12 +4,14 @@
 \alias{deepstate_compile_fun}
 \title{Harness compilation for the function}
 \usage{
-deepstate_compile_fun(fun_path, sep = "infun")
+deepstate_compile_fun(fun_path, sep = "infun", verbose = getOption("verbose"))
 }
 \arguments{
 \item{fun_path}{path of the function to compile}
 
 \item{sep}{default to infun}
+
+\item{verbose}{used to deliver more in depth information}
 }
 \description{
 Compiles the function-specific testharness in the package.

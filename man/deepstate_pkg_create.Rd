@@ -4,10 +4,12 @@
 \alias{deepstate_pkg_create}
 \title{TestHarness for the package}
 \usage{
-deepstate_pkg_create(package_path)
+deepstate_pkg_create(package_path, verbose = getOption("verbose"))
 }
 \arguments{
 \item{package_path}{path to the test package}
+
+\item{verbose}{used to deliver more in depth information}
 }
 \value{
 A character vector of TestHarness files that are generated
