@@ -4,9 +4,11 @@
 \alias{deepstate_analyze_file}
 \title{Analyze Binary file for Harness}
 \usage{
-deepstate_analyze_file(files.path)
+deepstate_analyze_file(package_name, files.path)
 }
 \arguments{
+\item{package_name}{name of the package of the harness being analyzed}
+
 \item{files.path}{path to the binary file to analyze}
 }
 \value{

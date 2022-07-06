@@ -16,6 +16,8 @@
 ##' @return The executed function.
 ##' @export
 deepstate_fuzz_fun<-function(package_path,fun_name,seed=-1,time.limit.seconds=2,sep="infun"){
+  packagename <- basename(package_path)
+
   if(!dir.exists(file.path(package_path,"inst/testfiles"))){
     stop("Missing testfiles directory")
   }
@@ -47,15 +49,15 @@ deepstate_fuzz_fun<-function(package_path,fun_name,seed=-1,time.limit.seconds=2,
   run.executable <-  if(seed == -1 && time.limit.seconds == -1){
     paste0("cd ",fun_path," && ","./",test_harness,
            " --fuzz --fuzz_save_passing --output_test_dir ",output_dir,
-           " > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
+           " --input_which_test ",packagename,"_generator > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
   }else if(seed == -1 && time.limit.seconds != -1){
     paste0("cd ",fun_path," && ","./",test_harness," --timeout=",time.limit.seconds,
            " --fuzz --fuzz_save_passing --output_test_dir ",output_dir,
-           " > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
+           " --input_which_test ",packagename,"_generator > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
   }else{
     paste0("cd ",fun_path," && ","./",test_harness," --seed=",seed," --timeout=",time.limit.seconds,
            " --fuzz --fuzz_save_passing --output_test_dir ",output_dir,
-           " > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
+           " --input_which_test ",packagename,"_generator > ",log_file_path,"_text 2>&1 ; head ", log_file_path,"_text"," > /dev/null")
   }
   
   #print(run.executable)

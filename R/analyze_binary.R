@@ -76,6 +76,7 @@ deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) 
     dir.create(output_folder)
   }
   inputs.path <- Sys.glob(file.path(test_function,"inputs/*"))
+  test_harness.cpp <- file.path(test_function, paste0(fun_name, "_DeepState_TestHarness.cpp"))
   test_harness.o <- file.path(test_function, paste0(fun_name, "_DeepState_TestHarness.o"))
   log_file <- file.path(output_folder,paste0(seed,"_log"))
   valgrind.log.text <- file.path(output_folder,"seed_valgrind_log_text")
@@ -85,16 +86,24 @@ deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) 
   if(time.limit.seconds <= 0){
     stop("time.limit.seconds should always be greater than zero")
   }
+
+  # get the test name for the runner
+  harness_file <- readLines(test_harness.cpp)
+  runner_line <- harness_file[grepl("^TEST.*runner", harness_file)]
+  runner_line_split <- strsplit(runner_line, "[(|)| +|,]")[[1]]
+  runner_harness_name <- paste0(runner_line_split[2], "_", runner_line_split[4])
+  
   run.executable <- if(seed == -1 && time.limit.seconds != -1){
     paste0("cd ",test_function," && valgrind --xml=yes --xml-file=",log_file,
            " --tool=memcheck --leak-check=yes --track-origins=yes ",
            "./",basename(test_function),"_DeepState_TestHarness --timeout=",time.limit.seconds,
-           " --fuzz"," > ",valgrind.log.text," 2>&1")
+           " --fuzz --input_which_test ",runner_harness_name," > ",valgrind.log.text," 2>&1")
   }else{
     paste0("cd ",test_function," && valgrind --xml=yes --xml-file=",log_file,
            " --tool=memcheck --leak-check=yes --track-origins=yes ",
            "./",basename(test_function),"_DeepState_TestHarness --seed=",seed,
-           " --timeout=",time.limit.seconds," --fuzz"," > ",valgrind.log.text," 2>&1")
+           " --timeout=",time.limit.seconds," --fuzz --input_which_test ",runner_harness_name,
+           " > ",valgrind.log.text," 2>&1")
   }
   message(sprintf("running the executable .. \n%s\n",run.executable))
   system(run.executable)
