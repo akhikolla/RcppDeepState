@@ -7,13 +7,9 @@ deepstate_get_mismatched_datatypes <- function(params.list){
   params.list <-gsub(" ","",params.list)
   datatypes <- list("NumericVector","NumericMatrix" ,"arma::mat","double",
                   "string","CharacterVector","int","IntegerVector")
-  mismatched_datatypes <- list()
-  matched <- params.list %in% datatypes
-  if (!all(matched)){
-    mismatched_datatypes <- params.list[!matched]
-  }
 
-  mismatched_datatypes
+  matched <- params.list %in% datatypes
+  mismatched_datatypes <- params.list[!matched]
 
 }
 
