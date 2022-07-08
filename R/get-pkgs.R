@@ -1,19 +1,20 @@
-##' @title  deepstate_datatype_check
+##' @title deepstate_get_mismatched_datatypes
 ##' @param params.list to the package test file
 ##' @export
-deepstate_datatype_check <- function(params.list){
+deepstate_get_mismatched_datatypes <- function(params.list){
   params.list <- gsub("const","",params.list)
   params.list <-gsub("Rcpp::","",params.list)
   params.list <-gsub(" ","",params.list)
   datatypes <- list("NumericVector","NumericMatrix" ,"arma::mat","double",
                   "string","CharacterVector","int","IntegerVector")
+  mismatched_datatypes <- list()
   matched <- params.list %in% datatypes
   if (!all(matched)){
     mismatched_datatypes <- params.list[!matched]
-    return(list(0,mismatched_datatypes))
   }
 
-  return(list(1,c()));
+  mismatched_datatypes
+
 }
 
 

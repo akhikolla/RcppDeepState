@@ -56,15 +56,15 @@ deepstate_pkg_create<-function(package_path, verbose=getOption("verbose")){
       params <- c(functions.rows$argument.type)
       filepath <-deepstate_fun_create(package_path,function_name.i)
       filename <- paste0(function_name.i,"_DeepState_TestHarness",".cpp")
-      datatypes_check <- deepstate_datatype_check(params)
+      mismatched_datatypes <- deepstate_get_mismatched_datatypes(params)   
 
       if(!is.na(filepath) && basename(filepath) ==  filename ){
         match_count = match_count + 1
         harness <- c(harness,filename) 
-      }else if(datatypes_check[[1]] == 0) {
+      }else if(length(mismatched_datatypes) > 0) {
         mismatch_count = mismatch_count + 1
         failed.harness <- c(failed.harness,function_name.i)
-        mismatched_datatypes <- paste(datatypes_check[[2]], collapse=",")
+        mismatched_datatypes <- paste(mismatched_datatypes, collapse=",")
         if (verbose){
             message(sprintf("We can't test the function - %s - due to the following datatypes falling out of the allowed ones: %s\n", function_name.i, mismatched_datatypes))
         }
