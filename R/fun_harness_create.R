@@ -11,91 +11,101 @@
 ##' @return The TestHarness file that is generated
 ##' @export
 deepstate_fun_create<-function(package_path,function_name,sep="infun"){
-  inst_path <- file.path(package_path, "inst")
-  test_path <- file.path(inst_path,"testfiles")
-  if(!dir.exists(inst_path)){
-    dir.create(inst_path,showWarnings = FALSE)
-    dir.create(test_path,showWarnings = FALSE)
+  fun_path <- file.path(package_path, "inst", "testfiles", function_name)
+  if(!dir.exists(fun_path)){
+    dir.create(fun_path, showWarnings = FALSE, recursive = TRUE)
   }
-  primitives <- list()
+
   packagename <- basename(package_path)
-  functions.list <- RcppDeepState::deepstate_get_function_body(package_path)
+  functions.list <- deepstate_get_function_body(package_path)
   functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
-  prototypes_calls <-RcppDeepState::deepstate_get_prototype_calls(package_path)
+  prototypes_calls <- deepstate_get_prototype_calls(package_path)
+  
   if(sep=="generation" ||  sep == "checks"){ 
     if(is.null(functions.list) || length(functions.list) < 1){
       stop("No Rcpp Function to test in the package")
     }
   }
-  headers <-"#include <fstream>\n#include <RInside.h>\n#include <iostream>\n#include <RcppDeepState.h>\n#include <qs.h>\n#include <DeepState.hpp>\n"
-  write_to_file <- ""
+  
+  supported_datatypes <- c("NumericVector","NumericMatrix" ,"mat", "double", 
+                        "string","CharacterVector","int","IntegerVector") 
+
+  # Each column of the "datatypes" table corresponds to a supported datatype and
+  # provides details for each datatype. The first row contains an alternative 
+  # datatype to be used when running `qs::c_qsave`, whereas the second row 
+  # correspond to the associated generation function with a range. When a 
+  # datatype contains a value of NA in both rows, it is supported, utilizes 
+  # itself when executing `qs::c_qsave` and lacks a range function. 
+  datatypes <- as.data.table(matrix(nrow=2,ncol=length(supported_datatypes))) 
+  colnames(datatypes) <- supported_datatypes
+  datatypes$int = c("IntegerVector", "(low,high)")
+  datatypes$double = c("NumericVector", "(low,high)")
+  datatypes$string = c("CharacterVector", NA)
+  datatypes$NumericVector = c(NA, "(size,low,high)")
+  datatypes$IntegerVector = c(NA, "(size,low,high)")
+  datatypes$NumericMatrix = c(NA, "(row,column,low,high)")
+
+  headers <- "#include <fstream>\n#include <RInside.h>\n#include <iostream>\n#include <RcppDeepState.h>\n#include <qs.h>\n#include <DeepState.hpp>\n"
   functions.rows  <- functions.list[functions.list$funName == function_name,]
-  params <- c(functions.rows$argument.type)
+  params <- gsub(" ","", functions.rows$argument.type)
+  params <- gsub("const","",params)
+  params <- gsub("Rcpp::","",params)
+  params <- gsub("arma::","",params)
+  params <- gsub("std::","",params)
 
   # check if the parameters are allowed or not
-  if(length(deepstate_get_mismatched_datatypes(params)) > 0){
+  matched <- params %in% names(datatypes)
+  unsupported_datatypes <- params[!matched]
+  if(length(unsupported_datatypes) > 0){
+    unsupported_datatypes <- paste(unsupported_datatypes, collapse=",")
+    message(sprintf("We can't test the function - %s - due to the following datatypes falling out of the allowed ones: %s\n", function_name, unsupported_datatypes))
     return(NA_character_)
   }
 
   pt <- prototypes_calls[prototypes_calls$funName == function_name,]
-  fun_name <-function_name
   filename <- if(sep == "generation" || sep == "checks"){
-    paste0(fun_name,"_DeepState_TestHarness_",sep,".cpp")
+    paste0(function_name,"_DeepState_TestHarness_",sep,".cpp")
   }else{
-    paste0(fun_name,"_DeepState_TestHarness.cpp")
-  }
-  fun_path <- file.path(test_path,fun_name)
-  if(!dir.exists(fun_path)){
-    dir.create(fun_path)
-    #unlink(fun_path, recursive = TRUE)
+    paste0(function_name,"_DeepState_TestHarness.cpp")
   }
   
   if(sep == "generation" || sep == "checks"){
-    gen.path <- file.path(fun_path,paste0(fun_name,"_DeepState_TestHarness_",sep,".cpp"))
+    write_to_file <- paste0(headers)
     makesep.path <- file.path(fun_path,paste0(sep,".Makefile"))
-    filename <- basename(gen.path)
     file_path <- file.path(fun_path,filename)
     file.create(file_path,recursive=TRUE)
     if(file.exists(file.path(fun_path,"Makefile"))){
       file.copy(file.path(fun_path,"Makefile"),makesep.path)
     }else{
-      deepstate_create_makefile(package_path,fun_name)
-      #file.copy(file.path(fun_path,"Makefile"),makegen.path)
+      deepstate_create_makefile(package_path,function_name)
     }
     makefile_lines <- readLines(file.path(fun_path,"Makefile"),warn=FALSE)
-    makefile_lines <- gsub(file.path(fun_path,paste0(fun_name,"_DeepState_TestHarness")),
-                            file.path(fun_path,paste0(fun_name,"_DeepState_TestHarness_",sep)),makefile_lines,fixed=TRUE)
+    makefile_lines <- gsub(file.path(fun_path,paste0(function_name,"_DeepState_TestHarness")),
+                            file.path(fun_path,paste0(function_name,"_DeepState_TestHarness_",sep)),makefile_lines,fixed=TRUE)
     file.create(makesep.path,recursive=TRUE)
     cat(makefile_lines, file=makesep.path, sep="\n")
     unlink(file.path(fun_path,"Makefile"))
-    #dir.create(file.path(testable_path,"inputs"),showWarnings = FALSE)
-    dir.create(file.path(fun_path,paste0(fun_name,"_output","_",sep)),showWarnings = FALSE)
+    dir.create(file.path(fun_path,paste0(function_name,"_output","_",sep)),showWarnings = FALSE)
   }else{
+    comment <- paste0("// AUTOMATICALLY GENERATED BY RCPPDEEPSTATE PLEASE DO NOT EDIT BY HAND, INSTEAD EDIT\n// ",
+                    function_name,"_DeepState_TestHarness_generation.cpp and ",function_name,"_DeepState_TestHarness_checks.cpp\n\n")
+    write_to_file <- paste0(comment,headers)
     file_path <- file.path(fun_path,filename)
     file.create(file_path,recursive=TRUE)
-    deepstate_create_makefile(package_path,fun_name)
-  }
-  comment <- paste0("// AUTOMATICALLY GENERATED BY RCPPDEEPSTATE PLEASE DO NOT EDIT BY HAND, INSTEAD EDIT\n// ",
-                    fun_name,"_DeepState_TestHarness_generation.cpp and ",fun_name,"_DeepState_TestHarness_checks.cpp\n\n")
-  
-  if(sep == "generation" || sep == "checks"){
-    write(headers,file_path,append = TRUE)
-  }else{
-    write(paste0(write_to_file,comment,headers),file_path,append = TRUE)
+    deepstate_create_makefile(package_path,function_name)
   }
 
   write_to_file <- paste0(write_to_file,"RInside Rinstance;\n\n")  # create a single RInside instance at the beginning
   write_to_file <-paste0(write_to_file,pt[1,pt$prototype],"\n")
-  unittest <- gsub(".","",packagename, fixed=TRUE)
   
-
+  unittest <- gsub(".","",packagename, fixed=TRUE)
   generator_harness_header <- paste0("\n\n","TEST(",unittest,", generator)","{","\n")
   runner_harness_header <- paste0("\n\n","TEST(",unittest,", runner)","{","\n")
-  #obj <-gsub( "\\s+", " " ,paste(in_package,tolower(in_package),";","\n"))
-  #write(obj,filename,append = TRUE)
+
+  # Test harness body
   indent <- "  "
-  generator_harness_body<-paste0(indent,"std::cout << #input starts# << std::endl;\n")
-  runner_harness_body<-paste0(indent,"std::cout << #input starts# << std::endl;\n")
+  generator_harness_body <- paste0(indent,'std::cout << "input starts" << std::endl;\n')
+  runner_harness_body <- paste0(indent,'std::cout << "input starts" << std::endl;\n')
   proto_args <-""
   for(argument.i in 1:nrow(functions.rows)){
     arg.type <- gsub(" ","",functions.rows [argument.i,argument.type])
@@ -103,100 +113,66 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
     type.arg <- gsub("const","", arg.type)
     type.arg <-gsub("Rcpp::","",type.arg)
     type.arg <-gsub("arma::","",type.arg)
-    st_val <- if(sep == "generation"){
-      paste0("= ","RcppDeepState_",(type.arg),"()","; //RANGE OF THE VECTOR CAN BE ADDED HERE\n")
-    }else{
-      paste0("= ","RcppDeepState_",(type.arg),"()",";\n")
+    type.arg <-gsub("std::","",type.arg)
+    
+    generation_comment1 <- ""
+    generation_comment2 <- ""
+    if(sep == "generation" && !is.na(datatypes[[type.arg]][2])){
+      generation_comment1 <- paste0(indent, "//RcppDeepState_", type.arg, datatypes[[type.arg]][2],"\n")
+      generation_comment2 <- " //RANGE OF THE VECTOR CAN BE ADDED HERE"
     }
-    inputs_path <- file.path(fun_path,"inputs")
+    
+    # generate the inputs
+    if (!is.na(datatypes[[type.arg]][1])){
+      variable <- paste0(indent, datatypes[[type.arg]][1], " ", arg.name,"(1);", "\n", generation_comment1, indent, arg.name, "[0]")
+    }else{
+      variable <- paste0(generation_comment1, indent, arg.type, " ", arg.name)
+    }
+    variable <- paste0(variable, "= RcppDeepState_", type.arg, "();", generation_comment2, "\n")
+    variable <- gsub("const","",variable)
+    
+    # save the inputs
+    inputs_path <- file.path(fun_path, "inputs")
     if(!dir.exists(inputs_path)){
       dir.create(inputs_path)
     }
     if(type.arg == "mat"){
-      generator_harness_body<-paste0(generator_harness_body,indent,"std::ofstream ",  gsub(" ","",arg.name),"_stream",";\n")
-      runner_harness_body<-paste0(runner_harness_body,indent,"std::ofstream ",  gsub(" ","",arg.name),"_stream",";\n")
-      input.vals <- file.path(inputs_path,arg.name)
-      file_open <- gsub("# ","\"",paste0(arg.name,"_stream.open(#",input.vals,"# );","\n",indent,
-                                          arg.name,"_stream << ", 
-                                          arg.name,";","\n",indent,
-                                          "std::cout << ","#",arg.name,
-                                          " values: ","#"," << ",arg.name,
-                                          " << std::endl;","\n",indent,
-                                          arg.name,"_stream.close();","\n"))
-      generator_harness_body <- paste0(generator_harness_body,indent,paste0(variable,indent,st_val,indent,file_open))
-      runner_harness_body <- paste0(runner_harness_body,indent,paste0(variable,indent,"= ","RcppDeepState_",(type.arg),"()",";\n",indent,file_open))
-
+      input_vals <- file.path(inputs_path,arg.name)
+      save_inputs <- paste0("std::ofstream ",  gsub(" ","",arg.name),"_stream",";\n", indent, arg.name,'_stream.open("',input_vals,'" );\n', 
+                            indent, arg.name,'_stream << ', arg.name,';\n', indent, arg.name,'_stream.close(); \n')
+    }else{
+      input_file <- paste0(arg.name,".qs")
+      input_vals <- file.path(inputs_path, input_file)
+      save_inputs <- paste0('qs::c_qsave(',arg.name,',"',input_vals,'",\n','\t\t"high", "zstd", 1, 15, true, 1);\n')
     }
-    else{
-      if(sep == "generation"){
-        if(type.arg == "int"){
-          variable <- paste0("IntegerVector ",arg.name,"(1);","\n",indent,"//RcppDeepState_",type.arg,"(low,high)","\n",indent,arg.name,"[0]")
-          primitives <- c(primitives,arg.name)
-        }
-        else if(type.arg == "double") {
-          variable <- paste0("NumericVector ",arg.name,"(1);","\n",indent,"//RcppDeepState_",type.arg,"(low,high)","\n",indent,arg.name,"[0]")
-          primitives <- c(primitives,arg.name)
-        }
-        else if(type.arg == "std::string")
-        {
-          variable <- paste0("CharacterVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
-          primitives <- c(primitives,arg.name)
-        }
-        else if(type.arg == "NumericVector" || type.arg == "IntegerVector"){
-          variable <- paste0("//RcppDeepState_",type.arg,"(size,low,high)","\n",indent,arg.type," ",arg.name)
-        }
-        else if(type.arg == "NumericMatrix"){
-          variable <- paste0("//RcppDeepState_",type.arg,"(row,column,low,high)","\n",indent,arg.type," ",arg.name)
-        }
-      }else{
-        if(type.arg == "int"){
-          variable <- paste0("IntegerVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
-          primitives <- c(primitives,arg.name)
-        }
-        else if(type.arg == "double") {
-          variable <- paste0("NumericVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
-          primitives <- c(primitives,arg.name)
-        }
-        else if(type.arg == "std::string")
-        {
-          variable <- paste0("CharacterVector ",arg.name,"(1);","\n",indent,arg.name,"[0]")
-          primitives <- c(primitives,arg.name)
-        }else{
-          variable <- paste0(arg.type," ",arg.name)
-        }
-      }
-      variable <- gsub("const","",variable)
-      arg.file <- paste0(arg.name,".qs")
-      input.vals <- file.path(inputs_path,arg.file)
-      file_open <- gsub("# ","\"",paste0("qs::c_qsave(",arg.name,",#",input.vals,"#,\n","\t\t#high#, #zstd#, 1, 15, true, 1);\n",indent,
-                                          "std::cout << ","#",arg.name," values: ","#"," << ",arg.name,
-                                          " << std::endl;","\n"))
-      print_only <- gsub("# ","\"",paste0("std::cout << ","#",arg.name," values: ","#"," << ",arg.name,
-                                          " << std::endl;","\n"))
-                                      
-      generator_harness_body <- paste0(generator_harness_body,indent,paste0(variable,indent,st_val,indent,file_open))
-      runner_harness_body <- paste0(runner_harness_body,indent,paste0(variable,indent,"= ","RcppDeepState_",(type.arg),"()",";\n",indent,print_only))
 
+    # print the inputs
+    print_values <- paste0('std::cout << "',arg.name,' values: " << ',arg.name, ' << std::endl;\n')                        
 
-    }
-    proto_args <- gsub(" ","",paste0(proto_args,arg.name))
+    generator_harness_body <- paste0(generator_harness_body, variable, indent, save_inputs, indent, print_values)
+    runner_harness_body <- paste0(runner_harness_body, variable, indent, print_values)    
+
+    proto_args <- gsub(" ","",paste0(proto_args, arg.name))
     if(argument.i <= nrow(functions.rows)) {
-      if(type.arg == "int" || type.arg == "double" || type.arg == "std::string"){
+      if(type.arg == "int" || type.arg == "double"){
         proto_args <- paste0(proto_args,"[0],")
+      }else if(type.arg == "string"){
+        proto_args <- paste0("Rcpp::as<std::string>(",proto_args,"[0]),")
       }else{
         proto_args <- paste0(proto_args,",")  
       }
     }
+
   }
-  generator_harness_body<-paste0(generator_harness_body,indent,"std::cout << #input ends# << std::endl;\n")
-  runner_harness_body<-paste0(runner_harness_body,indent,"std::cout << #input ends# << std::endl;\n")
-  runner_harness_body<-paste0(runner_harness_body,indent,"try{\n",indent,indent,fun_name,"(",gsub(",$","",proto_args),");\n")
+  generator_harness_body<-paste0(generator_harness_body,indent,'std::cout << "input ends" << std::endl;\n')
+  runner_harness_body<-paste0(runner_harness_body,indent,'std::cout << "input ends" << std::endl;\n')
+  runner_harness_body<-paste0(runner_harness_body,indent,"try{\n",indent,indent,function_name,"(",gsub(",$","",proto_args),");\n")
   if(sep == "checks"){
     runner_harness_body<-paste0(runner_harness_body,indent,indent,"//ASSERT CONDITIONS CAN BE ADDED HERE\n") 
   }
-  runner_harness_body<-paste0(runner_harness_body,indent,"}\n",indent,"catch(Rcpp::exception& e){\n",indent,indent,"std::cout<<#Exception Handled#<<std::endl;\n",indent,"}")
-  write_to_file<-gsub("#","\"",paste0(write_to_file, generator_harness_header, generator_harness_body,"}", runner_harness_header, runner_harness_body, "\n","}"))
+  runner_harness_body<-paste0(runner_harness_body,indent,"}catch(Rcpp::exception& e){\n",indent,indent,'std::cout<<"Exception Handled"<<std::endl;\n',indent,"}")
+  write_to_file<-paste0(write_to_file, generator_harness_header, generator_harness_body,"}", runner_harness_header, runner_harness_body, "\n}")
   write(write_to_file,file_path,append=TRUE)
+
   return(filename)
-  
 }
