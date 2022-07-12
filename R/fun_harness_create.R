@@ -26,24 +26,24 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
       stop("No Rcpp Function to test in the package")
     }
   }
-  
-  supported_datatypes <- c("NumericVector","NumericMatrix" ,"mat", "double", 
-                        "string","CharacterVector","int","IntegerVector") 
-
-  # Each column of the "datatypes" table corresponds to a supported datatype and
-  # provides details for each datatype. The first row contains an alternative 
-  # datatype to be used when running `qs::c_qsave`, whereas the second row 
+	
+  # Each row of the "types_table" table corresponds to a supported datatype and
+  # provides details for each datatype. The first column contains an alternative 
+  # datatype to be used when running `qs::c_qsave`, whereas the second column 
   # correspond to the associated generation function with a range. When a 
-  # datatype contains a value of NA in both rows, it is supported, utilizes 
+  # datatype contains a value of NA in both columns, it is supported, utilizes 
   # itself when executing `qs::c_qsave` and lacks a range function. 
-  datatypes <- as.data.table(matrix(nrow=2,ncol=length(supported_datatypes))) 
-  colnames(datatypes) <- supported_datatypes
-  datatypes$int = c("IntegerVector", "(low,high)")
-  datatypes$double = c("NumericVector", "(low,high)")
-  datatypes$string = c("CharacterVector", NA)
-  datatypes$NumericVector = c(NA, "(size,low,high)")
-  datatypes$IntegerVector = c(NA, "(size,low,high)")
-  datatypes$NumericMatrix = c(NA, "(row,column,low,high)")
+	datatype <- function(ctype, rtype, args) data.table(ctype, rtype, args)
+	types_table <- rbind(
+		datatype("int", "IntegerVector", "(low,high)"),
+		datatype("double", "NumericVector", "(low,high)"),
+		datatype("string", "CharacterVector", NA),
+		datatype("NumericVector", NA, "(size,low,high)"),
+		datatype("IntegerVector", NA, "(size,low,high)"),
+		datatype("NumericMatrix", NA, "(size,low,high)"),
+		datatype("CharacterVector", NA, NA),
+		datatype("mat", NA, NA))
+	setkey(types_table, "ctype")
 
   headers <- "#include <fstream>\n#include <RInside.h>\n#include <iostream>\n#include <RcppDeepState.h>\n#include <qs.h>\n#include <DeepState.hpp>\n"
   functions.rows  <- functions.list[functions.list$funName == function_name,]
@@ -54,7 +54,7 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
   params <- gsub("std::","",params)
 
   # check if the parameters are allowed or not
-  matched <- params %in% names(datatypes)
+  matched <- params %in% types_table$ctype
   unsupported_datatypes <- params[!matched]
   if(length(unsupported_datatypes) > 0){
     unsupported_datatypes <- paste(unsupported_datatypes, collapse=",")
@@ -117,14 +117,14 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
     
     generation_comment1 <- ""
     generation_comment2 <- ""
-    if(sep == "generation" && !is.na(datatypes[[type.arg]][2])){
-      generation_comment1 <- paste0(indent, "//RcppDeepState_", type.arg, datatypes[[type.arg]][2],"\n")
+    if(sep == "generation" && !is.na(types_table[type.arg]$args)){
+      generation_comment1 <- paste0(indent, "//RcppDeepState_", type.arg, types_table[type.arg]$args,"\n")
       generation_comment2 <- " //RANGE OF THE VECTOR CAN BE ADDED HERE"
     }
     
     # generate the inputs
-    if (!is.na(datatypes[[type.arg]][1])){
-      variable <- paste0(indent, datatypes[[type.arg]][1], " ", arg.name,"(1);", "\n", generation_comment1, indent, arg.name, "[0]")
+    if (!is.na(types_table[type.arg]$rtype)){
+      variable <- paste0(indent, types_table[type.arg]$rtype, " ", arg.name,"(1);", "\n", generation_comment1, indent, arg.name, "[0]")
     }else{
       variable <- paste0(generation_comment1, indent, arg.type, " ", arg.name)
     }
