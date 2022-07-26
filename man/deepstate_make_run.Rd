@@ -4,7 +4,10 @@
 \alias{deepstate_make_run}
 \title{Deepstate Static library}
 \usage{
-deepstate_make_run()
+deepstate_make_run(verbose = getOption("verbose"))
+}
+\arguments{
+\item{verbose}{used to deliver more in depth information}
 }
 \description{
 Creates a deepstate static library for the user in the ~/.RcppDeepState directory.

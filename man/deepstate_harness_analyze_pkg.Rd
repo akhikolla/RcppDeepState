@@ -4,7 +4,12 @@
 \alias{deepstate_harness_analyze_pkg}
 \title{Analyze Harness for the Package}
 \usage{
-deepstate_harness_analyze_pkg(path, testfiles = "all", max_inputs = "all")
+deepstate_harness_analyze_pkg(
+  path,
+  testfiles = "all",
+  max_inputs = "all",
+  verbose = getOption("verbose")
+)
 }
 \arguments{
 \item{path}{path of the test package to analyze}
@@ -12,6 +17,8 @@ deepstate_harness_analyze_pkg(path, testfiles = "all", max_inputs = "all")
 \item{testfiles}{number of functions to analyze in the package}
 
 \item{max_inputs}{maximum number of inputs to run on the executable under valgrind. defaults to all}
+
+\item{verbose}{used to deliver more in depth information}
 }
 \value{
 A list of data tables with inputs, error messages, address trace and line numbers for specified testfiles.

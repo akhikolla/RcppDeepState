@@ -2,6 +2,7 @@
 ##' @param path path of the test package to analyze
 ##' @param max_inputs maximum number of inputs to run on the executable under valgrind. defaults to all
 ##' @param testfiles number of functions to analyze in the package
+##' @param verbose used to deliver more in depth information
 ##' @description Analyze all the function specific testharness in the package under valgrind.
 ##' @examples
 ##' path <- system.file("testpkgs/testSAN", package = "RcppDeepState")
@@ -10,10 +11,9 @@
 ##' @return A list of data tables with inputs, error messages, address trace and line numbers for specified testfiles.
 ##' @import methods
 ##' @import Rcpp
-##' @import RInside
 ##' @import qs
 ##' @export
-deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all"){
+deepstate_harness_analyze_pkg <- function(path, testfiles="all", max_inputs="all", verbose=getOption("verbose")){
   path <-normalizePath(path, mustWork=TRUE)
   package_name <- sub("/$","",path)
   list_testfiles <- list()
@@ -29,10 +29,11 @@ deepstate_harness_analyze_pkg <- function(path,testfiles="all",max_inputs="all")
       test.files <- test.files[1:testfiles]
     }
     for(pkg.i in seq_along(test.files)){
-      list_testfiles[basename(test.files[[pkg.i]])] <- list(deepstate_analyze_fun(path,basename(test.files[[pkg.i]]),max_inputs))
+      fun_name <- basename(test.files[[pkg.i]])
+      list_testfiles[[basename(test.files[[pkg.i]])]] <- deepstate_analyze_fun(package_path=path, fun_name=fun_name, max_inputs=max_inputs, verbose=verbose)
     }
     list_testfiles <- do.call(rbind,list_testfiles)
-    # print(list_testfiles)
+
     return(list_testfiles)
   }
   else{
@@ -65,8 +66,9 @@ inputs.table <- function(inputs.column){
 ##' @param test_function path of the test function
 ##' @param seed input seed to pass on the executable
 ##' @param time.limit.seconds duration to run the code
+##' @param verbose used to deliver more in depth information
 ##' @export
-deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) {
+deepstate_fuzz_fun_analyze<- function(test_function,seed=-1, time.limit.seconds, verbose=getOption("verbose")) {
   test_function <- normalizePath(test_function,mustWork = TRUE)
   fun_name <- basename(test_function)
   seed_log_analyze <- data.table()
@@ -81,7 +83,7 @@ deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) 
   log_file <- file.path(output_folder,paste0(seed,"_log"))
   valgrind.log.text <- file.path(output_folder,"seed_valgrind_log_text")
   if(!file.exists(test_harness.o)){
-    deepstate_compile_fun(test_function)
+    deepstate_compile_fun(test_function, verbose)
   }
   if(time.limit.seconds <= 0){
     stop("time.limit.seconds should always be greater than zero")
@@ -105,8 +107,10 @@ deepstate_fuzz_fun_analyze<- function(test_function,seed=-1,time.limit.seconds) 
            " --timeout=",time.limit.seconds," --fuzz --input_which_test ",runner_harness_name,
            " > ",valgrind.log.text," 2>&1")
   }
-  message(sprintf("running the executable .. \n%s\n",run.executable))
-  system(run.executable)
+  if (verbose){
+    message(sprintf("running the executable .. \n%s\n", run.executable))
+  }
+  system(run.executable, ignore.stdout=!verbose)
   for(inputs.i in seq_along(inputs.path)){
     file.copy(inputs.path[[inputs.i]],output_folder)
     if(grepl(".qs",inputs.path[[inputs.i]],fixed = TRUE)){

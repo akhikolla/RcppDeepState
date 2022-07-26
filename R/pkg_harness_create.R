@@ -1,5 +1,6 @@
 ##' @title TestHarness for the package
 ##' @param package_path path to the test package
+##' @param verbose used to deliver more in depth information
 ##' @description Creates Testharness for all the functions in the package that you want to test
 ##' using RcppDeepState.
 ##' @examples 
@@ -9,7 +10,7 @@
 ##' @import RcppArmadillo
 ##' @return A character vector of TestHarness files that are generated
 ##' @export
-deepstate_pkg_create<-function(package_path){
+deepstate_pkg_create<-function(package_path, verbose=getOption("verbose")){
   package_path <-normalizePath(package_path, mustWork=TRUE)
   package_path <- sub("/$","",package_path)
   inst_path <- file.path(package_path, "inst")
@@ -30,45 +31,40 @@ deepstate_pkg_create<-function(package_path){
         write(makevars_content, makevars_file, append=FALSE)
     }
 
-    system(paste0("R CMD INSTALL ",package_path),intern = FALSE,ignore.stderr =TRUE,ignore.stdout = TRUE)
+    system(paste0("R CMD INSTALL ",package_path),intern = FALSE, ignore.stdout=!verbose, ignore.stderr=!verbose)
     unlink(makevars_file, recursive = FALSE)
   }
 
   if(!(file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate32.a") &&
        file.exists("~/.RcppDeepState/deepstate-master/build/libdeepstate.a")))
   {
-    RcppDeepState::deepstate_make_run()
+    deepstate_make_run(verbose)
   }
   Rcpp::compileAttributes(package_path)
   harness <- list()
   failed.harness <- list()
-  primitives <- list()
-  functions.list <-  RcppDeepState::deepstate_get_function_body(package_path)
+
+  functions.list <-  deepstate_get_function_body(package_path)
   if(!is.null(functions.list) && length(functions.list) > 1){
     functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
-    prototypes_calls <-deepstate_get_prototype_calls(package_path)
-    in_package <- paste0("RcppDeepState")
-    match_count = 0
-    mismatch_count = 0
-    #dir.create(file.path(inst_path,"testfiles"))
-    headers <-"#include <fstream>\n#include <RInside.h>\n#include <iostream>\n#include <RcppDeepState.h>\n#include <qs.h>\n#include <DeepState.hpp>\n"
-    #include <-gsub("@","\"",includes)
+    match_count <- 0
+    mismatch_count <- 0
+    
     fun_names <- unique(functions.list$funName)
-    for(function_name.i in fun_names){
+    for(function_name.i in fun_names) {
       functions.rows  <- functions.list [functions.list$funName == function_name.i,]
       params <- c(functions.rows$argument.type)
       filepath <-deepstate_fun_create(package_path,function_name.i)
       filename <- paste0(function_name.i,"_DeepState_TestHarness",".cpp")
+
       if(!is.na(filepath) && basename(filepath) ==  filename ){
         match_count = match_count + 1
         harness <- c(harness,filename) 
-      }
-      else if(deepstate_datatype_check(params) == 0)
-      {
+      }else {
         mismatch_count = mismatch_count + 1
         failed.harness <- c(failed.harness,function_name.i)
-        #cat(sprintf("We can't test the function - %s - due to  datatypes fall out of the specified list\n", function_name.i))
       }
+      
     }
     
     if(match_count > 0 && match_count == length(fun_names)){

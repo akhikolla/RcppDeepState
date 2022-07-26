@@ -9,7 +9,8 @@ deepstate_fuzz_fun(
   fun_name,
   seed = -1,
   time.limit.seconds = 2,
-  sep = "infun"
+  sep = "infun",
+  verbose = getOption("verbose")
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ deepstate_fuzz_fun(
 \item{time.limit.seconds}{duration to run the executable}
 
 \item{sep}{default to infun}
+
+\item{verbose}{used to deliver more in depth information}
 }
 \value{
 The executed function.

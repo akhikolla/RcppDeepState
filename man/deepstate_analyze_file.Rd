@@ -4,12 +4,18 @@
 \alias{deepstate_analyze_file}
 \title{Analyze Binary file for Harness}
 \usage{
-deepstate_analyze_file(package_name, files.path)
+deepstate_analyze_file(
+  package_name,
+  files.path,
+  verbose = getOption("verbose")
+)
 }
 \arguments{
 \item{package_name}{name of the package of the harness being analyzed}
 
 \item{files.path}{path to the binary file to analyze}
+
+\item{verbose}{used to deliver more in depth information}
 }
 \value{
 A data table with inputs, error messages, address trace and line numbers

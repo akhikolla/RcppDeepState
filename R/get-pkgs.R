@@ -1,24 +1,20 @@
-##' @title  deepstate_datatype_check
+##' @title deepstate_get_unsupported_datatypes
 ##' @param params.list to the package test file
 ##' @export
-deepstate_datatype_check <- function(params.list){
+deepstate_get_unsupported_datatypes <- function(params.list){
   params.list <- gsub("const","",params.list)
-  params.list <-gsub("Rcpp::","",params.list)
+  params.list <- gsub("Rcpp::","",params.list)
+  params.list <- gsub("arma::","",params.list)
+  params.list <- gsub("std::","",params.list)
   params.list <-gsub(" ","",params.list)
-datatypes <- list("NumericVector","NumericMatrix" ,"arma::mat","double",
+
+  datatypes <- list("NumericVector","NumericMatrix" ,"mat", "double",
                   "string","CharacterVector","int","IntegerVector")
-for(pkg.i in seq_along(params.list)){
-  #print(params.list[[pkg.i]])
-  if(is.element(params.list[[pkg.i]], datatypes) =="FALSE"){
-    return(0);
-  }
-  
+
+  matched <- params.list %in% datatypes
+  unsupported_datatypes <- params.list[!matched]
+
 }
-return(1);
-}
-
-
-
 
 
 
