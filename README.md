@@ -8,7 +8,7 @@ RcppDeepState, a simple way to fuzz test compiled code in Rcpp packages. This pa
 
 ## See Also
 
-The [RcppDeepState blog](https://akhikolla.github.io./) to know more about the working of RcppDeepState. 
+@akhikolla's [RcppDeepState blog](https://akhikolla.github.io./) and @FabrizioSandri's [GSOC 2022 blog](https://fabriziosandri.github.io/gsoc-2022-blog/) to know more about the working of RcppDeepState. 
 
 ## Dependencies
 
