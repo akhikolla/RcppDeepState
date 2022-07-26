@@ -30,7 +30,7 @@ deepstate_harness_analyze_pkg <- function(path, testfiles="all", max_inputs="all
     }
     for(pkg.i in seq_along(test.files)){
       fun_name <- basename(test.files[[pkg.i]])
-      list_testfiles[[fun_name]] <- deepstate_analyze_fun(path, fun_name, max_inputs, verbose)
+      list_testfiles[[basename(test.files[[pkg.i]])]] <- deepstate_analyze_fun(package_path=path, fun_name=fun_name, max_inputs=max_inputs, verbose=verbose)
     }
     list_testfiles <- do.call(rbind,list_testfiles)
 
