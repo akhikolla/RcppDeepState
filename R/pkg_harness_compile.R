@@ -25,25 +25,19 @@ deepstate_harness_compile_run <- function(package_path,time.limit.seconds=5,seed
   functions.list <- Sys.glob(file.path(test_path,"*"))
   #no harness created
   if(length(functions.list)){
-    if(length(testharness) == length(basename(functions.list)) && 
-       length(intersect(basename(functions.list),testharness)) == length(testharness)){
-      uncompiled_count = 0
-      log_count = 0
-      for(fun.path in functions.list){
-        compile.res <- deepstate_fuzz_fun(package_path, basename(fun.path), time.limit.seconds, seed=seed, verbose=verbose)
-        if(!is.na(compile.res) && compile.res == basename(fun.path)){
-          compiled.code <-c(compiled.code,compile.res)
-        }
-        else{
-          uncompiled.code <- c(uncompiled.code,basename(fun.path))
-        }
+    for(fun.path in functions.list){
+      compile.res <- deepstate_fuzz_fun(package_path, basename(fun.path), time.limit.seconds, seed=seed, verbose=verbose)
+      if(!is.na(compile.res) && compile.res == basename(fun.path)){
+        compiled.code <-c(compiled.code,compile.res)
+      }else {
+        uncompiled.code <- c(uncompiled.code,basename(fun.path))
       }
-      if(length(uncompiled.code) > 0)
-        message(sprintf("Uncompiled functions : %s\n",paste(uncompiled.code, collapse=", ")))
-      return(as.character(compiled.code))
     }
-  }
-  else{
+    if(length(uncompiled.code) > 0)
+      message(sprintf("Uncompiled functions : %s\n",paste(uncompiled.code, collapse=", ")))
+    return(as.character(compiled.code))
+    
+  }else {
     stop("TestHarness are not created for all the function that are returned by pkg create")
   }
 }
