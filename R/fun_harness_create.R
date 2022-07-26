@@ -11,11 +11,7 @@
 ##' @return The TestHarness file that is generated
 ##' @export
 deepstate_fun_create<-function(package_path,function_name,sep="infun"){
-  fun_path <- file.path(package_path, "inst", "testfiles", function_name)
-  if(!dir.exists(fun_path)){
-    dir.create(fun_path, showWarnings = FALSE, recursive = TRUE)
-  }
-
+  
   packagename <- basename(package_path)
   functions.list <- deepstate_get_function_body(package_path)
   functions.list$argument.type<-gsub("Rcpp::","",functions.list$argument.type)
@@ -68,7 +64,12 @@ deepstate_fun_create<-function(package_path,function_name,sep="infun"){
   }else{
     paste0(function_name,"_DeepState_TestHarness.cpp")
   }
-  
+
+  fun_path <- file.path(package_path, "inst", "testfiles", function_name)
+  if(!dir.exists(fun_path)){
+    dir.create(fun_path, showWarnings = FALSE, recursive = TRUE)
+  }
+
   if(sep == "generation" || sep == "checks"){
     write_to_file <- paste0(headers)
     makesep.path <- file.path(fun_path,paste0(sep,".Makefile"))
